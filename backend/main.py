@@ -57,12 +57,13 @@ def get_run(run_id: str):
 
 # ---------- engine v2 (evidence engine); v1 above is untouched and stays the fallback ----------
 from .v2.pipeline import run_pipeline_v2, STAGES_V2          # noqa: E402
-from .v2.schemas import RunStateV2                           # noqa: E402
+from .v2.schemas import RunStateV2, RunRequestV2, WhatIfRequest, RequestCheckRequest   # noqa: E402
+from .v2 import steering as V2S, brief as V2B                 # noqa: E402
 
 RUNS_V2: dict[str, RunStateV2] = {}
 
 
-async def _run_v2(state: RunStateV2, req: RunRequest):
+async def _run_v2(state: RunStateV2, req: RunRequestV2):
     def on_stage(name, done):
         state.status, state.stage = "running", name
         if done:
@@ -80,7 +81,7 @@ def get_stages_v2():
 
 
 @app.post("/api/v2/runs")
-async def post_run_v2(req: RunRequest):
+async def post_run_v2(req: RunRequestV2):
     if not req.scenario_code and not req.scenario:
         raise HTTPException(400, "scenario_code or scenario is required")
     run_id = f"v2_{req.scenario_code or req.scenario.get('scenario_code', 'UNSEEN')}_{uuid.uuid4().hex[:6]}"
@@ -94,3 +95,37 @@ def get_run_v2(run_id: str):
     if run_id not in RUNS_V2:
         raise HTTPException(404, "unknown run")
     return RUNS_V2[run_id]
+
+
+def _check_input(req):
+    if not req.scenario_code and not req.scenario:
+        raise HTTPException(400, "scenario_code or scenario is required")
+
+
+@app.post("/api/v2/whatif")
+def post_whatif(req: WhatIfRequest):
+    """Instant, deterministic (no AI): the plan and ROI with the client's priorities vs the neutral analysis."""
+    _check_input(req)
+    return V2S.what_if(req)
+
+
+@app.post("/api/v2/check-request")
+def post_check_request(req: RequestCheckRequest):
+    """Instant, deterministic (no AI): verdict on a request typed by the client, with its evidence path."""
+    _check_input(req)
+    if not req.text.strip():
+        raise HTTPException(400, "text is required")
+    return V2S.check_request(req)
+
+
+@app.post("/api/v2/runs/{run_id}/brief")
+async def post_rewrite_brief(run_id: str, audience: str = "board"):
+    """Re-writes the brief of a finished run for another reader (same facts; one writer call, then cached)."""
+    st = RUNS_V2.get(run_id)
+    if not st or not st.result:
+        raise HTTPException(404, "unknown or unfinished run")
+    if audience not in ("hr", "cfo", "board"):
+        raise HTTPException(400, "audience must be hr, cfo or board")
+    b, notes = await V2B.rewrite_for(st.result, audience)
+    st.result.brief, st.result.audience = b, audience
+    return {"brief": b, "audience": audience, "notes": notes}

@@ -14,10 +14,11 @@ from ..knowledge import CATALOG
 from ..schemas import PlanAction, RunRequest
 from . import agents as AG
 from . import brief as BR
+from . import steering as ST
 from .consistency import fingerprint, decisions, check
 from .kg import documents, label
 from .llm import FRESH
-from .schemas import ResultV2, TraceV2, PlanV2, CriticRound, DroppedAction
+from .schemas import ResultV2, TraceV2, PlanV2, CriticRound, DroppedAction, RunRequestV2, StrategyDrafts
 from .tools import (load_scenario, check_metrics, find_root_causes, rank_cases, allowed_actions, canonical_plan,
                     schedule_phases, calculate_roi, action_cost, explain_action, check_relevance)
 
@@ -26,7 +27,7 @@ STAGES_V2 = ["intake", "measure", "diagnose", "challenge", "root_causes", "prece
 MAX_REVISIONS = 2
 
 
-def _variants(G, client, roots, gates):
+def _variants(G, client, roots, gates, fi=None):
     w = {r.problem: r.weight for r in roots.causes}
     full_t = [r.problem for r in roots.causes if r.role in ("root", "standalone", "intermediate")]
     core_t = sorted([r.problem for r in roots.causes if r.role in ("root", "standalone")], key=lambda p: (-w[p], p))[:3]
@@ -34,6 +35,10 @@ def _variants(G, client, roots, gates):
              ("core", "Focus on the three highest-priority root causes; leave the rest for later.", core_t, False),
              ("lean", "Cover every root cause at the lowest cost.", full_t, True),
              ("quick", "Only actions that can start in the first two phases.", full_t, False)]
+    if fi is not None and not ST.is_neutral(fi):      # the client's priorities get their own variant, listed first
+        focus_t, _, _ = ST.focused_targets(G, roots, fi)
+        specs = [("focus", ST.focus_sentence(fi).replace("At the client's request, the plan gives", "Follow the client's "
+                  "priorities: give").rstrip(".") + ".", focus_t, False)] + [s for s in specs if s[0] != "core"]
     out, seen = [], set()
     for name, emph, targets, budget in specs:
         g = gates if name != "quick" else {a: x for a, x in gates.items() if x.earliest_phase <= 2 and CATALOG[a]["type"] != "amplification"}
@@ -113,6 +118,8 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
     run_id = run_id or uuid.uuid4().hex[:10]
     on_stage = on_stage or (lambda name, done: None)
     FRESH.set(fresh)
+    fi = ST.normalize_focus(getattr(req, "focus", None))
+    audience = getattr(req, "audience", "board") or "board"
     trace: list[TraceV2] = []
     S = {}
 
@@ -140,12 +147,21 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
     signals = await stage("measure", "tool", s_measure)
 
     async def s_diag(calls, notes):
-        return await AG.diagnose(client, signals, calls)
+        try:
+            return await AG.diagnose(client, signals, calls)
+        except Exception as e:  # noqa: BLE001 - degrade: metrics-confirmed problems only
+            notes.append(f"diagnosticians unavailable ({str(e)[:120]}): only problems confirmed by metrics are used")
+            return [], {s.problem: {"contested": False, "scope": "company-wide", "explanation": s.plain}
+                        for s in signals if s.status == "confirmed"}, []
     diagnoses, accepted, n1 = await stage("diagnose", "agent", s_diag)
     trace[-1].notes += n1
 
     async def s_chal(calls, notes):
-        ch, acc, n = await AG.challenge(client, signals, accepted, calls)
+        try:
+            ch, acc, n = await AG.challenge(client, signals, accepted, calls)
+        except Exception as e:  # noqa: BLE001 - degrade: no challenge
+            notes.append(f"skeptic unavailable ({str(e)[:120]}): diagnosis not challenged")
+            return [], accepted
         notes += n
         return ch, acc
     challenges, accepted = await stage("challenge", "agent", s_chal)
@@ -160,6 +176,14 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
                      f"{sum(l.origin == 'client_text' for l in r.links)} client-text links, 0 LLM-made links")
         return r
     roots = await stage("root_causes", "tool", s_roots)
+    if not ST.is_neutral(fi):
+        neutral_roots = roots
+        roots = ST.apply_focus(G, roots, fi)
+        _, fi.deferred, fi.added_symptoms = ST.focused_targets(G, roots, fi)
+        fi.warnings += ST.focus_warnings(G, neutral_roots, fi, fi.deferred)
+        trace[-1].notes.append("client priorities: " + ", ".join(f"{p}={fi.effective[p]}" for p in ST.PILLARS)
+                               + " -> priorities re-weighted (facts, evidence and rules unchanged)")
+    trace[-1].notes += fi.warnings
 
     def s_prec(calls, notes):
         cs = rank_cases(G, client, roots, signals)
@@ -172,21 +196,34 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
         notes += [f"{a}: {x.rule} - {x.reason}" for a, x in g.items() if x.rule != "ok"]
         return g
     gates = await stage("gates", "tool", s_gates)
-    variants = _variants(G, client, roots, gates)
+    variants = _variants(G, client, roots, gates, fi)
     targets_all = sorted({t for v in variants for t in v["targets"]})
     prelim = [PlanAction(action=label(G, i["action"]), intervention_id=i["action"], phase=1, target_scope="",
                          addresses=[], evidence=[]) for i in variants[0]["items"]]
     leadership = place_requests(client.leadership_requests, prelim, client)
     message = AG.strategy_message(client, G, roots, variants, gates, leadership, cases)
+    priorities_txt = "" if ST.is_neutral(fi) else ("\n\nCLIENT PRIORITIES (respect them; they never override the rules): "
+                                                   + ", ".join(f"{ST.pillar_label(p)} = {ST.WORD[fi.effective[p]]}" for p in ST.PILLARS))
+    message += priorities_txt
 
     async def s_strategy(calls, notes):
-        d = await AG.strategize(message, calls)
+        try:
+            d = await AG.strategize(message, calls)
+        except Exception as e:  # noqa: BLE001 - degrade: the graph's draft plans are used as they are
+            notes.append(f"strategist unavailable ({str(e)[:120]}): the deterministic draft plans are used unrefined")
+            return None
         notes.append(f"{len(d.plans)} plans, {sum(len(p.original_ideas) for p in d.plans)} original idea(s)")
         return d
     drafts = await stage("strategy", "agent", s_strategy)
+    strategist_ok = drafts is not None
+    if drafts is None:
+        drafts = StrategyDrafts(plans=[])
 
     async def s_critic(calls, notes):
         nonlocal drafts
+        if not strategist_ok:
+            notes.append("no strategist output to review: plans come straight from the knowledge graph and the rules")
+            return [CriticRound(round=1, issues=[], verdict="pass")]
         rounds = []
         for rnd in range(1, MAX_REVISIONS + 2):
             issues = AG.rule_check(G, client, drafts, variants, gates, set(accepted), leadership)
@@ -245,7 +282,7 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
     plans = await stage("plans", "tool", s_plans)
 
     async def s_jury(calls, notes):
-        b = await AG.jury(client, G, plans, roots, calls)
+        b = await AG.jury(client, G, plans, roots, calls, priorities_txt)
         notes.append(f"{len(b)} of 5 jurors answered")
         return b
     ballots = await stage("jury", "agent", s_jury)
@@ -277,10 +314,12 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
         txt, _ = AG.strip_numbers(rv.explanation)
         if txt and not any(i.kind == "contradiction" and i.target == rv.request for i in final_issues):
             views[rv.request] = txt
+    for d in leadership:                                   # every verdict gets a plain-language explanation
+        views.setdefault(d.intervention_id, BR.plain_reason(G, d))
     case_ids = [c.case for c in cases if c.worker_fit and c.score > 0][:3]
     roi, kpis = calculate_roi([a.action if not a.original else "original" for a in win.actions], case_ids, client)
     conf = BR.confidence(G, client, signals, accepted)
-    fp = fingerprint(client)
+    fp = fingerprint(client, fi.effective)
     dec = decisions(accepted, roots, win, leadership, roi)
 
     def s_stab(calls, notes):
@@ -296,7 +335,7 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
 
     async def s_report(calls, notes):
         return await BR.write_brief(G, client, signals, accepted, roots, win, leadership, roi, cases, conf, critic_rounds,
-                                    audit, stab_note, calls, notes)
+                                    audit, stab_note, calls, notes, audience, ST.focus_sentence(fi))
     brief = await stage("report", "agent", s_report)
 
     cited = sorted({e.ref for l in roots.links for e in l.evidence if e.kind == "document"}
@@ -308,7 +347,10 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
     result = ResultV2(client=client, problems=signals, diagnoses=diagnoses, challenges=challenges, roots=roots, cases=cases,
                       plans=plans, winner=winner, critic_rounds=critic_rounds, ballots=[b for b, _ in ballots],
                       jury_audit=audit, leadership=leadership, leadership_views=views, roi=roi, kpis=kpis,
-                      confidence=conf, brief=brief, stability=stability, documents=docs, labels=labels, trace=trace)
+                      confidence=conf, brief=brief, stability=stability, documents=docs, labels=labels, trace=trace,
+                      focus=fi, audience=audience, protected=BR.protected_list(G, client),
+                      request={"scenario_code": req.scenario_code} if req.scenario is None else
+                      {"scenario": req.scenario, "snapshot": req.snapshot, "overrides": req.overrides})
     (RUNS_DIR / "v2").mkdir(parents=True, exist_ok=True)
     (RUNS_DIR / "v2" / f"{run_id}.json").write_text(result.model_dump_json(indent=1), encoding="utf-8")
     return result
@@ -318,9 +360,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--scenario", required=True)
     ap.add_argument("--fresh", action="store_true", help="ignore the LLM cache (tests stability without replay)")
+    ap.add_argument("--focus", default="", help="e.g. retention=more,advocacy=less")
+    ap.add_argument("--audience", default="board", choices=["hr", "cfo", "board"])
     a = ap.parse_args()
+    focus = dict(x.split("=", 1) for x in a.focus.split(",") if "=" in x)
     run_id = f"{a.scenario}_{uuid.uuid4().hex[:6]}"
-    r = asyncio.run(run_pipeline_v2(RunRequest(scenario_code=a.scenario), run_id=run_id, fresh=a.fresh,
+    r = asyncio.run(run_pipeline_v2(RunRequestV2(scenario_code=a.scenario, focus=focus, audience=a.audience),
+                                    run_id=run_id, fresh=a.fresh,
                                     on_stage=lambda n, d: print(("✓ " if d else "… ") + n, flush=True)))
     win = next(p for p in r.plans if p.plan_id == r.winner)
     print(f"\n{r.client.company_name} — {r.brief.headline}")

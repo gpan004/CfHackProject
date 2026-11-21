@@ -1,5 +1,8 @@
-import { useMemo, useState } from "react";
-import type { CauseLink, MetricCheck, PlanV2, ResultV2, ScheduledAction } from "../typesV2";
+import { useEffect, useMemo, useState } from "react";
+import { rewriteBriefV2 } from "../api";
+import { downloadPdf } from "../pdf";
+import { AUDIENCES, PILLARS, type Audience, type CauseLink, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
+import Steer from "./Steer";
 
 const eur = (v: number) => "€" + Math.round(v).toLocaleString("en-US");
 const PHASE = ["", "First", "Second", "Third"];
@@ -152,7 +155,19 @@ function Phases({ plan, r }: { plan: PlanV2; r: ResultV2 }) {
   );
 }
 
-export default function BriefView({ r, runId }: { r: ResultV2; runId: string }) {
+export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runId: string; onRerun?: (f: Focus) => void }) {
+  const [brief, setBrief] = useState(r0.brief);
+  const [aud, setAud] = useState<Audience>(r0.audience ?? "board");
+  const [rewriting, setRewriting] = useState<Audience | null>(null);
+  const [rwErr, setRwErr] = useState<string | null>(null);
+  useEffect(() => { setBrief(r0.brief); setAud(r0.audience ?? "board"); }, [r0]);
+  const r = useMemo(() => ({ ...r0, brief, audience: aud }), [r0, brief, aud]);
+  const switchReader = async (a: Audience) => {
+    if (a === aud || rewriting) return;
+    setRewriting(a); setRwErr(null);
+    try { const x = await rewriteBriefV2(runId, a); setBrief(x.brief); setAud(a); }
+    catch (e) { setRwErr(String(e)); } finally { setRewriting(null); }
+  };
   const win = r.plans.find((p) => p.plan_id === r.winner)!;
   const c = r.client;
   const [showAll, setShowAll] = useState(false);
@@ -183,6 +198,26 @@ export default function BriefView({ r, runId }: { r: ResultV2; runId: string }) 
           <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ Every quote checked against the source</span>
           <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ No number written by AI</span>
           <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-ink/70">{r.critic_rounds.length} critic round(s) · {issues.length} issue(s) handled</span>
+        </div>
+        {r.focus && Object.values(r.focus.effective).some((v) => v !== "normal") && (
+          <p className="mt-3 text-[13px] text-ink/70"><b>Your priorities:</b> {PILLARS.map((p) => `${p.label}: ${r.focus!.effective[p.id]}`).join(" · ")}</p>
+        )}
+        {r.focus?.warnings.map((w, i) => <p key={i} className="mt-2 rounded-lg border border-amber-300 bg-amber-50 p-2.5 text-[13px] text-amber-800">⚠ {w}</p>)}
+        <div className="mt-5 flex flex-col gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-ink/50">Written for</p>
+            <div className="mt-1 flex flex-wrap gap-1">
+              {AUDIENCES.map((a) => (
+                <button key={a.id} onClick={() => switchReader(a.id)} disabled={!!rewriting}
+                  className={`rounded-full border px-3 py-1 text-[13px] font-semibold ${aud === a.id ? "border-brand bg-brand text-white" : "border-slate-200 text-ink/70 hover:border-brand"}`}>
+                  {rewriting === a.id ? "Rewriting…" : a.label}
+                </button>
+              ))}
+            </div>
+            <p className="mt-1 text-[11px] text-ink/50">{rewriting ? "Rewording for the new reader (about a minute the first time, then instant). Facts and numbers do not change." : "Same facts and numbers for every reader; only order, wording and emphasis change."}</p>
+            {rwErr && <p className="text-[12px] text-red-700">{rwErr}</p>}
+          </div>
+          <button className="btn shrink-0 px-5 py-2.5 text-[14px]" onClick={() => downloadPdf(r, runId)}>Download PDF</button>
         </div>
       </div>
 
@@ -250,11 +285,12 @@ export default function BriefView({ r, runId }: { r: ResultV2; runId: string }) 
                 <span className={`w-fit shrink-0 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase ${tone}`}>{word}</span>
                 <div><p className="font-semibold">Leadership asked for: {r.labels[d.intervention_id] ?? d.intervention_id}</p>
                   <p className="text-[13px] text-ink/70">{r.leadership_views[d.intervention_id] ?? d.reason}</p>
-                  {r.leadership_views[d.intervention_id] && <p className="text-[12px] text-ink/40">Rule: {d.reason}</p>}</div>
+                  {r.leadership_views[d.intervention_id] && (
+                    <details className="text-[12px] text-ink/40"><summary className="cursor-pointer">technical rule</summary>{d.reason}</details>)}</div>
               </li>
             );
           })}
-          {c.healthy_baselines.slice(0, 4).map((h, i) => (
+          {(r.protected?.length ? r.protected : c.healthy_baselines).slice(0, 5).map((h, i) => (
             <li key={"h" + i} className="flex flex-col gap-1 border-b border-slate-200 py-3 last:border-0 sm:flex-row sm:gap-4">
               <span className="w-fit shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold uppercase text-emerald-700">protected</span>
               <p className="text-[14px]">{h}</p>
@@ -267,6 +303,12 @@ export default function BriefView({ r, runId }: { r: ResultV2; runId: string }) 
             </li>
           ))}
         </ul></div>
+      </Section>
+
+      {/* 6b tailor & test */}
+      <Section id="tailor" eyebrow="Tailor & test" title="Try your own priorities and requests"
+        intro="Change what matters most to you, or check an idea you are considering. Answers are instant and come from the same rules and evidence as the plan: no AI, nothing invented.">
+        <Steer r={r} onRerun={(f) => onRerun?.(f)} />
       </Section>
 
       {/* 7 money */}

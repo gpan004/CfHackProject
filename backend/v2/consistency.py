@@ -21,9 +21,11 @@ def _h(obj) -> str:
     return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()[:16]
 
 
-def fingerprint(client) -> str:
+def fingerprint(client, focus: dict | None = None) -> str:
+    """The client's priorities are part of the question; the reader of the brief is not (it never changes decisions)."""
     prompt_text = "".join(getattr(prompts, n) for n in dir(prompts) if n.isupper() and isinstance(getattr(prompts, n), str))
-    return _h({"client": client.model_dump(), "kg": facts()["version"], "engine": ENGINE_VERSION, "prompts": _h(prompt_text)})
+    return _h({"client": client.model_dump(), "kg": facts()["version"], "engine": ENGINE_VERSION, "prompts": _h(prompt_text),
+               "focus": dict(sorted((focus or {}).items()))})
 
 
 def decisions(problems, roots, plan, leadership, roi) -> dict:

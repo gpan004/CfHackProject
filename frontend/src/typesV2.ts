@@ -31,5 +31,36 @@ export interface ResultV2 {
   roi: RoiResult; confidence: Confidence[]; brief: Brief; stability: Stability;
   documents: Record<string, { kind: string; title: string; text: string }>;
   labels: Record<string, string>; trace: TraceV2[];
+  focus: FocusInfo | null; audience: Audience; request: Record<string, unknown>; protected?: string[];
 }
+export type Pillar = "branding" | "recruiting" | "advocacy" | "retention";
+export type FocusLevel = "less" | "normal" | "more";
+export type Focus = Record<Pillar, FocusLevel>;
+export type Audience = "hr" | "cfo" | "board";
+export const PILLARS: { id: Pillar; label: string }[] = [
+  { id: "branding", label: "Employer branding & reputation" }, { id: "recruiting", label: "Recruiting & talent attraction" },
+  { id: "advocacy", label: "Employee advocacy" }, { id: "retention", label: "Retention & internal climate" }];
+export const AUDIENCES: { id: Audience; label: string }[] = [
+  { id: "hr", label: "HR Manager" }, { id: "cfo", label: "CFO" }, { id: "board", label: "Board members / Stakeholders" }];
+export const NEUTRAL: Focus = { branding: "normal", recruiting: "normal", advocacy: "normal", retention: "normal" };
+
+/** Live warning shown under the priority switches (the backend applies the same rule). */
+export function focusWarning(f: Focus): string | null {
+  const v = Object.values(f);
+  if (v.every((x) => x === "less")) return "Every pillar is on Less. Priorities are relative, so lowering everything leaves the root causes unaddressed and the result would not be effective. The engine will use Normal for all pillars.";
+  if (v.every((x) => x === "more")) return "Every pillar is on More: priorities are relative, so this is the same as Normal everywhere.";
+  if (v.filter((x) => x === "less").length === 3) return "Three pillars are on Less: the plan will concentrate on one pillar only and may be much less effective overall.";
+  return null;
+}
+
+export interface FocusInfo { requested: Record<string, string>; effective: Record<string, string>; warnings: string[]; deferred: string[]; added_symptoms: string[] }
+export interface PriorityRow { problem: string; label: string; pillar: string; role: string; weight_before: number; weight_after: number; rank_before: number; rank_after: number }
+export interface WhatIfResult {
+  focus: FocusInfo; priorities: PriorityRow[]; plan_before: ScheduledAction[]; plan_after: ScheduledAction[];
+  diff: { added: string[]; removed: string[]; moved: string[] }; roi_before: RoiResult; roi_after: RoiResult;
+  unchanged_rules: string[]; summary: string[];
+}
+export interface RequestVerdict { action: string; label: string; plain: string; verdict: "yes_now" | "already_planned" | "later" | "no"; headline: string; reason: string; phase: number | null; evidence: SourceV2[]; paths: string[]; precedents: string[] }
+export interface RequestCheck { text: string; understood: boolean; matches: RequestVerdict[]; suggestions: { action: string; label: string }[]; note: string }
+
 export interface RunStateV2 { run_id: string; status: "queued" | "running" | "done" | "error"; stage: string | null; stages_done: string[]; error: string | null; result: ResultV2 | null }

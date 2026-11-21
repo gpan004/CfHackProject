@@ -19,10 +19,12 @@ export default function App() {
     return () => window.clearInterval(timer.current);
   }, []);
 
-  const launch = async (body: object) => {
+  const launch = async (body: object, forceEngine?: Engine) => {
     setError(null);
     window.clearInterval(timer.current);
-    const eng = engine;
+    const eng = forceEngine ?? engine;
+    if (forceEngine) setEngine(forceEngine);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     try {
       const { run_id } = await (eng === "v2" ? startRunV2(body) : startRun(body));
       setRunEngine(eng);
@@ -90,7 +92,8 @@ export default function App() {
           )}
           {run?.result ? (
             runEngine === "v2"
-              ? <BriefView r={(run as RunStateV2).result!} runId={run.run_id} />
+              ? <BriefView r={(run as RunStateV2).result!} runId={run.run_id}
+                  onRerun={(focus) => { const res = (run as RunStateV2).result!; launch({ ...res.request, focus, audience: res.audience }, "v2"); }} />
               : <StrategyView r={(run as RunState).result!} runId={run.run_id} />
           ) : (
             run?.status !== "error" && (

@@ -33,6 +33,35 @@ def fmt_metric(G, key, v) -> str:
     return f"{v:g} {unit.split(' (')[0]}".strip()
 
 
+def protected_list(G, client) -> list[str]:
+    """Strengths to protect, in plain words (the raw v1 strings use metric keys like 'sub_ratings_5.compensation')."""
+    out = [f"{label(G, k)}: {fmt_metric(G, k, r.value)} vs peers {fmt_metric(G, k, r.peer)}"
+           for k, r in client.metrics.items() if r.status == "better" and r.peer is not None]
+    out += [f"{s.name.replace('_', ' ')}: {s.rating:g} stars, one of the strongest sites" for s in client.segments if s.flag == "strong"]
+    if client.internal.get("healthy_metrics_and_strengths_not_to_break"):
+        out.append(client.internal["healthy_metrics_and_strengths_not_to_break"])
+    return out
+
+
+def readable(G, text: str) -> str:
+    """Replaces technical ids (metric keys like 'sub_ratings_5.compensation', action ids) with their plain labels."""
+    ids = sorted((n for n in G.nodes if G.nodes[n].get("kind") in ("metric", "action", "problem", "worker") and "_" in n),
+                 key=len, reverse=True)
+    if not ids:
+        return text
+    pat = re.compile(r"(?<![A-Za-z0-9_.])(" + "|".join(re.escape(i) for i in ids) + r")(?![A-Za-z0-9_])")
+    low = ("metric", "worker")
+    return pat.sub(lambda m: label(G, m.group(1)).lower() if G.nodes[m.group(1)]["kind"] in low else label(G, m.group(1)), text)
+
+
+def plain_reason(G, d) -> str:
+    """A leadership decision explained without rule jargon."""
+    if d.rule == "readiness_gate":
+        return (G.nodes["readiness_gate"]["plain"] + (f" It can start in the {PHASE_WORD.get(d.to_phase, 'last')} phase, "
+                                                      "once the trust problems are being fixed." if d.to_phase else ""))
+    return readable(G, re.sub(r"^(deferred to Phase \d: |adopted in Phase 1: )", "", d.reason))
+
+
 # ---------- confidence ----------
 def confidence(G, client, signals, accepted: dict) -> list[Confidence]:
     by, out = {s.problem: s for s in signals}, []
@@ -128,7 +157,7 @@ def validate_sentence(s: str, G, client, toks) -> tuple[str | None, str]:
 
 # ---------- deterministic template ----------
 def template_sections(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds, audit,
-                      stability_note) -> list[ReportSection]:
+                      stability_note, focus_note: str = "") -> list[ReportSection]:
     by = {s.problem: s for s in signals}
     probs = sorted((by[p] for p in accepted), key=lambda s: -s.severity)
     s1 = [f"{client.company_name} shows {len(probs)} confirmed problems compared with its sector peers."]
@@ -148,7 +177,7 @@ def template_sections(G, client, signals, accepted, roots, plan, leadership, roi
     sym = [r.label.lower() for r in roots.causes if r.role == "symptom"]
     if sym:
         s2.append(f"Symptoms such as {', '.join(sym[:4])} should improve once their causes are fixed, so we do not treat them directly.")
-    s3 = []
+    s3 = [focus_note] if focus_note else []
     for ph in (1, 2, 3):
         acts = [a for a in plan.actions if a.phase == ph]
         if acts:
@@ -158,9 +187,10 @@ def template_sections(G, client, signals, accepted, roots, plan, leadership, roi
     for d in leadership:
         word = {"kept": "adopted", "moved": f"postponed to the {PHASE_WORD.get(d.to_phase, 'later')} phase",
                 "blocked": "not adopted", "deferred_beyond_plan": "not adopted in this plan"}.get(d.decision, d.decision)
-        s4.append(f"Leadership request '{label(G, d.intervention_id)}' is {word}: {d.reason}.")
-    for h in client.healthy_baselines[:3]:
-        s4.append(f"We protect what already works: {h}.")
+        s4.append(f"Leadership request '{label(G, d.intervention_id)}' is {word}: {plain_reason(G, d).rstrip('.')}.")
+    prot = protected_list(G, client)
+    if prot:
+        s4.append("We protect what already works: " + "; ".join(p.rstrip(".") for p in prot[:3]) + ".")
     s5 = [f"The plan costs about {eur(roi.cost_eur)} and is expected to return {eur(roi.benefit_expected_eur)} per year "
           f"({eur(roi.benefit_conservative_eur)} in the conservative case)."]
     if roi.payback_months_expected:
@@ -182,7 +212,18 @@ def template_sections(G, client, signals, accepted, roots, plan, leadership, roi
     return [ReportSection(heading=h, text=cite(" ".join(x for x in t if x))) for h, t in zip(HEADINGS, [s1, s2, s3, s4, s5, s6])]
 
 
-def one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases) -> list[dict]:
+def audience_profile(audience: str) -> dict:
+    a = facts()["audiences"]
+    return a.get(audience) or a["board"]
+
+
+def one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases, audience: str = "board") -> list[dict]:
+    cards = _one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases)
+    order = audience_profile(audience)["cards"]
+    return sorted(cards, key=lambda c: order.index(c["title"]) if c["title"] in order else 99)
+
+
+def _one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases) -> list[dict]:
     by = {s.problem: s for s in signals}
     tops = [r for r in roots.causes if r.role in ("root", "standalone")][:3]
     cards = []
@@ -210,8 +251,27 @@ def one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases
     if no:
         d = no[0]
         cards.append({"title": "What we push back on", "text": f"{label(G, d.intervention_id)}: "
-                      + ("not now" if d.decision == "moved" else "no") + ".", "detail": d.reason})
+                      + ("not now" if d.decision == "moved" else "no") + ".", "detail": plain_reason(G, d)})
     return cards
+
+
+async def rewrite_for(result, audience: str) -> tuple[Brief, list[str]]:
+    """Re-writes the brief of a finished run for another reader. Same verified facts; only the writer step runs again
+    (once per reader, then cached)."""
+    from .kg import client_layer
+    from .steering import focus_sentence
+    G = client_layer(result.client)
+    win = next(p for p in result.plans if p.plan_id == result.winner)
+    accepted = {c.problem: {"contested": False} for c in result.confidence}
+    st = result.stability
+    note = ("This is the first analysis of exactly this input." if st.same_as_previous is None else
+            f"Asked again with the same data, the engine gave the same answer ({st.previous_runs} earlier run(s))."
+            if st.same_as_previous else "Warning: this answer differs from an earlier run on the same data.")
+    calls, notes = [], []
+    b = await write_brief(G, result.client, result.problems, accepted, result.roots, win, result.leadership, result.roi,
+                          result.cases, result.confidence, result.critic_rounds, result.jury_audit, note, calls, notes,
+                          audience, focus_sentence(result.focus) if result.focus else "")
+    return b, notes
 
 
 def glossary(G, plan, roots) -> dict[str, str]:
@@ -226,10 +286,13 @@ def glossary(G, plan, roots) -> dict[str, str]:
 
 # ---------- report writer agent ----------
 async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds, audit,
-                      stability_note, trace_calls, notes) -> Brief:
+                      stability_note, trace_calls, notes, audience: str = "board", focus_note: str = "") -> Brief:
     # the writer never sees run-specific text (stability note), so the same analysis always gets the same brief
-    template = template_sections(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds,
-                                 audit, "")
+    prof = audience_profile(audience)
+    canonical = template_sections(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds,
+                                  audit, "", focus_note)
+    by_heading = {s.heading: s for s in canonical}
+    template = [by_heading[h] for h in prof["order"]]          # same sections, reader-specific order
     toks = tokens_for(client, roi)
     metric_tokens = sorted({m.key for s in signals if s.problem in accepted for m in s.measured})
     allowed_tokens = ", ".join([f"{{{{{k}}}}}" for k in toks] + [f"{{{{compare:{k}}}}}" for k in metric_tokens])
@@ -245,11 +308,12 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
             "A {{compare:KEY}} token renders as '<metric name>: <client value> vs peers <peer value>' with units, so do not "
             "repeat the name or the unit around it. Only use it in a sentence about that metric. KEY MEANS: "
             + "; ".join(f"{k} = {label(G, k)}" for k in metric_tokens))
-    sys = P.REPORT_WRITER.format(headings=" | ".join(HEADINGS), tokens=allowed_tokens)
+    sys = P.REPORT_WRITER.format(headings=" | ".join(prof["order"]), tokens=allowed_tokens,
+                                 reader=f"{prof['label']}. {prof['guidance']}")
     dropped, sections, writer = [], [], "llm_verified"
     headline = f"{client.company_name}: fix {next((r.label.lower() for r in roots.causes if r.role in ('root', 'standalone')), 'the root causes')} first"
     try:
-        draft, info = await call("report_writer", "remote", sys, user, ReportDraft)
+        draft, info = await call(f"report_writer:{audience}", "remote", sys, user, ReportDraft)
         trace_calls.append(info)
         h, ok = validate_sentence(draft.headline, G, client, toks)
         headline = h or headline
@@ -270,7 +334,7 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
         notes.append(f"report writer unavailable ({str(e)[:120]}) -> deterministic template")
         sections, writer = template, "template"
     # completeness: every action of the plan must be named in the 'what to do' section
-    i = HEADINGS.index("What to do, in what order")
+    i = next(k for k, s in enumerate(template) if s.heading == "What to do, in what order")
     dash = lambda t: re.sub(r"[‐-―]", "-", t.lower())
     missing = [a for a in plan.actions if dash(a.label) not in dash(sections[i].text)]
     if missing:
@@ -279,7 +343,8 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
     if all(s is t for s, t in zip(sections, template)):
         writer = "template"
     if stability_note:   # appended by Python after writing, so it never changes the writer's input
-        last = sections[-1]
-        sections[-1] = ReportSection(heading=last.heading, text=(last.text + " " + stability_note).strip())
-    return Brief(headline=headline, one_minute=one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases),
+        k = next(j for j, s in enumerate(sections) if s.heading == "How sure we are")
+        sections[k] = ReportSection(heading=sections[k].heading, text=(sections[k].text + " " + stability_note).strip())
+    return Brief(headline=headline, one_minute=one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases,
+                                                          audience),
                  sections=sections, writer=writer, dropped_sentences=dropped, glossary=glossary(G, plan, roots))

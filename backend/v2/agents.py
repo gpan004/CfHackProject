@@ -301,7 +301,7 @@ RULE_OWNED = {"rule_violation", "missing_coverage", "unjustified_drop"}
 
 
 # ---------- 5 Jury (mixed models, rubric, rotated order) ----------
-async def jury(client, G, plans, roots, trace_calls) -> list[JurorBallot]:
+async def jury(client, G, plans, roots, trace_calls, priorities_txt: str = "") -> list[JurorBallot]:
     def block(p):
         acts = "\n".join(f"    phase {a.phase}: {a.action if not a.original else 'original'} - {a.label} ({a.scope})"
                          for a in p.actions)
@@ -311,7 +311,7 @@ async def jury(client, G, plans, roots, trace_calls) -> list[JurorBallot]:
 
     async def one(i, persona):
         order = plans[i % len(plans):] + plans[:i % len(plans)]           # deterministic rotation against position bias
-        user = _header(client) + f"\nROOT CAUSES:\n{rc}\n\nPLANS:\n" + "\n\n".join(block(p) for p in order)
+        user = _header(client) + f"\nROOT CAUSES:\n{rc}\n\nPLANS:\n" + "\n\n".join(block(p) for p in order) + priorities_txt
         sys = P.JUROR.format(persona=persona, description=PERSONA_DESCRIPTIONS[persona])
         try:
             obj, info = await call(f"juror:{persona}", JUROR_TIER[persona], sys, user, JurorBallot)

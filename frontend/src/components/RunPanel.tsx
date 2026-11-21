@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import type { RunState, ScenarioInfo } from "../types";
+import { NEUTRAL, type Audience, type Focus } from "../typesV2";
+import { AudiencePicker, FocusSwitches } from "./Tailor";
 
 const STAGES_V1 = ["ingest", "pillar_analysis", "hypotheses", "confutation", "causal_map", "matching",
   "strategy", "guardrails", "jury", "ranking", "metrics"];
@@ -21,6 +23,10 @@ export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngin
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [jsonError, setJsonError] = useState<string | null>(null);
+  const [focus, setFocus] = useState<Focus>(NEUTRAL);
+  const [audience, setAudience] = useState<Audience>("board");
+  const [tailorOpen, setTailorOpen] = useState(true);
+  const extra = engine === "v2" ? { focus, audience } : {};
 
   useEffect(() => { if (!code && scenarios.length) setCode(scenarios[0].scenario_code); }, [scenarios, code]);
 
@@ -32,9 +38,9 @@ export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngin
     }
     if (code === UNSEEN) {
       if (!parsed?.scenario) { setJsonError('Paste {"scenario": {...}, "snapshot": {...optional}}'); return; }
-      onRun({ scenario: parsed.scenario, snapshot: parsed.snapshot });
+      onRun({ scenario: parsed.scenario, snapshot: parsed.snapshot, ...extra });
     } else {
-      onRun({ scenario_code: code, overrides: parsed });
+      onRun({ scenario_code: code, overrides: parsed, ...extra });
     }
   };
 
@@ -73,6 +79,22 @@ export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngin
           className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-xs outline-none focus:border-brand" />
       )}
       {jsonError && <p className="mt-1 text-xs text-red-600">{jsonError}</p>}
+
+      {engine === "v2" && (
+        <div className="mt-5 border-t border-slate-200 pt-4">
+          <button onClick={() => setTailorOpen(!tailorOpen)} className="flex w-full items-center justify-between text-left">
+            <span className="text-sm font-semibold">Tailor this analysis</span><span className="text-brand">{tailorOpen ? "▾" : "▸"}</span>
+          </button>
+          {tailorOpen && (
+            <div className="mt-3 space-y-4">
+              <div><p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/50">Priorities</p>
+                <FocusSwitches focus={focus} onChange={setFocus} disabled={busy} /></div>
+              <div><p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/50">Who will read it</p>
+                <AudiencePicker value={audience} onChange={setAudience} disabled={busy} /></div>
+            </div>
+          )}
+        </div>
+      )}
 
       <button className="btn mt-5 w-full" disabled={busy || !code} onClick={submit}>
         {busy ? "Running…" : "Run analysis"}

@@ -178,8 +178,102 @@ def test_pipeline_with_bad_llm():
           f"{len(r.brief.dropped_sentences)} report sentences dropped; winner {r.winner}")
 
 
+def test_steering():
+    from . import steering as ST, consistency as CO
+    from .schemas import WhatIfRequest, RequestCheckRequest
+    all_less = ST.normalize_focus({p: "less" for p in ST.PILLARS})
+    assert ST.is_neutral(all_less) and "not be effective" in all_less.warnings[0]
+    assert ST.is_neutral(ST.normalize_focus({p: "more" for p in ST.PILLARS}))
+    three = ST.normalize_focus({"branding": "less", "recruiting": "less", "advocacy": "less"})
+    assert not ST.is_neutral(three) and "less effective" in three.warnings[0]
+    assert ST.normalize_focus({"retention": "bogus"}).effective["retention"] == "normal"
+    # what-if: deterministic, rules never change, warnings when the top root cause is deprioritised
+    req = WhatIfRequest(scenario_code=B, focus={"recruiting": "less"})
+    w1, w2 = ST.what_if(req), ST.what_if(req)
+    assert w1.model_dump_json() == w2.model_dump_json()
+    neutral = ST.what_if(WhatIfRequest(scenario_code=B))
+    assert w1.unchanged_rules == neutral.unchanged_rules, "priorities changed a guardrail"
+    assert any("highest-priority root cause" in x for x in w1.focus.warnings)
+    assert w1.diff.removed and w1.roi_after.benefit_expected_eur < w1.roi_before.benefit_expected_eur
+    wa = ST.what_if(WhatIfRequest(scenario_code=A, focus={"retention": "more"}))
+    assert "early_attrition" in wa.focus.added_symptoms
+    assert {r.problem for r in wa.priorities} == {r.problem for r in ST.what_if(WhatIfRequest(scenario_code=A)).priorities}, \
+        "priorities must not add or remove problems"
+    c, _ = load_scenario(A)
+    assert CO.fingerprint(c, {"retention": "more"}) != CO.fingerprint(c, {"retention": "normal"})
+    # request checker
+    chk = lambda code, t: ST.check_request(RequestCheckRequest(scenario_code=code, text=t))
+    r = chk(A, "Let's launch ambassadors now")
+    assert [m.action for m in r.matches] == ["ambassador_selection"] and r.matches[0].verdict == "later" \
+        and r.matches[0].phase == 3 and {"FN4", "R5"} <= {e.ref for e in r.matches[0].evidence}
+    r = chk(A, "We want a salary review for engineers")
+    assert r.matches[0].verdict == "no" and "strength to protect" in r.matches[0].headline
+    r = chk(B, "Marketing wants a LinkedIn blog series to attract drivers")
+    assert r.matches[0].action == "technical_storytelling" and r.matches[0].verdict == "no"
+    assert "knowledge worker" in r.matches[0].reason and "_" not in r.matches[0].reason
+    assert [m.action for m in chk(A, "track ambassador posts automatically").matches] == ["ambassador_tracking"]
+    assert not chk(A, "Give everyone a pizza party").understood
+    assert "_" not in chk(B, "deploy the fast-apply widget tomorrow").matches[0].reason, "raw ids leaked into the reason"
+    print("steering (priorities, what-if, request checker) OK")
+
+
+def test_readers_with_fake_llm():
+    import tempfile
+    from pathlib import Path
+    from . import pipeline as PL, consistency as CO
+    from .schemas import RunRequestV2
+    orig = (AG.call, BR.call, CO.LEDGER)
+    AG.call = BR.call = fake_call
+    CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"
+    try:
+        r = asyncio.run(PL.run_pipeline_v2(RunRequestV2(scenario_code=A, focus={"retention": "more"}, audience="cfo"),
+                                           run_id="selftest_v2_cfo"))
+        hr, _ = asyncio.run(BR.rewrite_for(r, "hr"))
+    finally:
+        AG.call, BR.call, CO.LEDGER = orig
+    prof = lambda a: kg.facts()["audiences"][a]
+    assert r.plans[0].variant == "focus" and r.focus.effective["retention"] == "more"
+    assert [s.heading for s in r.brief.sections] == prof("cfo")["order"] and r.brief.one_minute[0]["title"] == "The payoff"
+    assert [s.heading for s in hr.sections] == prof("hr")["order"] and hr.one_minute[0]["title"] == "The first move"
+    money = lambda b: re.findall(r"€[\d,]+", " ".join(s.text for s in b.sections))
+    assert money(r.brief) and sorted(money(r.brief)) == sorted(money(hr)), "a reader change altered a number"
+    assert "more weight to Retention" in " ".join(s.text for s in r.brief.sections)
+    print("readers (CFO / HR / Board) OK: same numbers, different order and emphasis")
+
+
+def test_all_models_down():
+    """Quota exhausted / no network: the run must still finish with a complete, rule-based answer."""
+    import tempfile
+    from pathlib import Path
+    from . import pipeline as PL, consistency as CO
+    from .schemas import RunRequestV2
+
+    async def down(*a, **k):
+        raise L.LLMError("429 rate limit (simulated)")
+    orig = (AG.call, BR.call, CO.LEDGER)
+    AG.call = BR.call = down
+    CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"
+    try:
+        r = asyncio.run(PL.run_pipeline_v2(RunRequestV2(scenario_code=B, focus={"recruiting": "more"}, audience="hr"),
+                                           run_id="selftest_v2_offline"))
+    finally:
+        AG.call, BR.call, CO.LEDGER = orig
+    notes = " ".join(n for t in r.trace for n in t.notes)
+    assert "diagnosticians unavailable" in notes and "strategist unavailable" in notes
+    win = next(p for p in r.plans if p.plan_id == r.winner)
+    assert "mobile_fast_apply" in {a.action for a in win.actions} and r.brief.writer == "template"
+    assert [s.heading for s in r.brief.sections] == kg.facts()["audiences"]["hr"]["order"]
+    assert not any("sub_ratings_5" in p for p in r.protected), "raw metric keys in the protected list"
+    brief_text = " ".join(s.text for s in r.brief.sections) + " ".join(r.leadership_views.values())
+    assert not re.search(r"\b[a-z]+(?:_[a-z0-9]+)+\b", brief_text), re.findall(r"\b[a-z]+(?:_[a-z0-9]+)+\b", brief_text)
+    print("all models down OK: complete rule-based answer, winner", r.winner, f"({win.variant})")
+
+
 if __name__ == "__main__":
     test_facts_and_graph()
     test_determinism_and_expectations()
     test_pipeline_with_bad_llm()
+    test_steering()
+    test_readers_with_fake_llm()
+    test_all_models_down()
     print("v2 selftest OK")

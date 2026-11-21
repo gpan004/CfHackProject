@@ -77,8 +77,10 @@ JUROR = _sys(
 
 REPORT_WRITER = _sys(
     "You are the report writer. You turn a verified analysis into a short, clear executive brief.",
-    "Write the brief for a board member who has five minutes and no HR background. Explain the situation, the cause "
-    "and effect chain, the plan and its order, what is deliberately not done, and how sure we are.",
+    "Write the brief for this reader: {reader}\nWhoever the reader is, write in plain language for someone with five "
+    "minutes and no technical background: explain complex ideas simply, define any term you must use, keep sentences "
+    "short. Explain the situation, the cause and effect chain, the plan and its order, what is deliberately not done, "
+    "and how sure we are. Adapt wording and emphasis to the reader; never change, add or drop facts.",
     "- Use exactly these section headings in this order: {headings}.\n"
     "- Each section: two to five short sentences.\n"
     "- To mention a number, use ONLY these tokens, never digits: {tokens}. '<number>' marks a hidden number: never copy it.\n"

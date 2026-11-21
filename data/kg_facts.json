@@ -119,6 +119,49 @@
     "remove": {"cfo_visibility_gap": ["financial turnover risk"]}
   },
 
+  "pillars": {
+    "branding": "Employer branding & reputation",
+    "recruiting": "Recruiting & talent attraction",
+    "advocacy": "Employee advocacy",
+    "retention": "Retention & internal climate"
+  },
+
+  "request_keywords": {
+    "_why": "Analyst mapping from everyday words in a client's request to catalog actions (used by the request checker, not evidence). Matching is deterministic; the longest matching phrase wins.",
+    "reputation_audit": ["reputation audit", "audit our reviews", "review audit", "glassdoor", "online reviews", "reputation"],
+    "internal_listening_360": ["360", "pulse survey", "employee survey", "survey our employees", "listen to employees", "internal listening"],
+    "portal_ux_audit": ["ux audit", "portal audit", "career site audit", "career portal audit", "test the career site"],
+    "persona_calibration": ["persona", "candidate profile", "target candidates", "personas"],
+    "candidate_feedback_digitization": ["candidate feedback", "candidate survey", "interview feedback", "career day feedback", "post-interview"],
+    "manager_coaching": ["manager coaching", "coach managers", "coach our managers", "manager training", "train managers", "leadership training"],
+    "career_framework": ["career path", "career ladder", "promotion criteria", "career framework", "career progression", "levels framework"],
+    "evp_realignment": ["evp", "employer value proposition", "employer promise", "rebrand", "branding agency", "brand overhaul"],
+    "board_risk_dashboard": ["dashboard", "board report", "roi report", "emv report", "financial report for the board"],
+    "mobile_fast_apply": ["fast-apply", "fast apply", "mobile apply", "one-click apply", "apply widget", "mobile application form", "quick apply"],
+    "persona_aligned_jds": ["job ad", "job ads", "job description", "job descriptions", "rewrite ads", "rewriting job ads", "jds"],
+    "technical_storytelling": ["blog", "storytelling", "linkedin series", "engineering stories", "tech content", "technical posts"],
+    "retail_shift_rotation": ["shift rotation", "shift schedule", "rosters", "weekend shifts", "shift"],
+    "ambassador_selection": ["ambassador", "ambassadors", "employee advocacy", "employees post", "employees share", "advocacy program"],
+    "ambassador_tracking": ["track ambassador", "ambassador tracking", "tracking posts", "track employee posts", "emv tracking"],
+    "compensation_review": ["salary", "salaries", "pay raise", "raise pay", "compensation", "pay review", "bonus"]
+  },
+
+  "audiences": {
+    "_why": "Who reads the brief. The facts, numbers and sources are identical for every reader; only order, vocabulary and emphasis change.",
+    "hr": {"label": "HR Manager",
+           "order": ["What to do, in what order", "What is going on", "Why it is happening", "What we will not do, and why", "How sure we are", "What it costs and returns"],
+           "cards": ["The first move", "The root causes", "What we push back on", "The payoff"],
+           "guidance": "The reader is the HR manager who will run the plan. Use HR words they know (employer brand, EVP, time to hire, onboarding, candidate experience). Focus on what to do first, for which sites or teams, what each step needs, and what to measure."},
+    "cfo": {"label": "CFO",
+            "order": ["What it costs and returns", "What is going on", "What to do, in what order", "What we will not do, and why", "How sure we are", "Why it is happening"],
+            "cards": ["The payoff", "The root causes", "The first move", "What we push back on"],
+            "guidance": "The reader is the CFO. Lead with money: cost, yearly benefit, conservative case, payback, and what is auditable. Translate every HR term into its business or money effect. Mention spend that is avoided or stopped."},
+    "board": {"label": "Board members / Stakeholders",
+              "order": ["What is going on", "Why it is happening", "What to do, in what order", "What it costs and returns", "What we will not do, and why", "How sure we are"],
+              "cards": ["The root causes", "The first move", "The payoff", "What we push back on"],
+              "guidance": "The readers are board members and stakeholders. Be strategic and brief: the main risk, the decision needed, the order of the plan, and what is protected. No jargon."}
+  },
+
   "glossary": {
     "problems": {
       "say_do_gap": ["Promise vs reality gap", "What the company promises candidates is not what employees experience."],

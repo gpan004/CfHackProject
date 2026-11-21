@@ -13,6 +13,10 @@ Knowledge-graph tools decide, agents explain, critics check. v1 stays available 
 - Same data -> same answer: temperature 0 + seed, model-independent cache, stability ledger in `runs/v2/ledger.json`.
 - CLI: `python -m backend.v2.pipeline --scenario SCENARIO_A_CLOUDNOVA_FINTECH` (`--fresh` ignores the cache). Tests: `python -m backend.v2.selftest`.
 - Colab down? `$env:V2_LOCAL_TIER="remote"` routes the local roles to OpenRouter.
+- Tailoring: priorities per pillar (Less / Normal / More), instant what-if (`POST /api/v2/whatif`), request checker
+  (`POST /api/v2/check-request`), reader of the brief (HR Manager / CFO / Board) with `--audience`, and PDF download in
+  the UI. CLI: `python -m backend.v2.pipeline --scenario SCENARIO_A_CLOUDNOVA_FINTECH --focus retention=more,advocacy=less --audience cfo`.
+- If the AI models are unavailable (e.g. daily quota), every agent degrades to the rule-based result instead of failing.
 
 **Demo script:** run CloudNova → show winning plan, guardrails (ambassadors deferred to Phase 3, shift rotation blocked as sector noise, compensation untouched), root causes vs symptoms, ROI. Then paste the live-tweak override
 `{"snapshot": {"t0_current_snapshot": {"public_reputation": {"external_claims_gap_stars_5": 0.3, "sub_ratings_5": {"management": 3.6}}}}}`

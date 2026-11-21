@@ -233,9 +233,88 @@ class ResultV2(BaseModel):
     documents: dict[str, dict]          # id -> {title, text} for every cited document
     labels: dict[str, str]              # id -> plain label (problems, actions, metrics, cases)
     trace: list[TraceV2]
+    protected: list[str] = []          # strengths to protect, in plain words
+    focus: Optional["FocusInfo"] = None
+    audience: str = "board"
+    request: dict = {}                  # how to re-ask: scenario_code or scenario+snapshot (for what-if / request checks)
+
+
+FocusLevel = Literal["less", "normal", "more"]
+Audience = Literal["hr", "cfo", "board"]
+
+
+class RunRequestV2(BaseModel):
+    """v2 run request: the v1 fields plus the client's tailoring (priorities per pillar, reader of the brief)."""
+    scenario_code: Optional[str] = None
+    scenario: Optional[dict] = None
+    snapshot: Optional[dict] = None
+    overrides: Optional[dict] = None
+    focus: dict[str, FocusLevel] = {}
+    audience: Audience = "board"
+
+
+class FocusInfo(BaseModel):
+    requested: dict[str, str]; effective: dict[str, str]
+    warnings: list[str] = []; deferred: list[str] = []; added_symptoms: list[str] = []
+
+
+class PriorityRow(BaseModel):
+    problem: str; label: str; pillar: str; role: str
+    weight_before: float; weight_after: float; rank_before: int; rank_after: int
+
+
+class PlanDiff(BaseModel):
+    added: list[str] = []; removed: list[str] = []; moved: list[str] = []
+
+
+class WhatIfRequest(BaseModel):
+    scenario_code: Optional[str] = None
+    scenario: Optional[dict] = None
+    snapshot: Optional[dict] = None
+    overrides: Optional[dict] = None
+    focus: dict[str, FocusLevel] = {}
+    problems: Optional[list[str]] = None      # the problems accepted in the displayed run (keeps the what-if consistent)
+
+
+class WhatIfResult(BaseModel):
+    focus: FocusInfo
+    priorities: list[PriorityRow]
+    plan_before: list[ScheduledAction]; plan_after: list[ScheduledAction]
+    diff: PlanDiff
+    roi_before: RoiResult; roi_after: RoiResult
+    unchanged_rules: list[str]
+    summary: list[str]
+
+
+class RequestCheckRequest(BaseModel):
+    scenario_code: Optional[str] = None
+    scenario: Optional[dict] = None
+    snapshot: Optional[dict] = None
+    overrides: Optional[dict] = None
+    text: str
+    plan: Optional[list[dict]] = None         # [{action, phase}] of the displayed plan
+    problems: Optional[list[str]] = None
+
+
+class RequestVerdict(BaseModel):
+    action: str; label: str; plain: str
+    verdict: Literal["yes_now", "already_planned", "later", "no"]
+    headline: str; reason: str; phase: Optional[int] = None
+    evidence: list[Source] = []; paths: list[str] = []; precedents: list[str] = []
+
+
+class RequestCheck(BaseModel):
+    text: str; understood: bool
+    matches: list[RequestVerdict] = []
+    suggestions: list[dict] = []              # [{action, label}] when the request was not understood
+    note: str = ""
 
 
 class RunStateV2(BaseModel):
     run_id: str; status: Literal["queued", "running", "done", "error"]
     stage: Optional[str] = None; stages_done: list[str] = []
     error: Optional[str] = None; result: Optional[ResultV2] = None
+
+
+ResultV2.model_rebuild()
+RunStateV2.model_rebuild()
