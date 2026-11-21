@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { rewriteBriefV2 } from "../api";
 import { downloadPdf } from "../pdf";
-import { AUDIENCES, PILLARS, type Audience, type Brief, type CauseLink, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
+import { AUDIENCES, PILLARS, type Audience, type Brief, type CauseLink, type FactCheckReport, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
 import Steer from "./Steer";
 
 const eur = (v: number) => "€" + Math.round(v).toLocaleString("en-US");
@@ -113,6 +113,34 @@ function Chain({ r }: { r: ResultV2 }) {
   );
 }
 
+/** The fact-checker's report: what was checked and what was removed (plans + this reader's brief). */
+function FactCheckCard({ plans, brief }: { plans: FactCheckReport | null; brief: FactCheckReport | null }) {
+  const parts = [["Plans & explanations", plans], ["Brief for this reader", brief]] as const;
+  const removed = parts.flatMap(([, p]) => p?.removed ?? []);
+  const cites = parts.flatMap(([, p]) => p?.citations_removed ?? []);
+  const checked = parts.reduce((n, [, p]) => n + (p?.checked ?? 0), 0);
+  return (
+    <div className="card">
+      <p className="font-semibold">Fact-checker</p>
+      {parts.map(([name, p]) => (
+        <p key={name} className="mt-2 text-[13px]">{name}: {!p ? "not run" : p.status === "ran"
+          ? <><b className="text-emerald-700">checked</b> {p.checked} sentence(s) with {p.checker_model || "a second model"}, {p.removed.length} removed</>
+          : p.status === "unavailable" ? <b className="text-amber-700">AI checker unavailable (citation check still applied)</b>
+          : "nothing AI-written to check (rule-based text)"}</p>
+      ))}
+      {[...new Set(parts.map(([, p]) => p?.note).filter(Boolean))].map((n, i) => <p key={i} className="mt-1 text-[12px] text-amber-700">{n}</p>)}
+      <p className="mt-2 text-[12px] text-ink/60">{checked} AI-written sentence(s) checked against the verified facts; {removed.length} removed, {cites.length} irrelevant citation(s) removed. The checker can only remove text, never add it.</p>
+      {(removed.length > 0 || cites.length > 0) && (
+        <details className="mt-2 text-[12px] text-ink/70"><summary className="cursor-pointer font-semibold text-brand">what was removed</summary>
+          <ul className="mt-1 space-y-1">
+            {removed.map((x, k) => <li key={k}>• <b>{x.verdict}</b> [{x.where}] “{x.text}” — {x.reason}</li>)}
+            {cites.map((c, k) => <li key={"c" + k}>• citation: {c}</li>)}
+          </ul></details>
+      )}
+    </div>
+  );
+}
+
 function ActionCard({ a, r }: { a: ScheduledAction; r: ResultV2 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -206,6 +234,10 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
           </span>
           <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ Every quote checked against the source</span>
           <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ No number written by AI</span>
+          {(r.fact_check?.status === "ran" || r.brief.fact_check?.status === "ran") && (
+            <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">
+              ✓ {(r.fact_check?.checked ?? 0) + (r.brief.fact_check?.checked ?? 0)} AI sentences fact-checked
+            </span>)}
           <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-ink/70">{r.critic_rounds.length} critic round(s) · {issues.length} issue(s) handled</span>
         </div>
         {degraded.length > 0 && (
@@ -369,8 +401,8 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
 
       {/* 9 quality control */}
       <Section eyebrow="Quality control" title="How the answer was checked"
-        intro="Three safeguards: a plan critic that sends weak plans back to the strategist, a jury of stakeholders whose votes are audited, and a stability check that compares this answer with earlier runs on the same data.">
-        <div className="grid gap-4 lg:grid-cols-3">
+        intro="Four safeguards: a plan critic that sends weak plans back to the strategist, a jury of stakeholders whose votes are audited, a fact-checker that removes any sentence the evidence does not support, and a stability check against earlier runs on the same data.">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="card">
             <p className="font-semibold">Plan critic</p>
             {r.critic_rounds.map((x) => (
@@ -396,6 +428,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
             {st.differences.map((d, i) => <p key={i} className="mt-1 text-[12px] text-red-700">{d}</p>)}
             <p className="mt-2 text-[11px] text-ink/40">input fingerprint {st.fingerprint} · decision signature {st.signature}</p>
           </div>
+          <FactCheckCard plans={r.fact_check ?? null} brief={r.brief.fact_check ?? null} />
         </div>
       </Section>
 

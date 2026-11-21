@@ -6,9 +6,9 @@ import { AudiencePicker, FocusSwitches } from "./Tailor";
 const STAGES_V1 = ["ingest", "pillar_analysis", "hypotheses", "confutation", "causal_map", "matching",
   "strategy", "guardrails", "jury", "ranking", "metrics"];
 const STAGES_V2 = ["intake", "measure", "diagnose", "challenge", "root_causes", "precedents", "gates", "strategy",
-  "critic", "plans", "jury", "jury_critic", "stability", "report"];
+  "critic", "plans", "fact_check", "jury", "jury_critic", "stability", "report"];
 const KIND_V2: Record<string, string> = { diagnose: "agent", challenge: "agent", strategy: "agent", jury: "agent", report: "agent",
-  critic: "critic", jury_critic: "critic" };
+  critic: "critic", jury_critic: "critic", fact_check: "critic" };
 const UNSEEN = "__unseen__";
 export type Engine = "v1" | "v2";
 

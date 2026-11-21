@@ -15,16 +15,17 @@ from ..schemas import PlanAction, RunRequest
 from . import agents as AG
 from . import brief as BR
 from . import steering as ST
+from . import factcheck as FC
 from .consistency import fingerprint, decisions, check
-from .kg import documents, label
+from .kg import documents, label, doc_links
 from .llm import FRESH
 from .schemas import ResultV2, TraceV2, PlanV2, CriticRound, DroppedAction, RunRequestV2, StrategyDrafts
 from .tools import (load_scenario, check_metrics, find_root_causes, rank_cases, allowed_actions, canonical_plan,
                     schedule_phases, calculate_roi, action_cost, explain_action, check_relevance)
 
 STAGES_V2 = ["intake", "measure", "diagnose", "challenge", "root_causes", "precedents", "gates", "strategy",
-             "critic", "plans", "jury", "jury_critic", "stability", "report"]
-MAX_REVISIONS = 2
+             "critic", "plans", "fact_check", "jury", "jury_critic", "stability", "report"]
+MAX_REVISIONS = 1      # live runs showed a second revision tends to add issues; Python auto-fixes what remains
 
 
 def _variants(G, client, roots, gates, fi=None):
@@ -55,7 +56,8 @@ def _variants(G, client, roots, gates, fi=None):
 
 
 AGENT_NAMES = {"diagnosticians": "Diagnosticians", "skeptic": "Skeptic", "strategist": "Strategist",
-               "LLM critic": "Plan critic (AI part)", "juror": "Jury", "report writer": "Report writer"}
+               "LLM critic": "Plan critic (AI part)", "juror": "Jury", "report writer": "Report writer",
+               "fact-checker": "Fact-checker"}
 
 
 def degraded_agents(trace) -> list[str]:
@@ -100,7 +102,8 @@ def _apply_draft(G, client, draft, v, gates, targets, issues, roots):
             continue
         desc, _ = AG.strip_numbers(o.description)
         ev = [e for e in o.evidence if e in documents() and (G.nodes[e]["kind"] not in ("case", "snippet")
-                                                             or check_relevance(G, e, client).relevant)]
+                                                             or check_relevance(G, e, client).relevant)
+              and doc_links().get(e, frozenset()) & set(o.fixes)]
         items.append({"action": "original", "title": o.title, "description": desc, "fixes": [p for p in o.fixes if p in targets],
                       "evidence": ev, "phase": o.phase, "scope": "company-wide", "source": "original", "rationale": desc})
     covered = {p for i in items for p in (CATALOG[i["action"]]["fixes_concepts"] if i["action"] in CATALOG else i["fixes"])}
@@ -301,6 +304,56 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
                   f"evidence {p.evidence_strength:.2f}, cost €{p.cost_eur:,.0f}, deterministic score {p.det_score:.3f}" for p in out]
         return out
     plans = await stage("plans", "tool", s_plans)
+    vmap = {v["plan_id"]: v for v in variants}
+    rejected_views: set[tuple[str, str]] = set()
+
+    async def s_fact(calls, notes):
+        """Fact-checker on everything the strategist and skeptic wrote that the client will read."""
+        items, refs = [], []
+        for p in plans:
+            if p.thesis != vmap[p.plan_id]["emphasis"]:          # Python's own variant description needs no check
+                items.append((f"{p.plan_id} thesis", p.thesis)); refs.append(("thesis", p, None))
+            for a in p.actions:
+                if a.rationale and not a.rationale.startswith("Added because"):
+                    items.append((f"{p.plan_id} {a.label}", a.rationale)); refs.append(("rationale", p, a))
+                if a.original and a.plain:
+                    items.append((f"{p.plan_id} original idea '{a.label}'", a.plain)); refs.append(("original", p, a))
+        for d in drafts.plans:
+            for rv in d.request_views:
+                txt, _ = AG.strip_numbers(rv.explanation)
+                if txt:
+                    items.append((f"{d.plan_id} view on {rv.request}", txt)); refs.append(("view", d.plan_id, rv.request))
+        for ch in challenges:
+            if ch.reason:
+                items.append((f"skeptic on {ch.problem}", ch.reason)); refs.append(("skeptic", ch, None))
+        plan_txt = "\n".join(f"- {p.plan_id} ({p.variant}): " + "; ".join(f"phase {a.phase} {a.label} for {a.scope}"
+                                                                         for a in p.actions) for p in plans)
+        rules_txt = "\n".join(f"- {d.intervention_id}: {d.decision} ({d.reason})" for d in leadership)
+        facts_txt = (f"{message}\n\nFINAL PLANS:\n{plan_txt}\n\nRULE VERDICTS ON LEADERSHIP REQUESTS:\n{rules_txt}\n\n"
+                     + BR.client_facts(G, client))
+        texts, rep = await FC.run(items, facts_txt, "fact_checker:plans", calls)
+        changed = False
+        for (kind, obj, extra), txt in zip(refs, texts):
+            if kind == "thesis":
+                obj.thesis = txt or vmap[obj.plan_id]["emphasis"]
+            elif kind == "rationale":
+                extra.rationale = txt or ""
+            elif kind == "original" and txt is None:
+                obj.actions = [a for a in obj.actions if a is not extra]
+                changed = True
+            elif kind == "view" and txt is None:
+                rejected_views.add((obj, extra))
+            elif kind == "skeptic":
+                obj.reason = txt or ""
+        if changed:
+            _score_plans(plans, targets_all, roots, cases, client)
+        notes.append(f"layer 1: {len(rep.citations_removed)} citation(s) removed; layer 2: {rep.status}"
+                     + (f" on {rep.checker_model}, {rep.checked} sentence(s) checked, {len(rep.removed)} removed" if rep.status == "ran" else ""))
+        notes += [f"removed ({x.verdict}) {x.where}: {x.text[:80]} - {x.reason[:100]}" for x in rep.removed]
+        if rep.status == "unavailable":
+            notes.append(rep.note)
+        return rep
+    fact_report = await stage("fact_check", "critic", s_fact)
 
     async def s_jury(calls, notes):
         b = await AG.jury(client, G, plans, roots, calls, priorities_txt)
@@ -333,6 +386,9 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
     views = {}
     for rv in next((d.request_views for d in drafts.plans if d.plan_id == winner), []):
         txt, _ = AG.strip_numbers(rv.explanation)
+        if (winner, rv.request) in rejected_views:
+            continue
+        txt, _ = FC.ground_citations(txt) if txt else (txt, [])
         if txt and not any(i.kind == "contradiction" and i.target == rv.request for i in final_issues):
             views[rv.request] = txt
     for d in leadership:                                   # every verdict gets a plain-language explanation
@@ -370,7 +426,7 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
                       jury_audit=audit, leadership=leadership, leadership_views=views, roi=roi, kpis=kpis,
                       confidence=conf, brief=brief, stability=stability, documents=docs, labels=labels, trace=trace,
                       focus=fi, audience=audience, protected=BR.protected_list(G, client),
-                      degraded=degraded_agents(trace), briefs={audience: brief},
+                      degraded=degraded_agents(trace), briefs={audience: brief}, fact_check=fact_report,
                       request={"scenario_code": req.scenario_code} if req.scenario is None else
                       {"scenario": req.scenario, "snapshot": req.snapshot, "overrides": req.overrides})
     (RUNS_DIR / "v2").mkdir(parents=True, exist_ok=True)

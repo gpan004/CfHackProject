@@ -210,6 +210,73 @@ def graph_stats(G) -> dict:
     return {"nodes": kinds, "edges": rels}
 
 
+# ---------- citation grounding (fact-checker layer 1, no AI) ----------
+@lru_cache
+def doc_links() -> dict[str, frozenset]:
+    """For every document id: the problems and actions it is linked to in the reference graph (as case, snippet or
+    field note, or as the evidence of a cause / effect / threshold / condition link)."""
+    G, out = reference_graph(), {}
+    for d in documents():
+        s = set()
+        for _, v, data in G.out_edges(d, data=True):
+            if data["rel"] in ("had_problem", "used", "mentions"):
+                s.add(v)
+            if data["rel"] == "threshold_for":
+                s.add(data["problem"])
+        out[d] = s
+    for u, v, data in G.edges(data=True):
+        if data["rel"] in ("causes", "effect_on", "closes", "blocked_by"):
+            for e in data["evidence"]:
+                if e.get("ref") in out:
+                    out[e["ref"]].update(x for x in (u, v) if G.nodes[x].get("kind") in ("problem", "action"))
+                    if data["rel"] in ("closes", "blocked_by"):      # readiness evidence covers ambassador actions too
+                        out[e["ref"]].update(a for a, _ in in_edges(G, "readiness_gate", "blocked_by"))
+    return {k: frozenset(v) for k, v in out.items()}
+
+
+@lru_cache
+def _entity_patterns() -> list[tuple[str, "re.Pattern"]]:
+    G, pats = reference_graph(), []
+    for n, d in G.nodes(data=True):
+        if d.get("kind") not in ("problem", "action"):
+            continue
+        words = {d.get("label", "")}
+        if d["kind"] == "action":
+            words |= set(CATALOG[n]["synonyms"])
+        else:
+            words |= set(CONCEPTS[n]["synonyms"])
+        for w in words:
+            w = (w or "").strip().lower()
+            if len(w) >= 4:
+                pats.append((n, re.compile(r"(?<![a-z])" + re.escape(w) + r"(?![a-z])")))
+    return pats
+
+
+def entities_in(text: str) -> set[str]:
+    """Problems and actions named in a sentence (by label or synonym)."""
+    t = re.sub(r"[‐-―]", "-", (text or "").lower())
+    return {n for n, p in _entity_patterns() if p.search(t)}
+
+
+def ground_citations(text: str) -> tuple[str, list[str]]:
+    """Removes a [ID] citation when the sentence names problems/actions and the cited document is linked to none of
+    them. Returns (text, removed descriptions). Sentences that name nothing identifiable keep their citations."""
+    ents = entities_in(re.sub(r"\[[A-Z]{1,2}\d{1,2}\]", "", text))
+    removed = []
+    if not ents:
+        return text, removed
+
+    def keep(m):
+        cid = m.group(1)
+        links = doc_links().get(cid)
+        if links is None or links & ents:
+            return m.group(0)
+        removed.append(f"[{cid}] is not linked to {', '.join(sorted(label(reference_graph(), e) for e in ents))}")
+        return ""
+    out = re.sub(r"\s?\[([A-Z]{1,2}\d{1,2})\]", keep, text)
+    return re.sub(r"\s+([.,;])", r"\1", out), removed
+
+
 # ---------- client layer ----------
 def client_layer(client) -> nx.MultiDiGraph:
     """A per-run copy of the reference graph with the client's observations attached. The reference graph is untouched."""

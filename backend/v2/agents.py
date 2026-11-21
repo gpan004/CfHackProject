@@ -10,7 +10,7 @@ from statistics import median
 from ..config import JURY_PERSONAS, PERSONA_DESCRIPTIONS
 from ..knowledge import CATALOG, CONCEPTS
 from . import prompts as P
-from .kg import documents, label
+from .kg import documents, label, doc_links
 from .llm import call
 from .schemas import (Diagnosis, SkepticReport, StrategyDrafts, CriticReview, CriticIssue, JurorBallot, JuryAudit,
                       ProblemView, Challenge, Quote)
@@ -250,8 +250,10 @@ def rule_check(G, client, drafts: StrategyDrafts, variants: list[dict], gates, t
                                           detail=f"no action addresses {label(G, p)}", fix="add an allowed action that fixes it"))
         for o in d.original_ideas:
             bad_p = [p for p in o.fixes if p not in targets]
+            # evidence must exist, fit the workforce, AND be linked in the graph to a problem the idea claims to fix
             bad_e = [e for e in o.evidence if e not in known_docs or (G.nodes[e]["kind"] in ("case", "snippet")
-                                                                      and not check_relevance(G, e, client).relevant)]
+                                                                      and not check_relevance(G, e, client).relevant)
+                     or not (doc_links().get(e, frozenset()) & set(o.fixes))]
             if not o.fixes or bad_p or not o.evidence or len(bad_e) == len(o.evidence):
                 issues.append(CriticIssue(plan_id=d.plan_id, target=o.title, kind="original_unsupported", severity="blocking",
                                           by="rules", detail="original idea without a valid problem id or relevant evidence "

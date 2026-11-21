@@ -12,9 +12,10 @@ import re
 
 from ..ingest import scenarios
 from ..schemas import RunRequest
-from . import agents as AG, brief as BR, kg, llm as L
+from . import agents as AG, brief as BR, kg, llm as L, factcheck as FC
 from .schemas import (Diagnosis, ProblemView, Quote, SkepticReport, Challenge, StrategyDrafts, StrategyDraft, PlanChoice,
-                      OriginalIdea, DroppedAction, CriticReview, JurorBallot, RubricScore, ReportDraft, ReportSection)
+                      OriginalIdea, DroppedAction, CriticReview, JurorBallot, RubricScore, ReportDraft, ReportSection,
+                      FactCheckDraft, ClaimVerdict)
 from .tools import (load_scenario, check_metrics, find_root_causes, allowed_actions, canonical_plan, schedule_phases,
                     rank_cases, calculate_roi, verify_quote)
 
@@ -138,8 +139,15 @@ async def fake_call(role, tier, system, user, schema, fresh=False):
                                                  for k, p in enumerate(pids)]), info
     if schema is ReportDraft:
         return ReportDraft(headline="Fix the root causes first", sections=[
-            ReportSection(heading=h, text="Costs are {{cost}} [C05]. It saves 2 million. See [Z99]. Plain words help.")
+            ReportSection(heading=h, text="Costs are {{cost}} [C05]. It saves 2 million. See [Z99]. Plain words help. "
+                                          "Milan managers caused a strike last year. "
+                                          "Manager coaching fixes the promise vs reality gap [C06].")
             for h in BR.HEADINGS]), info
+    if schema is FactCheckDraft:                     # an honest checker: flags the planted hallucination only
+        sents = re.findall(r"(?m)^(\d+)\. \[[^\]]*\] (.*)$", user)
+        return FactCheckDraft(verdicts=[ClaimVerdict(id=int(i), verdict="unsupported" if "strike" in s else "supported",
+                                                     reason="no strike in the facts" if "strike" in s else "ok")
+                                        for i, s in sents]), {"model": "fake-checker", "cached": False, "attempts": 1}
     raise AssertionError(schema)
 
 
@@ -147,14 +155,14 @@ def test_pipeline_with_bad_llm():
     import tempfile
     from pathlib import Path
     from . import pipeline as PL, consistency as CO
-    orig = (AG.call, BR.call, CO.LEDGER)
-    AG.call = BR.call = fake_call
+    orig = (AG.call, BR.call, FC.call, CO.LEDGER)
+    AG.call = BR.call = FC.call = fake_call
     CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"          # never touch the real stability ledger
     try:
         r = asyncio.run(PL.run_pipeline_v2(RunRequest(scenario_code=A), run_id="selftest_v2"))
         r2 = asyncio.run(PL.run_pipeline_v2(RunRequest(scenario_code=A), run_id="selftest_v2"))
     finally:
-        AG.call, BR.call, CO.LEDGER = orig
+        AG.call, BR.call, FC.call, CO.LEDGER = orig
     assert r2.stability.same_as_previous is True, r2.stability.differences
     notes = " ".join(n for t in r.trace for n in t.notes)
     assert "removed unverifiable quote" in notes and "scope not found" in notes and "removed sentence with a number" in notes
@@ -173,6 +181,13 @@ def test_pipeline_with_bad_llm():
     assert any("contradicts its own scores" in f for f in r.jury_audit.flags)
     assert r.brief.dropped_sentences and all("[Z99]" not in s.text and "million" not in s.text for s in r.brief.sections)
     assert any("€" in s.text for s in r.brief.sections), "{{cost}} token not rendered"
+    # fact-checker: layer 2 removed the planted hallucination, layer 1 removed the irrelevant citation
+    fc = r.brief.fact_check
+    assert fc.status == "ran" and fc.checked > 0 and any("strike" in x.text for x in fc.removed)
+    assert all("strike" not in s.text for s in r.brief.sections), "hallucinated sentence survived"
+    assert any("[C06]" in c for c in fc.citations_removed) and all("[C06]" not in s.text for s in r.brief.sections)
+    assert any("Manager coaching fixes the promise" in s.text for s in r.brief.sections), "a sentence lost more than its citation"
+    assert r.fact_check.status == "ran" and r.fact_check.checked > 0, "plans were not fact-checked"
     print("pipeline with a misbehaving LLM OK:",
           f"{sum(len(x.issues) for x in r.critic_rounds)} critic issues, {len(r.jury_audit.flags)} jury flags, "
           f"{len(r.brief.dropped_sentences)} report sentences dropped; winner {r.winner}")
@@ -222,15 +237,15 @@ def test_readers_with_fake_llm():
     from pathlib import Path
     from . import pipeline as PL, consistency as CO
     from .schemas import RunRequestV2
-    orig = (AG.call, BR.call, CO.LEDGER)
-    AG.call = BR.call = fake_call
+    orig = (AG.call, BR.call, FC.call, CO.LEDGER)
+    AG.call = BR.call = FC.call = fake_call
     CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"
     try:
         r = asyncio.run(PL.run_pipeline_v2(RunRequestV2(scenario_code=A, focus={"retention": "more"}, audience="cfo"),
                                            run_id="selftest_v2_cfo"))
         hr, _ = asyncio.run(BR.rewrite_for(r, "hr"))
     finally:
-        AG.call, BR.call, CO.LEDGER = orig
+        AG.call, BR.call, FC.call, CO.LEDGER = orig
     prof = lambda a: kg.facts()["audiences"][a]
     assert r.plans[0].variant == "focus" and r.focus.effective["retention"] == "more"
     assert [s.heading for s in r.brief.sections] == prof("cfo")["order"] and r.brief.one_minute[0]["title"] == "The payoff"
@@ -251,14 +266,14 @@ def test_all_models_down():
 
     async def down(*a, **k):
         raise L.LLMError("429 rate limit (simulated)")
-    orig = (AG.call, BR.call, CO.LEDGER)
-    AG.call = BR.call = down
+    orig = (AG.call, BR.call, FC.call, CO.LEDGER)
+    AG.call = BR.call = FC.call = down
     CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"
     try:
         r = asyncio.run(PL.run_pipeline_v2(RunRequestV2(scenario_code=B, focus={"recruiting": "more"}, audience="hr"),
                                            run_id="selftest_v2_offline"))
     finally:
-        AG.call, BR.call, CO.LEDGER = orig
+        AG.call, BR.call, FC.call, CO.LEDGER = orig
     notes = " ".join(n for t in r.trace for n in t.notes)
     assert "diagnosticians unavailable" in notes and "strategist unavailable" in notes
     assert {"Diagnosticians", "Strategist", "Report writer"} <= set(r.degraded), r.degraded
@@ -285,8 +300,8 @@ def test_reader_wording_and_switch():
     async def down(*a, **k):
         calls["n"] += 1
         raise L.LLMError("429 daily quota (simulated)")
-    orig = (AG.call, BR.call, CO.LEDGER)
-    AG.call = BR.call = down
+    orig = (AG.call, BR.call, FC.call, CO.LEDGER)
+    AG.call = BR.call = FC.call = down
     CO.LEDGER = Path(tempfile.mkdtemp()) / "ledger.json"
     try:
         r = asyncio.run(PL.run_pipeline_v2(RunRequestV2(scenario_code=A, audience="board"), run_id="selftest_v2_switch"))
@@ -311,7 +326,7 @@ def test_reader_wording_and_switch():
         assert calls["n"] > n_after_first, "retry did not try the AI writer"
         assert first["brief"]["writer"] == "template"
     finally:
-        AG.call, BR.call, CO.LEDGER = orig
+        AG.call, BR.call, FC.call, CO.LEDGER = orig
         M.RUNS_V2.pop("t", None)
     print("reader wording differs per reader (same figures); known readers switch instantly OK")
 

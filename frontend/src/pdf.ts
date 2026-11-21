@@ -104,6 +104,10 @@ export function downloadPdf(r: ResultV2, runId: string) {
   r.critic_rounds.forEach((c) => bullet(`Plan critic, round ${c.round}: ${c.verdict} (${c.issues.filter((i) => i.severity === "blocking").length} blocking, ${c.issues.filter((i) => i.severity === "minor").length} minor issues)`));
   if (r.jury_audit) bullet(`Jury of five stakeholders audited: ${r.jury_audit.flags.length} flag(s); winner decided by ${r.jury_audit.decided_by.replace(/_/g, " ")}.`);
   r.ballots.forEach((b) => { const s = b.scores.find((x) => x.plan_id === r.winner); if (s) bullet(`${b.persona}: ${s.verdict.replace(/_/g, " ")} - ${s.concern}`, 20); });
+  for (const [name, fc] of [["plans and explanations", r.fact_check], ["this brief", r.brief.fact_check]] as const) {
+    if (fc) bullet(`Fact-checker on ${name}: ` + (fc.status === "ran" ? `${fc.checked} AI-written sentence(s) checked with ${fc.checker_model || "a second model"}, ${fc.removed.length} removed, ${fc.citations_removed.length} irrelevant citation(s) removed.`
+      : fc.status === "unavailable" ? "AI checker unavailable; citation check applied." : "nothing AI-written to check."));
+  }
   bullet(`Input fingerprint ${st.fingerprint}, decision signature ${st.signature}.`);
 
   heading("Sources");

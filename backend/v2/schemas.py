@@ -172,6 +172,30 @@ class ReportDraft(BaseModel):
     headline: str; sections: list[ReportSection]
 
 
+class ClaimVerdict(BaseModel):
+    id: int = Field(description="the number of the sentence")
+    verdict: Literal["supported", "unsupported", "contradicted"]
+    reason: str = Field(description="short reason; for unsupported/contradicted name the claim that is not in the facts")
+    fact: str = Field(default="", description="the fact that supports or contradicts it, quoted from FACTS")
+
+
+class FactCheckDraft(BaseModel):
+    verdicts: list[ClaimVerdict]
+
+
+class CheckedItem(BaseModel):
+    where: str; text: str; verdict: str; reason: str; action: str
+
+
+class FactCheckReport(BaseModel):
+    status: Literal["ran", "unavailable", "nothing_to_check"] = "nothing_to_check"
+    checker_model: str = ""
+    checked: int = 0
+    removed: list[CheckedItem] = []           # sentences removed or replaced (unsupported / contradicted)
+    citations_removed: list[str] = []         # [ID] citations not linked to what the sentence talks about
+    note: str = ""
+
+
 # ---------- assembled results ----------
 class PlanV2(BaseModel):
     plan_id: str; title: str; thesis: str; variant: str
@@ -208,6 +232,7 @@ class Brief(BaseModel):
     writer: Literal["llm_verified", "template"]
     dropped_sentences: list[str] = []
     glossary: dict[str, str]
+    fact_check: Optional["FactCheckReport"] = None
 
 
 class TraceV2(BaseModel):
@@ -235,6 +260,7 @@ class ResultV2(BaseModel):
     trace: list[TraceV2]
     protected: list[str] = []          # strengths to protect, in plain words
     degraded: list[str] = []           # agents that could not run (their step used the rule-based result)
+    fact_check: Optional[FactCheckReport] = None
     briefs: dict[str, Brief] = {}      # brief per reader, so switching back is instant
     focus: Optional["FocusInfo"] = None
     audience: str = "board"
@@ -318,5 +344,6 @@ class RunStateV2(BaseModel):
     error: Optional[str] = None; result: Optional[ResultV2] = None
 
 
+Brief.model_rebuild()
 ResultV2.model_rebuild()
 RunStateV2.model_rebuild()

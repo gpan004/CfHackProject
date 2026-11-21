@@ -14,7 +14,9 @@ export interface JurorBallot { persona: string; scores: RubricScore[] }
 export interface JuryAudit { weights: Record<string, number>; flags: string[]; plan_scores: Record<string, number>; margin: number; decided_by: string }
 export interface Confidence { problem: string; level: "high" | "medium" | "low"; metric_evidence: number; text_evidence: number; literature: number; precedents: number; reason: string }
 export interface CaseRank { case: string; name: string; score: number; shared_problems: string[]; shared_actions: string[]; worker_fit: boolean; outcome: string; reason: string }
-export interface Brief { headline: string; one_minute: { title: string; text: string; detail?: string }[]; sections: { heading: string; text: string }[]; writer: "llm_verified" | "template"; dropped_sentences: string[]; glossary: Record<string, string> }
+export interface FactCheckReport { status: "ran" | "unavailable" | "nothing_to_check"; checker_model: string; checked: number;
+  removed: { where: string; text: string; verdict: string; reason: string; action: string }[]; citations_removed: string[]; note: string }
+export interface Brief { fact_check?: FactCheckReport | null; headline: string; one_minute: { title: string; text: string; detail?: string }[]; sections: { heading: string; text: string }[]; writer: "llm_verified" | "template"; dropped_sentences: string[]; glossary: Record<string, string> }
 export interface Stability { fingerprint: string; signature: string; previous_runs: number; same_as_previous: boolean | null; differences: string[] }
 export interface TraceV2 { stage: string; seconds: number; kind: string; models: string[]; cached: boolean; notes: string[] }
 export interface Challenge { problem: string; verdict: string; reason: string }
@@ -32,7 +34,7 @@ export interface ResultV2 {
   documents: Record<string, { kind: string; title: string; text: string }>;
   labels: Record<string, string>; trace: TraceV2[];
   focus: FocusInfo | null; audience: Audience; request: Record<string, unknown>; protected?: string[];
-  degraded?: string[]; briefs?: Partial<Record<Audience, Brief>>;
+  degraded?: string[]; briefs?: Partial<Record<Audience, Brief>>; fact_check?: FactCheckReport | null;
 }
 export type Pillar = "branding" | "recruiting" | "advocacy" | "retention";
 export type FocusLevel = "less" | "normal" | "more";

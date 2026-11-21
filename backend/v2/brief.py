@@ -6,7 +6,7 @@ import re
 from .kg import documents, facts, in_edges, out_edges, label
 from .llm import call
 from . import prompts as P
-from .schemas import Confidence, ReportDraft, ReportSection, Brief
+from .schemas import Confidence, ReportDraft, ReportSection, Brief, FactCheckReport
 from .tools import check_relevance, action_cost
 
 HEADINGS = ["What is going on", "Why it is happening", "What to do, in what order", "What we will not do, and why",
@@ -377,6 +377,40 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
     if missing:
         sections[i] = template[i]
         notes.append(f"report omitted {', '.join(a.label for a in missing)} -> section replaced by the complete template")
+    # fact-checker: layer 1 (citation grounding) on every sentence, layer 2 (AI, other model family) on AI-written ones
+    from . import factcheck as FC
+    fc = FactCheckReport()
+    sections = [ReportSection(heading=s.heading, text=FC.ground(s.text, s.heading, fc)) if s is t else s
+                for s, t in zip(sections, template)]
+    ai_written = [(k, s) for k, (s, t) in enumerate(zip(sections, template)) if s is not t]
+    items, where = [], []
+    if writer == "llm_verified" and headline:
+        items.append(("headline", headline)); where.append(("headline", None))
+    for k, s in ai_written:
+        for sent in re.split(r"(?<=[.!?])\s+", s.text.strip()):
+            if sent.strip():
+                items.append((s.heading, sent)); where.append(("section", k))
+    if items:
+        checked, fc = await FC.run(items, fact_sheet(G, client, signals, accepted, roots, plan, leadership, roi, cases,
+                                                     canonical, audience), f"fact_checker:brief:{audience}", trace_calls, fc)
+        if checked and checked[0] is None and where[0][0] == "headline":
+            headline = f"{client.company_name}: fix {next((r.label.lower() for r in roots.causes if r.role in ('root', 'standalone')), 'the root causes')} first"
+        rebuilt: dict[int, list[str]] = {}
+        for (kind, k), txt in zip(where, checked):
+            if kind == "section":
+                rebuilt.setdefault(k, [])
+                if txt:
+                    rebuilt[k].append(txt)
+        for k, sents in rebuilt.items():
+            if sents:
+                sections[k] = ReportSection(heading=sections[k].heading, text=" ".join(sents))
+            else:
+                sections[k] = template[k]
+                notes.append(f"fact-checker removed every sentence of '{template[k].heading}' -> rule-based version")
+        notes += [f"fact-checker removed ({x.verdict}): {x.text[:90]} - {x.reason[:90]}" for x in fc.removed]
+        if fc.status == "unavailable":
+            notes.append(fc.note)
+    notes += [f"citation removed: {c}" for c in fc.citations_removed]
     if all(s is t for s, t in zip(sections, template)):
         writer = "template"
     if stability_note:   # appended by Python after writing, so it never changes the writer's input
@@ -384,4 +418,54 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
         sections[k] = ReportSection(heading=sections[k].heading, text=(sections[k].text + " " + stability_note).strip())
     return Brief(headline=headline, one_minute=one_minute(G, client, signals, accepted, roots, plan, leadership, roi, cases,
                                                           audience),
-                 sections=sections, writer=writer, dropped_sentences=dropped, glossary=glossary(G, plan, roots))
+                 sections=sections, writer=writer, dropped_sentences=dropped, glossary=glossary(G, plan, roots),
+                 fact_check=fc)
+
+
+def client_facts(G, client) -> str:
+    """The client's own data, complete: every text field and every measured value (with or without a benchmark)."""
+    lines = ["CLIENT'S OWN TEXT (verbatim):"]
+    lines += [f"- [signals.{k}] {v}" for k, v in client.signals.items()]
+    lines += [f"- [internal.{k}] {v}" for k, v in client.internal.items()]
+    lines.append(f"- [narrative] {client.narrative}")
+    lines.append("CLIENT METRICS (all measured values):")
+    for k, r in client.metrics.items():
+        peer = "no benchmark" if r.peer is None else f"peers {fmt_metric(G, k, r.peer)} ({r.status})"
+        lines.append(f"- {label(G, k)}: {fmt_metric(G, k, r.value)}; {peer}")
+    lines += [f"- Site {s.name.replace('_', ' ')}: {s.rating:g} stars ({s.flag})" for s in client.segments]
+    return "\n".join(lines)
+
+
+def fact_sheet(G, client, signals, accepted, roots, plan, leadership, roi, cases, canonical, audience) -> str:
+    """Everything a sentence of the brief may legitimately say, with the real numbers (the checker's source of truth)."""
+    by = {s.problem: s for s in signals}
+    lines = ["BRIEF FACTS (rule-based version):"] + [f"- {s.heading}: {s.text}" for s in canonical]
+    lines.append("PROBLEMS (confirmed), with the allowed wordings:")
+    for p in sorted(accepted):
+        s = by[p]
+        ms = "; ".join(f"{m.label} {fmt_metric(G, m.key, m.value)} vs peers {fmt_metric(G, m.key, m.peer)}"
+                       for m in s.measured if m.peer is not None)
+        views = " / ".join(dict.fromkeys([s.plain, problem_view(p, "cfo"), problem_view(p, "hr")]))
+        lines.append(f"- {s.label}: {views}" + (f" Measured: {ms}." if ms else ""))
+    lines.append("CAUSE AND EFFECT LINKS (with their sources):")
+    lines += [f"- {label(G, l.source)} -> {label(G, l.target)}: {l.mechanism} "
+              f"[{', '.join(e.ref for e in l.evidence)}]" for l in roots.links]
+    lines.append("PLAN:")
+    lines += [f"- Phase {a.phase}: {a.label} for {a.scope}. {a.plain} Why now: {a.why_now} "
+              f"Fixes: {', '.join(label(G, f) for f in a.fixes)}. Sources: {', '.join(a.precedents + a.evidence) or '-'}"
+              for a in plan.actions]
+    lines.append("LEADERSHIP REQUESTS (rule verdicts):")
+    lines += [f"- {label(G, d.intervention_id)}: {d.decision}" + (f" to phase {d.to_phase}" if d.to_phase else "")
+              + f": {plain_reason(G, d)}" for d in leadership]
+    lines.append("PROTECTED STRENGTHS: " + "; ".join(protected_list(G, client)))
+    lines.append(f"MONEY: cost {eur(roi.cost_eur)}; expected benefit {eur(roi.benefit_expected_eur)} per year; conservative "
+                 f"{eur(roi.benefit_conservative_eur)} per year; payback "
+                 + (f"{roi.payback_months_expected:.1f} months." if roi.payback_months_expected else "n/a."))
+    lines.append("SOURCES CITED (what each document actually says):")
+    cited = sorted({e.ref for l in roots.links for e in l.evidence if e.kind == "document"}
+                   | {x for a in plan.actions for x in a.precedents + a.evidence} | {c.case for c in cases[:3]})
+    docs = documents()
+    lines += [f"- [{d}] {docs[d]['title']}: {docs[d]['text']}" for d in cited if d in docs]
+    lines.append("RESEARCH THRESHOLDS CROSSED: " + ("; ".join(t for s in signals if s.problem in accepted
+                                                           for m in s.measured for t in m.thresholds) or "none"))
+    return "\n".join(lines) + "\n" + client_facts(G, client)

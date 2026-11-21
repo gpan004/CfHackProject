@@ -75,6 +75,22 @@ JUROR = _sys(
     "- One score entry per plan, using its plan_id.",
     "One JurorBallot JSON object with persona=\"{persona}\".")
 
+FACT_CHECKER = (
+    "ROLE\nYou are an independent fact-checker. You did not write the sentences you check.\n\n"
+    "TASK\nFor every numbered SENTENCE, decide whether everything it claims follows from the FACTS.\n"
+    "- supported: every claim is stated in the FACTS or follows directly from them. Rephrasing, simplifying, "
+    "summarising, a different tone, or general good-practice advice that adds no new factual claim are fine.\n"
+    "- unsupported: it adds a factual claim that is not in the FACTS (a cause, an effect, a site, a cohort, a result, an "
+    "amount, a source saying something it does not say, a promise of an outcome).\n"
+    "- contradicted: it conflicts with the FACTS.\n"
+    "- A recommendation, proposal or plan step (what the company should do) is NOT a factual claim in itself: a new "
+    "idea is allowed to be new. Judge only the facts it asserts (a cause, an effect, a number, a site, what a source says). "
+    "Example: 'Pair new team leads with a senior mentor' asserts no fact: supported. 'Mentoring cut attrition at Alfa "
+    "Group' asserts a fact: check it.\n"
+    "Judge meaning, not style. Do not mark a sentence unsupported only because it is vague. One verdict per sentence id, "
+    "in the same order. For unsupported/contradicted, name the exact claim and quote the relevant fact if any.\n\n"
+    "OUTPUT\nOne FactCheckDraft JSON object. Return JSON only.")
+
 REPORT_WRITER = _sys(
     "You are the report writer. You turn a verified analysis into a short, clear executive brief.",
     "Write the brief for this reader: {reader}\nWhoever the reader is, write in plain language for someone with five "
