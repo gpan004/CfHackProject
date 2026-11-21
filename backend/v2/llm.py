@@ -28,10 +28,12 @@ def tier_for(role_tier: str) -> str:
 
 
 async def call(role: str, tier: str, system: str, user: str, schema, fresh: bool = False):
-    """Returns (parsed object, info). Raises LLMError if every model fails."""
+    """Returns (parsed object, info). Tries the role's tier first, then the other tier (OpenRouter <-> local Mistral),
+    so a quota or a GPU outage does not silently remove an agent. Raises LLMError only if every model fails."""
     tier = tier_for(tier)
-    models = [LOCAL_LLM_MODEL] if tier == "local" else OPENROUTER_MODELS
-    client = _local if tier == "local" else _remote
+    other = "local" if tier == "remote" else "remote"
+    plan = [(m, _local if tier == "local" else _remote, tier) for m in ([LOCAL_LLM_MODEL] if tier == "local" else OPENROUTER_MODELS)]
+    plan += [(m, _local if other == "local" else _remote, other) for m in ([LOCAL_LLM_MODEL] if other == "local" else OPENROUTER_MODELS)]
     system = system + "\n\nReturn ONLY one JSON object matching this JSON Schema:\n" + json.dumps(schema.model_json_schema())
     key = hashlib.sha256(("v2|" + role + "|" + system + "|" + user + "|" + schema.__name__).encode()).hexdigest()
     path = CACHE_V2 / f"{key}.json"
@@ -39,9 +41,9 @@ async def call(role: str, tier: str, system: str, user: str, schema, fresh: bool
         data = json.loads(path.read_text(encoding="utf-8"))
         return schema.model_validate(data["obj"]), {"model": data["model"], "cached": True, "attempts": 0}
     errors = []
-    for model in models:
+    for model, client, t in plan:
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
-        extra = {"response_format": {"type": "json_object"}} if tier == "local" else {}
+        extra = {"response_format": {"type": "json_object"}} if t == "local" else {}
         attempts, fix_tries, net_tries = 0, 0, 0
         while True:
             attempts += 1
@@ -50,6 +52,9 @@ async def call(role: str, tier: str, system: str, user: str, schema, fresh: bool
                 raw = resp.choices[0].message.content or ""
             except (APIStatusError, APITimeoutError, APIConnectionError) as e:
                 status = getattr(e, "status_code", None)
+                if "per-day" in str(e) or "credits" in str(e):      # daily quota: retrying cannot help
+                    errors.append(f"{model}: daily quota reached")
+                    break
                 if (status is None or status == 429 or status >= 500) and net_tries < 2:
                     net_tries += 1
                     await asyncio.sleep(3 * net_tries)
@@ -69,4 +74,4 @@ async def call(role: str, tier: str, system: str, user: str, schema, fresh: bool
             CACHE_V2.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps({"model": model, "role": role, "obj": obj.model_dump()}, ensure_ascii=False), encoding="utf-8")
             return obj, {"model": model, "cached": False, "attempts": attempts}
-    raise LLMError(f"{role}: all {tier} models failed: " + " | ".join(errors or ["no models configured"]))
+    raise LLMError(f"{role}: all models failed (OpenRouter and local): " + " | ".join(errors or ["no models configured"]))

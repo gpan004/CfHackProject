@@ -162,6 +162,28 @@
               "guidance": "The readers are board members and stakeholders. Be strategic and brief: the main risk, the decision needed, the order of the plan, and what is protected. No jargon."}
   },
 
+  "problem_views": {
+    "_why": "How each problem is worded for each reader. Wording only, never evidence; the board version is glossary.problems.",
+    "say_do_gap": {"cfo": "Recruiting money attracts people who leave once reality differs from the promise, so part of every hiring budget is wasted.", "hr": "The EVP promised in recruiting does not match the employee experience in reviews: classic expectation drift after onboarding."},
+    "reputation_variance": {"cfo": "The weakest sites drag hiring down where reviews are worst, raising the cost of each hire there.", "hr": "Employer-review scores differ strongly between sites; the weak locations need targeted employer-brand work."},
+    "evp_credibility": {"cfo": "Brand and recruiting spend buys less when candidates do not believe the employer promise.", "hr": "Candidates and staff do not believe the EVP; employer-brand messages lack authenticity."},
+    "portal_friction": {"cfo": "Traffic already paid for is lost when candidates abandon the application form.", "hr": "Friction in the application flow causes candidate drop-off, especially on mobile."},
+    "generic_jds": {"cfo": "Job ads that do not speak to the right people waste advertising spend and slow hiring.", "hr": "Job descriptions are not persona-specific and miss what each target group values."},
+    "slow_hiring": {"cfo": "Every extra day to hire means an empty role, lost output and more paid agency cover.", "hr": "Time-to-hire is above the sector benchmark; bottlenecks sit in screening, interviews or response time."},
+    "agency_dependency": {"cfo": "Temporary staffing agencies are the most expensive way to fill a role.", "hr": "A high share of roles is filled through staffing agencies instead of direct hiring."},
+    "candidate_feedback_gap": {"cfo": "Without candidate feedback, the cause of slow and costly hiring stays invisible.", "hr": "There is no structured candidate-experience survey after interviews or career days."},
+    "low_social_reach": {"cfo": "Organic reach is free media; when it is low, visibility has to be bought instead.", "hr": "Employer-brand content gets little engagement from the target talent on social channels."},
+    "manual_tracking": {"cfo": "Paid HR hours go into copying data by hand instead of work that adds value.", "hr": "Review and post monitoring is done by hand in spreadsheets instead of an HR tool."},
+    "organic_ambassadors": {"cfo": "Employees who already share the company give free reach.", "hr": "Some employees already act as organic brand ambassadors."},
+    "early_attrition": {"cfo": "Each early leaver throws away the hiring and onboarding cost, and the role must be paid for again.", "hr": "First-year attrition is high: onboarding and the early employee experience need attention."},
+    "weak_middle_management": {"cfo": "Weak management is the largest driver of staff-turnover cost.", "hr": "Line managers lack coaching and support; management scores in reviews are low."},
+    "career_opacity": {"cfo": "Unclear growth paths push valuable people to leave, a direct turnover cost.", "hr": "Career paths and promotion criteria are not transparent to employees."},
+    "burnout": {"cfo": "Burnout raises sick leave and staff-turnover costs.", "hr": "Workload and work-life-balance scores signal burnout risk."},
+    "compensation": {"cfo": "Pay against the market: a cost lever to protect, not to change without evidence.", "hr": "Pay and benefits compared with market benchmarks."},
+    "shift_scheduling": {"cfo": "Unpredictable rosters raise store turnover and the cost of replacing staff.", "hr": "Shift planning is unpredictable for store staff."},
+    "cfo_visibility_gap": {"cfo": "Without euro figures, employer-brand budgets can be neither judged nor defended.", "hr": "HR cannot yet report employer-brand impact in business numbers to leadership."}
+  },
+
   "glossary": {
     "problems": {
       "say_do_gap": ["Promise vs reality gap", "What the company promises candidates is not what employees experience."],

@@ -84,13 +84,45 @@ def focused_targets(G, roots: RootCauseResult, fi: FocusInfo) -> tuple[list[str]
 
 
 def focus_warnings(G, roots: RootCauseResult, fi: FocusInfo, deferred: list[str]) -> list[str]:
-    """Warns when the client deprioritises the strongest root cause in the evidence."""
+    """Warns when the client deprioritises the strongest root cause, or steers a pillar that has no confirmed problem."""
     out = []
     top = next((x for x in roots.causes if x.role in ("root", "standalone")), None)   # neutral ranking
     if top and top.problem in deferred:
         out.append(f"You set {pillar_label(_pillar(G, top.problem))} to Less, but '{top.label}' is the highest-priority "
                    "root cause in the evidence. Deferring it may limit the results of the whole plan.")
+    present = {_pillar(G, x.problem) for x in roots.causes}
+    for p in PILLARS:
+        if fi.effective[p] != "normal" and p not in present:
+            out.append(f"{pillar_label(p)} has no confirmed problem for this company, so setting it to "
+                       f"{WORD[fi.effective[p]]} cannot change the plan.")
     return out
+
+
+def focus_items(G, c, roots: RootCauseResult, gates: dict, fi: FocusInfo, targets: list[str]) -> list[dict]:
+    """The focused plan. Starts from the deterministic cover of the targets, then for every More pillar adds ALL allowed
+    actions that fix its problems (deeper investment, not just the minimum) and asks for the earliest phase the rules
+    allow. Actions the rules would push beyond Phase 3 are dropped. Deterministic."""
+    items = canonical_plan(G, c, roots, gates, targets)
+    if is_neutral(fi):
+        return items
+    more = {p for p in PILLARS if fi.effective[p] == "more"}
+    chosen = {i["action"] for i in items}
+    for p in sorted(t for t in targets if _pillar(G, t) in more):
+        for a in sorted(x for x, _ in in_edges(G, p, "fixes")):
+            if a in chosen or not gates[a].allowed:
+                continue
+            fixes = sorted({q for q, _ in out_edges(G, a, "fixes")} & set(targets))
+            ev = sorted({x for x, _ in in_edges(G, a, "used") if check_relevance(G, x, c).relevant
+                         and any(q == p for q, _ in out_edges(G, x, "had_problem"))})
+            items.append({"action": a, "fixes": fixes, "evidence": ev, "scope": "company-wide", "source": "plan",
+                          "rationale": f"Added because you chose More for {pillar_label(_pillar(G, p))}."})
+            chosen.add(a)
+    for it in items:
+        if it["action"] in CATALOG and CATALOG[it["action"]]["pillar"] in more:
+            it["phase_hint"] = "earliest"
+    sched, _ = schedule_phases(G, c, items)
+    kept = {s.action for s in sched}
+    return [it for it in items if it["action"] in kept]
 
 
 def focus_sentence(fi: FocusInfo) -> str:
@@ -129,13 +161,14 @@ def what_if(req) -> WhatIfResult:
     fi.deferred, fi.added_symptoms = deferred, added
     fi.warnings += focus_warnings(G, roots, fi, deferred)
 
-    def plan_and_roi(rc, targets):
-        sched, _ = schedule_phases(G, c, canonical_plan(G, c, rc, gates, targets))
+    def plan_and_roi(rc, targets, focus=None):
+        items = focus_items(G, c, rc, gates, focus, targets) if focus else canonical_plan(G, c, rc, gates, targets)
+        sched, _ = schedule_phases(G, c, items)
         cases = [x.case for x in rank_cases(G, c, rc, sig) if x.worker_fit and x.score > 0][:3]
         roi, _ = calculate_roi([a.action for a in sched], cases, c)
         return sched, roi
     plan_b, roi_b = plan_and_roi(roots, t_before)
-    plan_a, roi_a = plan_and_roi(focused, t_after)
+    plan_a, roi_a = plan_and_roi(focused, t_after, fi)
 
     rank_b = {x.problem: i + 1 for i, x in enumerate(roots.causes)}
     rank_a = {x.problem: i + 1 for i, x in enumerate(focused.causes)}
@@ -159,6 +192,16 @@ def what_if(req) -> WhatIfResult:
             summary.append(f"Plan changes: {len(d.added)} action(s) added, {len(d.removed)} removed, {len(d.moved)} moved.")
         else:
             summary.append("The plan's actions do not change: your priorities change the order of importance only.")
+        present = {_pillar(G, x.problem) for x in roots.causes}
+        in_after = {a.action for a in plan_a}
+        for p in PILLARS:
+            if fi.effective[p] != "more" or p not in present:
+                continue
+            fixers = {a for x in roots.causes if _pillar(G, x.problem) == p for a, _ in in_edges(G, x.problem, "fixes")}
+            allowed = {a for a in fixers if gates[a].allowed}
+            if allowed and allowed <= in_after:
+                summary.append(f"Every action the rules allow for {pillar_label(p)} is already in the plan, so More raises "
+                               "its priority; the full analysis also asks the strategist for an original idea for it.")
         summary.append(f"Cost {roi_b.cost_eur:,.0f} -> {roi_a.cost_eur:,.0f} EUR; expected benefit "
                        f"{roi_b.benefit_expected_eur:,.0f} -> {roi_a.benefit_expected_eur:,.0f} EUR per year.")
     summary.append("Rules your priorities cannot change: workforce fit, protected strengths and the readiness gate.")

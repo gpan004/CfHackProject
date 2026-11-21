@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { rewriteBriefV2 } from "../api";
 import { downloadPdf } from "../pdf";
-import { AUDIENCES, PILLARS, type Audience, type CauseLink, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
+import { AUDIENCES, PILLARS, type Audience, type Brief, type CauseLink, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
 import Steer from "./Steer";
 
 const eur = (v: number) => "€" + Math.round(v).toLocaleString("en-US");
@@ -158,16 +158,25 @@ function Phases({ plan, r }: { plan: PlanV2; r: ResultV2 }) {
 export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runId: string; onRerun?: (f: Focus) => void }) {
   const [brief, setBrief] = useState(r0.brief);
   const [aud, setAud] = useState<Audience>(r0.audience ?? "board");
+  const [memo, setMemo] = useState<Partial<Record<Audience, Brief>>>({});
   const [rewriting, setRewriting] = useState<Audience | null>(null);
   const [rwErr, setRwErr] = useState<string | null>(null);
-  useEffect(() => { setBrief(r0.brief); setAud(r0.audience ?? "board"); }, [r0]);
+  useEffect(() => {
+    setBrief(r0.brief); setAud(r0.audience ?? "board");
+    setMemo({ ...(r0.briefs ?? {}), [r0.audience ?? "board"]: r0.brief });
+  }, [r0]);
   const r = useMemo(() => ({ ...r0, brief, audience: aud }), [r0, brief, aud]);
-  const switchReader = async (a: Audience) => {
-    if (a === aud || rewriting) return;
+  const switchReader = async (a: Audience, retry = false) => {
+    if (rewriting || (a === aud && !retry)) return;
+    const known = memo[a];
+    if (known && !retry) { setBrief(known); setAud(a); return; }           // already written for this reader: instant
     setRewriting(a); setRwErr(null);
-    try { const x = await rewriteBriefV2(runId, a); setBrief(x.brief); setAud(a); }
-    catch (e) { setRwErr(String(e)); } finally { setRewriting(null); }
+    try {
+      const x = await rewriteBriefV2(runId, a, retry);
+      setMemo((m) => ({ ...m, [a]: x.brief })); setBrief(x.brief); setAud(a);
+    } catch (e) { setRwErr(String(e)); } finally { setRewriting(null); }
   };
+  const degraded = r0.degraded ?? [];
   const win = r.plans.find((p) => p.plan_id === r.winner)!;
   const c = r.client;
   const [showAll, setShowAll] = useState(false);
@@ -199,6 +208,14 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
           <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ No number written by AI</span>
           <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-ink/70">{r.critic_rounds.length} critic round(s) · {issues.length} issue(s) handled</span>
         </div>
+        {degraded.length > 0 && (
+          <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-[13px] text-amber-900">
+            <b>Not every AI agent could run for this analysis:</b> {degraded.join(", ")}. Those steps used the rule-based
+            result instead (usually because the free AI models reached their daily limit or the GPU server was off). Facts,
+            numbers and safety rules are still correct, but the affected steps were not refined by AI: for example plans are
+            not tailored to cohorts and the text is not reworded. Run again later for the full analysis.
+          </div>
+        )}
         {r.focus && Object.values(r.focus.effective).some((v) => v !== "normal") && (
           <p className="mt-3 text-[13px] text-ink/70"><b>Your priorities:</b> {PILLARS.map((p) => `${p.label}: ${r.focus!.effective[p.id]}`).join(" · ")}</p>
         )}
@@ -214,7 +231,16 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
                 </button>
               ))}
             </div>
-            <p className="mt-1 text-[11px] text-ink/50">{rewriting ? "Rewording for the new reader (about a minute the first time, then instant). Facts and numbers do not change." : "Same facts and numbers for every reader; only order, wording and emphasis change."}</p>
+            <p className="mt-1 text-[11px] text-ink/50">
+              {rewriting ? `The AI writer is wording the brief for ${AUDIENCES.find((x) => x.id === rewriting)?.label} (can take up to a minute). Facts and numbers do not change.`
+                : "Same facts and numbers for every reader; wording, emphasis and order follow the reader. Readers already written switch instantly."}
+            </p>
+            {!rewriting && brief.writer === "template" && (
+              <p className="mt-1 text-[12px] text-amber-700">
+                The AI writer was unavailable, so this is the rule-based wording for this reader (same verified facts).{" "}
+                <button className="font-semibold underline" onClick={() => switchReader(aud, true)}>Try the AI writer again</button>
+              </p>
+            )}
             {rwErr && <p className="text-[12px] text-red-700">{rwErr}</p>}
           </div>
           <button className="btn shrink-0 px-5 py-2.5 text-[14px]" onClick={() => downloadPdf(r, runId)}>Download PDF</button>

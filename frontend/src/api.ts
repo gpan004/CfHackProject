@@ -25,5 +25,5 @@ const post = <T,>(url: string, body: object) =>
   fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => json<T>(r));
 export const whatIfV2 = (body: object) => post<WhatIfResult>("/api/v2/whatif", body);
 export const checkRequestV2 = (body: object) => post<RequestCheck>("/api/v2/check-request", body);
-export const rewriteBriefV2 = (runId: string, audience: string) =>
-  post<{ brief: Brief; audience: string; notes: string[] }>(`/api/v2/runs/${runId}/brief?audience=${audience}`, {});
+export const rewriteBriefV2 = (runId: string, audience: string, retry = false) =>
+  post<{ brief: Brief; audience: string; notes: string[]; stored: boolean }>(`/api/v2/runs/${runId}/brief?audience=${audience}&retry=${retry}`, {});

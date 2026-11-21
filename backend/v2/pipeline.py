@@ -42,7 +42,8 @@ def _variants(G, client, roots, gates, fi=None):
     out, seen = [], set()
     for name, emph, targets, budget in specs:
         g = gates if name != "quick" else {a: x for a, x in gates.items() if x.earliest_phase <= 2 and CATALOG[a]["type"] != "amplification"}
-        items = canonical_plan(G, client, roots, g, targets, budget_mode=budget)
+        items = (ST.focus_items(G, client, roots, g, fi, targets) if name == "focus"
+                 else canonical_plan(G, client, roots, g, targets, budget_mode=budget))
         key = tuple(sorted(i["action"] for i in items))
         if not items or key in seen:
             continue
@@ -50,6 +51,22 @@ def _variants(G, client, roots, gates, fi=None):
         out.append({"plan_id": f"P{len(out) + 1}", "variant": name, "emphasis": emph, "targets": targets, "items": items})
         if len(out) == 3:
             break
+    return out
+
+
+AGENT_NAMES = {"diagnosticians": "Diagnosticians", "skeptic": "Skeptic", "strategist": "Strategist",
+               "LLM critic": "Plan critic (AI part)", "juror": "Jury", "report writer": "Report writer"}
+
+
+def degraded_agents(trace) -> list[str]:
+    """Which agents could not run, read from the trace notes (so the page can say it plainly)."""
+    out = []
+    for t in trace:
+        for n in t.notes:
+            low = n.lower()
+            for key, name in AGENT_NAMES.items():
+                if key.lower() in low and ("unavailable" in low or "failed" in low) and name not in out:
+                    out.append(name)
     return out
 
 
@@ -202,8 +219,12 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
                          addresses=[], evidence=[]) for i in variants[0]["items"]]
     leadership = place_requests(client.leadership_requests, prelim, client)
     message = AG.strategy_message(client, G, roots, variants, gates, leadership, cases)
-    priorities_txt = "" if ST.is_neutral(fi) else ("\n\nCLIENT PRIORITIES (respect them; they never override the rules): "
-                                                   + ", ".join(f"{ST.pillar_label(p)} = {ST.WORD[fi.effective[p]]}" for p in ST.PILLARS))
+    more_p = [ST.pillar_label(p) for p in ST.PILLARS if fi.effective[p] == "more"]
+    priorities_txt = "" if ST.is_neutral(fi) else (
+        "\n\nCLIENT PRIORITIES (respect them; they never override the rules): "
+        + ", ".join(f"{ST.pillar_label(p)} = {ST.WORD[fi.effective[p]]}" for p in ST.PILLARS)
+        + (f"\nFor the plan with variant=focus, propose at least one original idea for each pillar set to More "
+           f"({', '.join(more_p)}), aimed at its problems and backed by a document id." if more_p else ""))
     message += priorities_txt
 
     async def s_strategy(calls, notes):
@@ -349,6 +370,7 @@ async def run_pipeline_v2(req: RunRequest, on_stage=None, run_id: str | None = N
                       jury_audit=audit, leadership=leadership, leadership_views=views, roi=roi, kpis=kpis,
                       confidence=conf, brief=brief, stability=stability, documents=docs, labels=labels, trace=trace,
                       focus=fi, audience=audience, protected=BR.protected_list(G, client),
+                      degraded=degraded_agents(trace), briefs={audience: brief},
                       request={"scenario_code": req.scenario_code} if req.scenario is None else
                       {"scenario": req.scenario, "snapshot": req.snapshot, "overrides": req.overrides})
     (RUNS_DIR / "v2").mkdir(parents=True, exist_ok=True)

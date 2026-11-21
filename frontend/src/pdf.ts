@@ -45,6 +45,8 @@ export function downloadPdf(r: ResultV2, runId: string) {
     text("Client priorities: " + PILLARS.map((p) => `${p.label}: ${r.focus!.effective[p.id]}`).join("; "), { size: 9, bold: true });
   }
   r.focus?.warnings.forEach((w) => text("Warning: " + w, { size: 9, color: [160, 90, 0] }));
+  if (r.degraded?.length) text(`Note: these AI agents could not run and their steps used the rule-based result: ${r.degraded.join(", ")}. Facts and numbers are unaffected.`, { size: 9, color: [160, 90, 0] });
+  if (r.brief.writer === "template") text("The brief below uses the rule-based wording (the AI writer was unavailable).", { size: 9, color: [160, 90, 0] });
 
   heading("The answer in one minute");
   r.brief.one_minute.forEach((k) => { text(k.title, { bold: true, gap: 0 }); text(k.text, { indent: 10, gap: 0 }); if (k.detail) text(k.detail, { indent: 10, size: 9, color: grey }); });

@@ -119,13 +119,19 @@ def post_check_request(req: RequestCheckRequest):
 
 
 @app.post("/api/v2/runs/{run_id}/brief")
-async def post_rewrite_brief(run_id: str, audience: str = "board"):
-    """Re-writes the brief of a finished run for another reader (same facts; one writer call, then cached)."""
+async def post_rewrite_brief(run_id: str, audience: str = "board", retry: bool = False):
+    """Brief of a finished run for another reader (same facts). A reader already written is returned at once;
+    a rule-based fallback version is only re-attempted with the AI writer when retry=true."""
     st = RUNS_V2.get(run_id)
     if not st or not st.result:
         raise HTTPException(404, "unknown or unfinished run")
     if audience not in ("hr", "cfo", "board"):
         raise HTTPException(400, "audience must be hr, cfo or board")
+    stored = st.result.briefs.get(audience)
+    if stored is not None and (stored.writer == "llm_verified" or not retry):
+        st.result.brief, st.result.audience = stored, audience
+        return {"brief": stored, "audience": audience, "notes": ["already written for this reader"], "stored": True}
     b, notes = await V2B.rewrite_for(st.result, audience)
+    st.result.briefs[audience] = b
     st.result.brief, st.result.audience = b, audience
-    return {"brief": b, "audience": audience, "notes": notes}
+    return {"brief": b, "audience": audience, "notes": notes, "stored": False}

@@ -32,6 +32,7 @@ export interface ResultV2 {
   documents: Record<string, { kind: string; title: string; text: string }>;
   labels: Record<string, string>; trace: TraceV2[];
   focus: FocusInfo | null; audience: Audience; request: Record<string, unknown>; protected?: string[];
+  degraded?: string[]; briefs?: Partial<Record<Audience, Brief>>;
 }
 export type Pillar = "branding" | "recruiting" | "advocacy" | "retention";
 export type FocusLevel = "less" | "normal" | "more";

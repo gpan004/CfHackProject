@@ -320,8 +320,13 @@ async def jury(client, G, plans, roots, trace_calls, priorities_txt: str = "") -
             return obj, [p.plan_id for p in order]
         except Exception as e:  # a failed juror is reported by the jury critic, not fatal
             trace_calls.append({"model": "failed", "cached": False, "attempts": 0, "error": str(e)[:200]})
+            failed.append(persona)
             return None, None
+    failed: list[str] = []
     res = await asyncio.gather(*(one(i, p) for i, p in enumerate(JURY_PERSONAS)))
+    if failed:
+        trace_calls.append({"model": "failed", "cached": False, "attempts": 0,
+                            "note": f"juror(s) failed: {', '.join(failed)}"})
     ballots = []
     for b, order in res:
         if b is not None:

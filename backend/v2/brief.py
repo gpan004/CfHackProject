@@ -7,7 +7,7 @@ from .kg import documents, facts, in_edges, out_edges, label
 from .llm import call
 from . import prompts as P
 from .schemas import Confidence, ReportDraft, ReportSection, Brief
-from .tools import check_relevance
+from .tools import check_relevance, action_cost
 
 HEADINGS = ["What is going on", "Why it is happening", "What to do, in what order", "What we will not do, and why",
             "What it costs and returns", "How sure we are"]
@@ -156,34 +156,63 @@ def validate_sentence(s: str, G, client, toks) -> tuple[str | None, str]:
 
 
 # ---------- deterministic template ----------
+def problem_view(pid: str, audience: str) -> str:
+    """The same problem, worded for the reader (wording only; the board version is the plain glossary text)."""
+    v = facts().get("problem_views", {}).get(pid, {})
+    return v.get(audience) or facts()["glossary"]["problems"][pid][1]
+
+
 def template_sections(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds, audit,
-                      stability_note, focus_note: str = "") -> list[ReportSection]:
+                      stability_note, focus_note: str = "", audience: str = "board") -> list[ReportSection]:
+    """Deterministic brief. Same facts and numbers for every reader; wording, emphasis and detail follow the reader."""
+    A = audience if audience in ("hr", "cfo") else "board"
     by = {s.problem: s for s in signals}
-    probs = sorted((by[p] for p in accepted), key=lambda s: -s.severity)
-    s1 = [f"{client.company_name} shows {len(probs)} confirmed problems compared with its sector peers."]
+    probs = sorted((by[p] for p in accepted), key=lambda s: (-s.severity, s.problem))
+    n = len(probs)
+    s1 = [{"board": f"{client.company_name} has {n} confirmed problems compared with its sector peers. The three that matter most:",
+           "cfo": f"Compared with sector peers, {n} problems are confirmed. Here is where they cost money:",
+           "hr": f"{n} people problems are confirmed against the sector average. The most urgent for the HR team:"}[A]]
     for s in probs[:3]:
         m = _top_metric(G, s)
-        s1.append(f"{s.label}: {s.plain}" + (f" ({m.label}: {fmt_metric(G, m.key, m.value)} vs peers "
-                                             f"{fmt_metric(G, m.key, m.peer)})." if m and m.peer is not None else ""))
+        s1.append(f"{s.label}: {problem_view(s.problem, A).rstrip('.')}" + (f" ({m.label.lower()}: {fmt_metric(G, m.key, m.value)} "
+                  f"vs peers {fmt_metric(G, m.key, m.peer)})." if m and m.peer is not None else "."))
+    exp = client.metrics.get("estimated_annual_attrition_exposure_eur")
+    if A == "cfo" and exp:
+        s1.append(f"The company's own estimate of the yearly cost of staff turnover is {eur(exp.value)}.")
     rootl = [r for r in roots.causes if r.role in ("root", "standalone")][:3]
     s2 = []
     for r in rootl:
+        effects = ", ".join(label(G, c).lower() for c in r.causes)
+        ev = sorted({e.ref for l in roots.links if l.source == r.problem for e in l.evidence if e.kind == "document"})
+        cite_s = f" [{'] ['.join(ev[:3])}]." if ev else "."
         if r.causes:
-            ev = sorted({e.ref for l in roots.links if l.source == r.problem for e in l.evidence if e.kind == "document"})
-            s2.append(f"{r.label} drives {', '.join(label(G, c).lower() for c in r.causes)}"
-                      + (f" [{'] ['.join(ev[:3])}]." if ev else "."))
+            s2.append({"board": f"{r.label} drives {effects}{cite_s}",
+                       "cfo": f"{r.label} is where money leaks: it drives {effects}{cite_s}",
+                       "hr": f"{r.label} is the lever to pull: fixing it improves {effects}{cite_s}"}[A])
         else:
-            s2.append(f"{r.label} is a standalone problem: it needs its own fix.")
-    sym = [r.label.lower() for r in roots.causes if r.role == "symptom"]
+            s2.append({"board": f"{r.label} is a standalone problem: it needs its own fix.",
+                       "cfo": f"{r.label} costs money on its own and needs its own fix.",
+                       "hr": f"{r.label} is not linked to the other problems and needs its own action."}[A])
+    sym = [r.label.lower() for r in roots.causes if r.role == "symptom"][:4]
     if sym:
-        s2.append(f"Symptoms such as {', '.join(sym[:4])} should improve once their causes are fixed, so we do not treat them directly.")
+        s2.append({"board": f"Symptoms such as {', '.join(sym)} should improve once their causes are fixed, so we do not treat them directly.",
+                   "cfo": f"Costs that show up as {', '.join(sym)} should fall once their causes are fixed, so no separate budget is spent on them.",
+                   "hr": f"{', '.join(sym).capitalize()} are symptoms: they improve when the causes are fixed, so they get no separate programme."}[A])
     s3 = [focus_note] if focus_note else []
     for ph in (1, 2, 3):
         acts = [a for a in plan.actions if a.phase == ph]
-        if acts:
-            s3.append(f"In the {PHASE_WORD[ph]} phase: " + "; ".join(a.label for a in acts) + ". "
-                      + (acts[0].why_now if acts[0].why_now else ""))
-    s4 = []
+        if not acts:
+            continue
+        why = acts[0].why_now or ""
+        if A == "cfo":
+            cost = sum(action_cost(a.action if not a.original else "original") for a in acts)
+            s3.append(f"{PHASE_WORD[ph].capitalize()} phase, about {eur(cost)}: " + "; ".join(a.label for a in acts) + ". " + why)
+        elif A == "hr":
+            s3.append(f"{PHASE_WORD[ph].capitalize()} phase: " + " ".join(
+                f"{a.label} ({a.scope}): {a.plain.rstrip('.') if a.plain else 'see the plan'}." for a in acts) + " " + why)
+        else:
+            s3.append(f"In the {PHASE_WORD[ph]} phase: " + "; ".join(a.label for a in acts) + ". " + why)
+    s4 = [{"board": "", "cfo": "Spending we advise against or postpone:", "hr": "Requests we advise against or postpone, and why:"}[A]]
     for d in leadership:
         word = {"kept": "adopted", "moved": f"postponed to the {PHASE_WORD.get(d.to_phase, 'later')} phase",
                 "blocked": "not adopted", "deferred_beyond_plan": "not adopted in this plan"}.get(d.decision, d.decision)
@@ -195,6 +224,14 @@ def template_sections(G, client, signals, accepted, roots, plan, leadership, roi
           f"({eur(roi.benefit_conservative_eur)} in the conservative case)."]
     if roi.payback_months_expected:
         s5.append(f"Expected payback is {roi.payback_months_expected:.1f} months.")
+    if A == "cfo":
+        for l in roi.lines:
+            if l.applies:
+                s5.append(f"{l.name.replace('_', ' ').capitalize()}: {eur(l.benefit_expected_eur)} per year "
+                          f"({eur(l.benefit_conservative_eur)} conservative), calculated as {l.formula}.")
+        s5.append("Costs are planning assumptions; benefits apply measured results of similar companies to this company's own figures.")
+    elif A == "hr" and any(l.name == "hr_hours" and l.applies for l in roi.lines):
+        s5.append("Part of the return is HR time freed from manual tracking, which the team can put into the plan itself.")
     prec = [c for c in cases if c.worker_fit and c.score > 0][:3]
     if prec:
         s5.append("These figures come from the measured results of similar companies: "
@@ -290,7 +327,7 @@ async def write_brief(G, client, signals, accepted, roots, plan, leadership, roi
     # the writer never sees run-specific text (stability note), so the same analysis always gets the same brief
     prof = audience_profile(audience)
     canonical = template_sections(G, client, signals, accepted, roots, plan, leadership, roi, cases, conf, critic_rounds,
-                                  audit, "", focus_note)
+                                  audit, "", focus_note, audience)
     by_heading = {s.heading: s for s in canonical}
     template = [by_heading[h] for h in prof["order"]]          # same sections, reader-specific order
     toks = tokens_for(client, roi)

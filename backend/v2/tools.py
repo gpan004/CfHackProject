@@ -298,7 +298,8 @@ def _initial_phases(G, client, items: list[dict]) -> dict[str, int]:
     (as long as its own gate allows it). The guardrails (place) still validate the result."""
     ids = [it["action"] for it in items if it["action"] in CATALOG]
     gate = {a: gate_action(G, client, a).earliest_phase for a in ids}
-    ph = {a: max(PHASE_BY_TYPE.get(CATALOG[a]["type"], 2), gate[a]) for a in ids}
+    earliest = {it["action"] for it in items if it.get("phase_hint") == "earliest"}   # client chose More for its pillar
+    ph = {a: gate[a] if a in earliest else max(PHASE_BY_TYPE.get(CATALOG[a]["type"], 2), gate[a]) for a in ids}
     for _ in range(6):
         changed = False
         for a in ids:

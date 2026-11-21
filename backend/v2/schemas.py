@@ -234,6 +234,8 @@ class ResultV2(BaseModel):
     labels: dict[str, str]              # id -> plain label (problems, actions, metrics, cases)
     trace: list[TraceV2]
     protected: list[str] = []          # strengths to protect, in plain words
+    degraded: list[str] = []           # agents that could not run (their step used the rule-based result)
+    briefs: dict[str, Brief] = {}      # brief per reader, so switching back is instant
     focus: Optional["FocusInfo"] = None
     audience: str = "board"
     request: dict = {}                  # how to re-ask: scenario_code or scenario+snapshot (for what-if / request checks)
