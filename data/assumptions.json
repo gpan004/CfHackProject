@@ -1,0 +1,14 @@
+{
+  "_note": "Placeholder unit costs and rates. Calibrate with Ingaze before any real use.",
+  "hourly_hr_cost_eur": 45,
+  "emv_cpm_eur": 25,
+  "original_action_cost_eur": 10000,
+  "unit_cost_eur": {
+    "reputation_audit": 12000, "internal_listening_360": 15000, "portal_ux_audit": 10000,
+    "persona_calibration": 8000, "candidate_feedback_digitization": 6000, "manager_coaching": 60000,
+    "career_framework": 25000, "evp_realignment": 20000, "board_risk_dashboard": 15000,
+    "mobile_fast_apply": 30000, "persona_aligned_jds": 8000, "technical_storytelling": 20000,
+    "retail_shift_rotation": 10000, "ambassador_selection": 10000, "ambassador_tracking": 12000,
+    "compensation_review": 0
+  }
+}

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic>=2
+openai
+python-dotenv
+numpy
+networkx
+sentence-transformers

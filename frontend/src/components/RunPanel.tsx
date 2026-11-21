@@ -1,0 +1,78 @@
+import { useEffect, useState } from "react";
+import type { RunState, ScenarioInfo } from "../types";
+
+const STAGES = ["ingest", "pillar_analysis", "hypotheses", "confutation", "causal_map", "matching",
+  "strategy", "guardrails", "jury", "ranking", "metrics"];
+const UNSEEN = "__unseen__";
+
+interface Props { scenarios: ScenarioInfo[]; run: RunState | null; busy: boolean; onRun: (body: object) => void }
+
+export default function RunPanel({ scenarios, run, busy, onRun }: Props) {
+  const [code, setCode] = useState("");
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  const [jsonError, setJsonError] = useState<string | null>(null);
+
+  useEffect(() => { if (!code && scenarios.length) setCode(scenarios[0].scenario_code); }, [scenarios, code]);
+
+  const submit = () => {
+    setJsonError(null);
+    let parsed: any = undefined;
+    if (text.trim()) {
+      try { parsed = JSON.parse(text); } catch (e) { setJsonError(String(e)); return; }
+    }
+    if (code === UNSEEN) {
+      if (!parsed?.scenario) { setJsonError('Paste {"scenario": {...}, "snapshot": {...optional}}'); return; }
+      onRun({ scenario: parsed.scenario, snapshot: parsed.snapshot });
+    } else {
+      onRun({ scenario_code: code, overrides: parsed });
+    }
+  };
+
+  return (
+    <div className="card-white">
+      <p className="eyebrow">Intake</p>
+      <h2 className="mt-2 text-xl font-bold">Run the engine</h2>
+
+      <label className="mt-5 block text-sm font-medium">Company scenario</label>
+      <select value={code} onChange={(e) => setCode(e.target.value)}
+        className="mt-1.5 w-full rounded-btn border border-slate-200 bg-white px-3 py-2.5 text-[15px] outline-none focus:border-brand">
+        {scenarios.map((s) => <option key={s.scenario_code} value={s.scenario_code}>{s.company_name} · {s.industry}</option>)}
+        <option value={UNSEEN}>Unseen company (paste JSON)</option>
+      </select>
+
+      <button onClick={() => setOpen(!open)} className="mt-4 text-sm font-semibold text-brand">
+        {open ? "▾" : "▸"} {code === UNSEEN ? "Company JSON" : "Edit intake (JSON overrides)"}
+      </button>
+      {(open || code === UNSEEN) && (
+        <textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} spellCheck={false}
+          placeholder={code === UNSEEN ? '{"scenario": {...}, "snapshot": {...}}'
+            : '{"snapshot": {"t0_current_snapshot": {"public_reputation": {"external_claims_gap_stars_5": 0.3}}}}'}
+          className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-xs outline-none focus:border-brand" />
+      )}
+      {jsonError && <p className="mt-1 text-xs text-red-600">{jsonError}</p>}
+
+      <button className="btn mt-5 w-full" disabled={busy || !code} onClick={submit}>
+        {busy ? "Running…" : "Run analysis"}
+      </button>
+
+      {run && (
+        <ol className="mt-6 space-y-2 border-t border-slate-200 pt-5 text-sm">
+          {STAGES.map((s, i) => {
+            const done = run.stages_done.includes(s);
+            const active = run.stage === s && run.status === "running" && !done;
+            return (
+              <li key={s} className="flex items-center gap-3">
+                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold
+                  ${done ? "bg-brand text-white" : active ? "border-2 border-brand" : "border border-slate-300 text-slate-400"}`}>
+                  {done ? "✓" : active ? <span className="h-3 w-3 animate-spin rounded-full border-2 border-brand border-t-transparent" /> : i + 1}
+                </span>
+                <span className={done || active ? "text-ink" : "text-slate-400"}>{s.replace("_", " ")}</span>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </div>
+  );
+}

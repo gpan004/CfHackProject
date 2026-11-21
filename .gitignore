@@ -1,0 +1,11 @@
+.env
+cache/
+runs/
+__pycache__/
+node_modules/
+frontend/dist/
+# hackathon datasets (provided by the organizers, not redistributed) - put them in data/ locally
+data/ingaze_sandbox_dataset.json
+data/ingaze_synthetic_analytics_snapshots.json
+submission.json
+*.log

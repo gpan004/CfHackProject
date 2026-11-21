@@ -1,0 +1,722 @@
+{
+ "pillar_ids": [
+  "branding",
+  "recruiting",
+  "advocacy",
+  "retention"
+ ],
+ "archetypes": {
+  "knowledge_worker": [
+   "software",
+   "engineer",
+   "data scien",
+   "data engineer",
+   "product manager",
+   "cybersecurity",
+   "fintech",
+   "saas",
+   "cloud",
+   "banking"
+  ],
+  "frontline_logistics": [
+   "driver",
+   "truck",
+   "freight",
+   "logistic",
+   "warehouse",
+   "c-cqc"
+  ],
+  "frontline_retail": [
+   "retail",
+   "store staff",
+   "store manager",
+   "in-store",
+   "shop",
+   "sales associate"
+  ],
+  "clinical_care": [
+   "clinical",
+   "nurse",
+   "therapist",
+   "healthcare",
+   "senior care",
+   "formulation"
+  ]
+ },
+ "concepts": [
+  {
+   "id": "say_do_gap",
+   "pillar": "branding",
+   "archetype_scope": "all",
+   "synonyms": [
+    "say-do gap",
+    "say do gap",
+    "expectation drift",
+    "recruiting promises",
+    "recruiting claims",
+    "evp mismatch"
+   ]
+  },
+  {
+   "id": "reputation_variance",
+   "pillar": "branding",
+   "archetype_scope": "all",
+   "synonyms": [
+    "rating variance",
+    "site-to-site",
+    "cross-country",
+    "local profiles",
+    "unmonitored",
+    "local facility reviews",
+    "brand consistency"
+   ]
+  },
+  {
+   "id": "evp_credibility",
+   "pillar": "branding",
+   "archetype_scope": "all",
+   "synonyms": [
+    "employer value proposition",
+    "evp"
+   ]
+  },
+  {
+   "id": "portal_friction",
+   "pillar": "recruiting",
+   "archetype_scope": "all",
+   "synonyms": [
+    "drop off",
+    "drop-off",
+    "abandon",
+    "bounce",
+    "account registration",
+    "desktop-style",
+    "form screens",
+    "cv upload"
+   ]
+  },
+  {
+   "id": "generic_jds",
+   "pillar": "recruiting",
+   "archetype_scope": "all",
+   "synonyms": [
+    "boilerplate",
+    "generic corporate",
+    "generic job",
+    "hq templates"
+   ]
+  },
+  {
+   "id": "slow_hiring",
+   "pillar": "recruiting",
+   "archetype_scope": "all",
+   "synonyms": [
+    "time-to-hire",
+    "time to hire",
+    "slow candidate response",
+    "interview handoff",
+    "interview bottleneck"
+   ]
+  },
+  {
+   "id": "agency_dependency",
+   "pillar": "recruiting",
+   "archetype_scope": "all",
+   "synonyms": [
+    "staffing agenc",
+    "temporary staffing",
+    "agency"
+   ]
+  },
+  {
+   "id": "candidate_feedback_gap",
+   "pillar": "recruiting",
+   "archetype_scope": "all",
+   "synonyms": [
+    "post-interview",
+    "career day",
+    "candidate feedback",
+    "paper sheets"
+   ]
+  },
+  {
+   "id": "low_social_reach",
+   "pillar": "advocacy",
+   "archetype_scope": "all",
+   "synonyms": [
+    "engagement",
+    "organic reach",
+    "press release",
+    "near-zero reach"
+   ]
+  },
+  {
+   "id": "manual_tracking",
+   "pillar": "advocacy",
+   "archetype_scope": "all",
+   "synonyms": [
+    "manually",
+    "spreadsheet",
+    "excel",
+    "screenshots"
+   ]
+  },
+  {
+   "id": "organic_ambassadors",
+   "pillar": "advocacy",
+   "archetype_scope": "all",
+   "synonyms": [
+    "ambassador",
+    "already share",
+    "enthusiastic"
+   ]
+  },
+  {
+   "id": "early_attrition",
+   "pillar": "retention",
+   "archetype_scope": "all",
+   "synonyms": [
+    "first 6 months",
+    "first-year",
+    "first year",
+    "6-month",
+    "new-hire attrition",
+    "early attrition",
+    "onboarding friction"
+   ]
+  },
+  {
+   "id": "weak_middle_management",
+   "pillar": "retention",
+   "archetype_scope": "all",
+   "synonyms": [
+    "micromanagement",
+    "management coaching",
+    "newly promoted",
+    "weak middle management",
+    "uncoached",
+    "store-manager"
+   ]
+  },
+  {
+   "id": "career_opacity",
+   "pillar": "retention",
+   "archetype_scope": "all",
+   "synonyms": [
+    "promotion criteria",
+    "career progression",
+    "career path opacity",
+    "leveling"
+   ]
+  },
+  {
+   "id": "burnout",
+   "pillar": "retention",
+   "archetype_scope": "all",
+   "synonyms": [
+    "burnout",
+    "workload",
+    "overtime"
+   ]
+  },
+  {
+   "id": "compensation",
+   "pillar": "retention",
+   "archetype_scope": "all",
+   "synonyms": [
+    "compensation",
+    "salary",
+    "equity packages",
+    "base pay"
+   ]
+  },
+  {
+   "id": "shift_scheduling",
+   "pillar": "retention",
+   "archetype_scope": [
+    "frontline_retail"
+   ],
+   "synonyms": [
+    "shift rotation",
+    "shift schedule",
+    "weekend shift"
+   ]
+  },
+  {
+   "id": "cfo_visibility_gap",
+   "pillar": "cross",
+   "archetype_scope": "all",
+   "synonyms": [
+    "cfo",
+    "roi dashboard",
+    "earned media value",
+    "emv",
+    "financial turnover risk"
+   ]
+  }
+ ],
+ "interventions": [
+  {
+   "id": "reputation_audit",
+   "name": "Multi-Channel Reputation Audit",
+   "pillar": "branding",
+   "type": "diagnostic",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "cross_location_rating_std_dev_5",
+    "employer_review_reply_rate_pct"
+   ],
+   "fixes_concepts": [
+    "reputation_variance",
+    "manual_tracking",
+    "say_do_gap"
+   ],
+   "synonyms": [
+    "reputation audit"
+   ]
+  },
+  {
+   "id": "internal_listening_360",
+   "name": "360-Degree Internal Listening",
+   "pillar": "retention",
+   "type": "diagnostic",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "sub_ratings_5.management",
+    "sub_ratings_5.work_life_balance"
+   ],
+   "fixes_concepts": [
+    "weak_middle_management",
+    "burnout",
+    "early_attrition"
+   ],
+   "synonyms": [
+    "360-degree",
+    "360 internal listening",
+    "360 listening",
+    "internal feedback listening"
+   ]
+  },
+  {
+   "id": "portal_ux_audit",
+   "name": "Career Portal UX Audit",
+   "pillar": "recruiting",
+   "type": "diagnostic",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "application_form_dropoff_pct",
+    "portal_component_scores_100.application_flow_simplicity_100"
+   ],
+   "fixes_concepts": [
+    "portal_friction"
+   ],
+   "synonyms": [
+    "portal ux audit"
+   ]
+  },
+  {
+   "id": "persona_calibration",
+   "name": "Candidate Persona Calibration",
+   "pillar": "recruiting",
+   "type": "diagnostic",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "portal_component_scores_100.job_ad_clarity_100"
+   ],
+   "fixes_concepts": [
+    "generic_jds"
+   ],
+   "synonyms": [
+    "persona calibration",
+    "candidate personas",
+    "gen-z personas"
+   ]
+  },
+  {
+   "id": "candidate_feedback_digitization",
+   "name": "Digital Post-Interview & Career Day Feedback",
+   "pillar": "recruiting",
+   "type": "diagnostic",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "candidate_survey_completion_rate_pct"
+   ],
+   "fixes_concepts": [
+    "candidate_feedback_gap",
+    "slow_hiring"
+   ],
+   "synonyms": [
+    "post-interview"
+   ]
+  },
+  {
+   "id": "manager_coaching",
+   "name": "Manager Coaching Program",
+   "pillar": "retention",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [
+    "internal_listening_360"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "sub_ratings_5.management"
+   ],
+   "fixes_concepts": [
+    "weak_middle_management",
+    "early_attrition"
+   ],
+   "synonyms": [
+    "manager coaching"
+   ]
+  },
+  {
+   "id": "career_framework",
+   "name": "Transparent Career Progression Framework",
+   "pillar": "retention",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [
+    "internal_listening_360"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "sub_ratings_5.career_growth"
+   ],
+   "fixes_concepts": [
+    "career_opacity",
+    "early_attrition"
+   ],
+   "synonyms": [
+    "career progression framework"
+   ]
+  },
+  {
+   "id": "evp_realignment",
+   "name": "EVP Realignment",
+   "pillar": "branding",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [
+    "reputation_audit",
+    "persona_calibration"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "external_claims_gap_stars_5",
+    "brand_alignment_index_100"
+   ],
+   "fixes_concepts": [
+    "say_do_gap",
+    "evp_credibility"
+   ],
+   "synonyms": [
+    "evp realignment",
+    "realigned the evp",
+    "realigned the european evp",
+    "realigned evp",
+    "realigned multi-country evp",
+    "evp overhaul"
+   ]
+  },
+  {
+   "id": "board_risk_dashboard",
+   "name": "Board Financial Risk, ROI & EMV Dashboard",
+   "pillar": "cross",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [],
+   "fixes_concepts": [
+    "cfo_visibility_gap"
+   ],
+   "synonyms": [
+    "dashboard",
+    "board reporting",
+    "board emv"
+   ]
+  },
+  {
+   "id": "mobile_fast_apply",
+   "name": "Mobile-First Fast-Apply",
+   "pillar": "recruiting",
+   "type": "structural",
+   "allowed_archetypes": [
+    "frontline_logistics",
+    "frontline_retail",
+    "clinical_care"
+   ],
+   "prerequisites_any": [
+    "portal_ux_audit"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "application_form_dropoff_pct",
+    "applicant_conversion_rate_pct"
+   ],
+   "fixes_concepts": [
+    "portal_friction",
+    "slow_hiring"
+   ],
+   "synonyms": [
+    "fast-apply"
+   ]
+  },
+  {
+   "id": "persona_aligned_jds",
+   "name": "Persona-Aligned Job Descriptions",
+   "pillar": "recruiting",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [
+    "persona_calibration"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "portal_component_scores_100.job_ad_clarity_100",
+    "portal_component_scores_100.role_benefits_transparency_100"
+   ],
+   "fixes_concepts": [
+    "generic_jds"
+   ],
+   "synonyms": [
+    "persona-aligned job descriptions",
+    "persona-aligned jds",
+    "rewriting job ads",
+    "rewrite job ads"
+   ]
+  },
+  {
+   "id": "technical_storytelling",
+   "name": "Technical Engineering Storytelling on LinkedIn",
+   "pillar": "recruiting",
+   "type": "amplification",
+   "allowed_archetypes": [
+    "knowledge_worker"
+   ],
+   "prerequisites_any": [
+    "persona_calibration"
+   ],
+   "requires_readiness": true,
+   "target_metrics": [
+    "corporate_linkedin_er_pct"
+   ],
+   "fixes_concepts": [
+    "low_social_reach",
+    "generic_jds"
+   ],
+   "synonyms": [
+    "engineering storytelling",
+    "technical storytelling",
+    "blog series"
+   ]
+  },
+  {
+   "id": "retail_shift_rotation",
+   "name": "Predictable Weekend Shift Rotation",
+   "pillar": "retention",
+   "type": "structural",
+   "allowed_archetypes": [
+    "frontline_retail"
+   ],
+   "prerequisites_any": [
+    "internal_listening_360"
+   ],
+   "requires_readiness": false,
+   "target_metrics": [
+    "sub_ratings_5.work_life_balance"
+   ],
+   "fixes_concepts": [
+    "shift_scheduling",
+    "burnout"
+   ],
+   "synonyms": [
+    "shift rotation",
+    "shift schedules"
+   ]
+  },
+  {
+   "id": "ambassador_selection",
+   "name": "Data-Driven Ambassador Selection & Enablement",
+   "pillar": "advocacy",
+   "type": "amplification",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": true,
+   "target_metrics": [
+    "corporate_linkedin_er_pct"
+   ],
+   "fixes_concepts": [
+    "low_social_reach",
+    "organic_ambassadors"
+   ],
+   "synonyms": [
+    "ambassador selection",
+    "brand ambassadors",
+    "selected facility ambassadors",
+    "ambassador campaign",
+    "employee advocacy"
+   ]
+  },
+  {
+   "id": "ambassador_tracking",
+   "name": "Automated Ambassador Content Tracking & EMV",
+   "pillar": "advocacy",
+   "type": "amplification",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [
+    "ambassador_selection"
+   ],
+   "requires_readiness": true,
+   "target_metrics": [
+    "manual_hr_tracking_hours_month"
+   ],
+   "fixes_concepts": [
+    "manual_tracking",
+    "cfo_visibility_gap"
+   ],
+   "synonyms": [
+    "ambassador content tracking",
+    "ambassador tracking"
+   ]
+  },
+  {
+   "id": "compensation_review",
+   "name": "Salary Band / Compensation Review",
+   "pillar": "retention",
+   "type": "structural",
+   "allowed_archetypes": "all",
+   "prerequisites_any": [],
+   "requires_readiness": false,
+   "target_metrics": [
+    "sub_ratings_5.compensation"
+   ],
+   "fixes_concepts": [
+    "compensation"
+   ],
+   "synonyms": [
+    "salary bands",
+    "salary band",
+    "compensation review"
+   ]
+  }
+ ],
+ "metric_rules": {
+  "lower_is_better": [
+   "application_form_dropoff_pct",
+   "early_first_year_attrition_pct",
+   "six_month_new_hire_attrition_milan_berlin_pct",
+   "estimated_annual_attrition_exposure_eur",
+   "avg_time_to_hire_days",
+   "hq_admin_time_to_hire_days",
+   "agency_filled_roles_pct",
+   "external_claims_gap_stars_5",
+   "cross_location_rating_std_dev_5",
+   "manual_hr_tracking_hours_month"
+  ],
+  "neutral": [
+   "smartphone_traffic_pct",
+   "monthly_visits",
+   "reviews_analyzed"
+  ],
+  "aliases": {
+   "er_by_post_format_pct.authentic_team_and_domain_stories": "organic_employee_post_er_pct"
+  }
+ },
+ "noise_markers": [
+  "unverified"
+ ],
+ "pillar_inputs": {
+  "branding": {
+   "signals": [
+    "reputation_and_reviews"
+   ],
+   "metric_sections": [
+    "public_reputation"
+   ]
+  },
+  "recruiting": {
+   "signals": [
+    "recruiting_and_jds"
+   ],
+   "metric_sections": [
+    "career_portal_and_funnel"
+   ],
+   "extra_metrics": [
+    "avg_time_to_hire_days",
+    "hq_admin_time_to_hire_days",
+    "agency_filled_roles_pct"
+   ]
+  },
+  "advocacy": {
+   "signals": [
+    "linkedin_and_content_analytics"
+   ],
+   "metric_sections": [
+    "social_and_employee_voice"
+   ]
+  },
+  "retention": {
+   "signals": [],
+   "metric_sections": [
+    "hiring_and_retention_kpis"
+   ],
+   "extra_metrics": [
+    "sub_ratings_5.management",
+    "sub_ratings_5.career_growth",
+    "sub_ratings_5.work_life_balance",
+    "sub_ratings_5.compensation"
+   ]
+  }
+ },
+ "benefit_lines": {
+  "attrition_exposure": {
+   "metric": "estimated_annual_attrition_exposure_eur",
+   "interventions": [
+    "manager_coaching",
+    "career_framework",
+    "internal_listening_360",
+    "evp_realignment",
+    "retail_shift_rotation"
+   ]
+  },
+  "agency_spend": {
+   "metric": "agency_filled_roles_pct",
+   "interventions": [
+    "mobile_fast_apply",
+    "persona_aligned_jds",
+    "portal_ux_audit",
+    "technical_storytelling",
+    "candidate_feedback_digitization"
+   ]
+  },
+  "hr_hours": {
+   "metric": "manual_hr_tracking_hours_month",
+   "interventions": [
+    "ambassador_tracking",
+    "reputation_audit",
+    "board_risk_dashboard"
+   ]
+  },
+  "emv": {
+   "metric": "quarterly_organic_impressions",
+   "interventions": [
+    "ambassador_selection",
+    "ambassador_tracking",
+    "technical_storytelling"
+   ]
+  }
+ },
+ "definitions": {}
+}
