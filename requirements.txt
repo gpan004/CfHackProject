@@ -6,3 +6,4 @@ python-dotenv
 numpy
 networkx
 sentence-transformers
+truststore

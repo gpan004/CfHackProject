@@ -6,6 +6,14 @@
 4. API: `uvicorn backend.main:app --reload` · UI: `cd frontend && npm i && npm run dev` (open http://localhost:5173).
 5. CLI: `python -m backend.pipeline --scenario SCENARIO_A_CLOUDNOVA_FINTECH` · submission: `python -m backend.export --all --out submission.json`.
 
+### Engine v2 (evidence engine, branch `engine-v2`)
+Knowledge-graph tools decide, agents explain, critics check. v1 stays available as the fallback (toggle in the UI).
+- Graph: `data/kg_facts.json` (every cause/effect/threshold link has a verbatim source quote, validated at startup) + `backend/v2/kg.py`.
+- 10 deterministic tools: `backend/v2/tools.py`. Agents, plan critic and jury critic: `backend/v2/agents.py`. Readable brief: `backend/v2/brief.py`.
+- Same data -> same answer: temperature 0 + seed, model-independent cache, stability ledger in `runs/v2/ledger.json`.
+- CLI: `python -m backend.v2.pipeline --scenario SCENARIO_A_CLOUDNOVA_FINTECH` (`--fresh` ignores the cache). Tests: `python -m backend.v2.selftest`.
+- Colab down? `$env:V2_LOCAL_TIER="remote"` routes the local roles to OpenRouter.
+
 **Demo script:** run CloudNova → show winning plan, guardrails (ambassadors deferred to Phase 3, shift rotation blocked as sector noise, compensation untouched), root causes vs symptoms, ROI. Then paste the live-tweak override
 `{"snapshot": {"t0_current_snapshot": {"public_reputation": {"external_claims_gap_stars_5": 0.3, "sub_ratings_5": {"management": 3.6}}}}}`
 into "Edit intake" and re-run: the readiness gate opens and ambassador actions move earlier.

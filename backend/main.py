@@ -53,3 +53,44 @@ def get_run(run_id: str):
     if run_id not in RUNS:
         raise HTTPException(404, "unknown run")
     return RUNS[run_id]
+
+
+# ---------- engine v2 (evidence engine); v1 above is untouched and stays the fallback ----------
+from .v2.pipeline import run_pipeline_v2, STAGES_V2          # noqa: E402
+from .v2.schemas import RunStateV2                           # noqa: E402
+
+RUNS_V2: dict[str, RunStateV2] = {}
+
+
+async def _run_v2(state: RunStateV2, req: RunRequest):
+    def on_stage(name, done):
+        state.status, state.stage = "running", name
+        if done:
+            state.stages_done.append(name)
+    try:
+        state.result = await run_pipeline_v2(req, on_stage=on_stage, run_id=state.run_id)
+        state.status, state.stage = "done", None
+    except Exception as e:  # the server never crashes
+        state.status, state.error = "error", f"{type(e).__name__}: {e}"
+
+
+@app.get("/api/v2/stages")
+def get_stages_v2():
+    return STAGES_V2
+
+
+@app.post("/api/v2/runs")
+async def post_run_v2(req: RunRequest):
+    if not req.scenario_code and not req.scenario:
+        raise HTTPException(400, "scenario_code or scenario is required")
+    run_id = f"v2_{req.scenario_code or req.scenario.get('scenario_code', 'UNSEEN')}_{uuid.uuid4().hex[:6]}"
+    RUNS_V2[run_id] = RunStateV2(run_id=run_id, status="queued")
+    asyncio.create_task(_run_v2(RUNS_V2[run_id], req))
+    return {"run_id": run_id}
+
+
+@app.get("/api/v2/runs/{run_id}")
+def get_run_v2(run_id: str):
+    if run_id not in RUNS_V2:
+        raise HTTPException(404, "unknown run")
+    return RUNS_V2[run_id]

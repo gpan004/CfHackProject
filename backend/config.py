@@ -3,6 +3,12 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+try:  # use the operating system's certificate store (antivirus HTTPS scanning, e.g. Norton, re-signs traffic)
+    import truststore
+    truststore.inject_into_ssl()
+except ImportError:
+    pass
+
 ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 

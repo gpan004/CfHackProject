@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { getRun, getScenarios, startRun } from "./api";
+import { getRun, getRunV2, getScenarios, startRun, startRunV2 } from "./api";
 import type { RunState, ScenarioInfo } from "./types";
-import RunPanel from "./components/RunPanel";
+import type { RunStateV2 } from "./typesV2";
+import RunPanel, { type Engine } from "./components/RunPanel";
 import StrategyView from "./components/StrategyView";
+import BriefView from "./components/BriefView";
 
 export default function App() {
   const [scenarios, setScenarios] = useState<ScenarioInfo[]>([]);
-  const [run, setRun] = useState<RunState | null>(null);
+  const [engine, setEngine] = useState<Engine>("v2");
+  const [run, setRun] = useState<RunState | RunStateV2 | null>(null);
+  const [runEngine, setRunEngine] = useState<Engine>("v2");
   const [error, setError] = useState<string | null>(null);
   const timer = useRef<number>();
 
@@ -18,12 +22,14 @@ export default function App() {
   const launch = async (body: object) => {
     setError(null);
     window.clearInterval(timer.current);
+    const eng = engine;
     try {
-      const { run_id } = await startRun(body);
+      const { run_id } = await (eng === "v2" ? startRunV2(body) : startRun(body));
+      setRunEngine(eng);
       setRun({ run_id, status: "queued", stage: null, stages_done: [], error: null, result: null });
       timer.current = window.setInterval(async () => {
         try {
-          const s = await getRun(run_id);
+          const s = await (eng === "v2" ? getRunV2(run_id) : getRun(run_id));
           setRun(s);
           if (s.status === "done" || s.status === "error") window.clearInterval(timer.current);
         } catch (e) {
@@ -47,10 +53,16 @@ export default function App() {
             <span className="hidden text-sm text-slate-500 sm:inline">Action Recommendation Engine</span>
           </div>
           <nav className="hidden items-center gap-8 text-[16px] font-medium md:flex">
-            <a href="#strategy" className="hover:text-brand">Strategy</a>
-            <a href="#evidence" className="hover:text-brand">Evidence</a>
-            <a href="#roi" className="hover:text-brand">ROI</a>
-            <a href="#charts" className="hover:text-brand">Analytics</a>
+            {runEngine === "v2" ? (<>
+              <a href="#why" className="hover:text-brand">Diagnosis</a>
+              <a href="#plan" className="hover:text-brand">Plan</a>
+              <a href="#money" className="hover:text-brand">Money</a>
+            </>) : (<>
+              <a href="#strategy" className="hover:text-brand">Strategy</a>
+              <a href="#evidence" className="hover:text-brand">Evidence</a>
+              <a href="#roi" className="hover:text-brand">ROI</a>
+              <a href="#charts" className="hover:text-brand">Analytics</a>
+            </>)}
           </nav>
           <a href="#run" className="btn px-6 py-3">Run analysis</a>
         </div>
@@ -69,7 +81,7 @@ export default function App() {
 
       <main className="mx-auto grid max-w-[1240px] gap-8 px-6 pb-24 lg:grid-cols-[320px_1fr]">
         <aside id="run" className="lg:sticky lg:top-28 lg:self-start">
-          <RunPanel scenarios={scenarios} run={run} busy={busy} onRun={launch} />
+          <RunPanel scenarios={scenarios} run={run} busy={busy} onRun={launch} engine={engine} setEngine={setEngine} />
           {error && <p className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         </aside>
         <div className="min-w-0">
@@ -77,14 +89,16 @@ export default function App() {
             <div className="card border-red-200 bg-red-50 text-red-700"><b>Run failed.</b> {run.error}</div>
           )}
           {run?.result ? (
-            <StrategyView r={run.result} runId={run.run_id} />
+            runEngine === "v2"
+              ? <BriefView r={(run as RunStateV2).result!} runId={run.run_id} />
+              : <StrategyView r={(run as RunState).result!} runId={run.run_id} />
           ) : (
             run?.status !== "error" && (
               <div className="card flex min-h-[420px] flex-col items-center justify-center text-center">
                 <p className="eyebrow">{busy ? "Analysis in progress" : "Ready"}</p>
                 <h2 className="mt-3 text-2xl font-bold">{busy ? "Building the strategy…" : "Choose a company and run the engine."}</h2>
                 <p className="mt-2 max-w-md text-ink/70">
-                  {busy ? `Current stage: ${run?.stage ?? "queued"}` : "The winning plan, its evidence, the jury verdict and the ROI appear here."}
+                  {busy ? `Current stage: ${run?.stage ?? "queued"}` : "The plan, the evidence behind it, and how it was checked appear here."}
                 </p>
               </div>
             )

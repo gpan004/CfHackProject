@@ -1,4 +1,5 @@
 import type { RunState, ScenarioInfo } from "./types";
+import type { RunStateV2 } from "./typesV2";
 
 async function json<T>(r: Response): Promise<T> {
   if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
@@ -12,3 +13,10 @@ export const startRun = (body: { scenario_code?: string; scenario?: object; snap
     .then((r) => json<{ run_id: string }>(r));
 
 export const getRun = (id: string) => fetch(`/api/runs/${id}`).then((r) => json<RunState>(r));
+
+// engine v2 (evidence engine)
+export const getStagesV2 = () => fetch("/api/v2/stages").then((r) => json<string[]>(r));
+export const startRunV2 = (body: object) =>
+  fetch("/api/v2/runs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+    .then((r) => json<{ run_id: string }>(r));
+export const getRunV2 = (id: string) => fetch(`/api/v2/runs/${id}`).then((r) => json<RunStateV2>(r));

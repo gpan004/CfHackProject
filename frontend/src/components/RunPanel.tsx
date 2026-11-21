@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import type { RunState, ScenarioInfo } from "../types";
 
-const STAGES = ["ingest", "pillar_analysis", "hypotheses", "confutation", "causal_map", "matching",
+const STAGES_V1 = ["ingest", "pillar_analysis", "hypotheses", "confutation", "causal_map", "matching",
   "strategy", "guardrails", "jury", "ranking", "metrics"];
+const STAGES_V2 = ["intake", "measure", "diagnose", "challenge", "root_causes", "precedents", "gates", "strategy",
+  "critic", "plans", "jury", "jury_critic", "stability", "report"];
+const KIND_V2: Record<string, string> = { diagnose: "agent", challenge: "agent", strategy: "agent", jury: "agent", report: "agent",
+  critic: "critic", jury_critic: "critic" };
 const UNSEEN = "__unseen__";
+export type Engine = "v1" | "v2";
 
-interface Props { scenarios: ScenarioInfo[]; run: RunState | null; busy: boolean; onRun: (body: object) => void }
+interface Props {
+  scenarios: ScenarioInfo[]; run: { stage: string | null; status: string; stages_done: string[] } | RunState | null;
+  busy: boolean; onRun: (body: object) => void; engine: Engine; setEngine: (e: Engine) => void;
+}
 
-export default function RunPanel({ scenarios, run, busy, onRun }: Props) {
+export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngine }: Props) {
+  const STAGES = engine === "v2" ? STAGES_V2 : STAGES_V1;
   const [code, setCode] = useState("");
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -33,6 +42,19 @@ export default function RunPanel({ scenarios, run, busy, onRun }: Props) {
     <div className="card-white">
       <p className="eyebrow">Intake</p>
       <h2 className="mt-2 text-xl font-bold">Run the engine</h2>
+
+      <div className="mt-4 grid grid-cols-2 gap-1 rounded-btn border border-slate-200 bg-slate-50 p-1 text-[13px] font-semibold">
+        {(["v2", "v1"] as Engine[]).map((e) => (
+          <button key={e} disabled={busy} onClick={() => setEngine(e)}
+            className={`rounded-lg px-2 py-2 ${engine === e ? "bg-white text-brand shadow" : "text-ink/60"}`}>
+            {e === "v2" ? "Evidence engine (v2)" : "Classic (v1)"}
+          </button>
+        ))}
+      </div>
+      <p className="mt-2 text-[12px] text-ink/50">
+        {engine === "v2" ? "Knowledge-graph tools decide; agents explain; critics check. Same data, same answer."
+          : "The original pipeline, kept as the fallback."}
+      </p>
 
       <label className="mt-5 block text-sm font-medium">Company scenario</label>
       <select value={code} onChange={(e) => setCode(e.target.value)}
@@ -68,6 +90,7 @@ export default function RunPanel({ scenarios, run, busy, onRun }: Props) {
                   {done ? "✓" : active ? <span className="h-3 w-3 animate-spin rounded-full border-2 border-brand border-t-transparent" /> : i + 1}
                 </span>
                 <span className={done || active ? "text-ink" : "text-slate-400"}>{s.replace("_", " ")}</span>
+                {engine === "v2" && KIND_V2[s] && <span className="ml-auto rounded bg-slate-100 px-1.5 text-[10px] uppercase text-ink/50">{KIND_V2[s]}</span>}
               </li>
             );
           })}
