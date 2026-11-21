@@ -63,7 +63,8 @@ export interface WhatIfResult {
   diff: { added: string[]; removed: string[]; moved: string[] }; roi_before: RoiResult; roi_after: RoiResult;
   unchanged_rules: string[]; summary: string[];
 }
-export interface RequestVerdict { action: string; label: string; plain: string; verdict: "yes_now" | "already_planned" | "later" | "no"; headline: string; reason: string; phase: number | null; evidence: SourceV2[]; paths: string[]; precedents: string[] }
-export interface RequestCheck { text: string; understood: boolean; matches: RequestVerdict[]; suggestions: { action: string; label: string }[]; note: string }
+export interface RequestVerdict { action: string; label: string; plain: string; verdict: "yes_now" | "already_planned" | "later" | "no"; headline: string; reason: string; phase: number | null; evidence: SourceV2[]; paths: string[]; precedents: string[]; matched_on?: string[] }
+export interface RequestCheck { text: string; understood: boolean; interpreted?: boolean; matches: RequestVerdict[]; suggestions: { action: string; label: string }[]; note: string }
+export interface CatalogAction { action: string; label: string; plain: string; pillar: string; pillar_label: string; status: "allowed" | "later" | "not_for_this_company"; earliest_phase: number | null; reason: string }
 
 export interface RunStateV2 { run_id: string; status: "queued" | "running" | "done" | "error"; stage: string | null; stages_done: string[]; error: string | null; result: ResultV2 | null }

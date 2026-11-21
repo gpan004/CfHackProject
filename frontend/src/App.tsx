@@ -8,7 +8,7 @@ import BriefView from "./components/BriefView";
 
 export default function App() {
   const [scenarios, setScenarios] = useState<ScenarioInfo[]>([]);
-  const [engine, setEngine] = useState<Engine>("v2");
+  const engine: Engine = "v2";          // the UI uses the evidence engine only; v1 stays in the code and API, untouched
   const [run, setRun] = useState<RunState | RunStateV2 | null>(null);
   const [runEngine, setRunEngine] = useState<Engine>("v2");
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +23,6 @@ export default function App() {
     setError(null);
     window.clearInterval(timer.current);
     const eng = forceEngine ?? engine;
-    if (forceEngine) setEngine(forceEngine);
     window.scrollTo({ top: 0, behavior: "smooth" });
     try {
       const { run_id } = await (eng === "v2" ? startRunV2(body) : startRun(body));
@@ -83,7 +82,7 @@ export default function App() {
 
       <main className="mx-auto grid max-w-[1240px] gap-8 px-6 pb-24 lg:grid-cols-[320px_1fr]">
         <aside id="run" className="lg:sticky lg:top-28 lg:self-start">
-          <RunPanel scenarios={scenarios} run={run} busy={busy} onRun={launch} engine={engine} setEngine={setEngine} />
+          <RunPanel scenarios={scenarios} run={run} busy={busy} onRun={launch} engine={engine} />
           {error && <p className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         </aside>
         <div className="min-w-0">

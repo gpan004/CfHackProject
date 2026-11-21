@@ -128,22 +128,22 @@
 
   "request_keywords": {
     "_why": "Analyst mapping from everyday words in a client's request to catalog actions (used by the request checker, not evidence). Matching is deterministic; the longest matching phrase wins.",
-    "reputation_audit": ["reputation audit", "audit our reviews", "review audit", "glassdoor", "online reviews", "reputation"],
-    "internal_listening_360": ["360", "pulse survey", "employee survey", "survey our employees", "listen to employees", "internal listening"],
-    "portal_ux_audit": ["ux audit", "portal audit", "career site audit", "career portal audit", "test the career site"],
-    "persona_calibration": ["persona", "candidate profile", "target candidates", "personas"],
-    "candidate_feedback_digitization": ["candidate feedback", "candidate survey", "interview feedback", "career day feedback", "post-interview"],
-    "manager_coaching": ["manager coaching", "coach managers", "coach our managers", "manager training", "train managers", "leadership training"],
-    "career_framework": ["career path", "career ladder", "promotion criteria", "career framework", "career progression", "levels framework"],
-    "evp_realignment": ["evp", "employer value proposition", "employer promise", "rebrand", "branding agency", "brand overhaul"],
-    "board_risk_dashboard": ["dashboard", "board report", "roi report", "emv report", "financial report for the board"],
-    "mobile_fast_apply": ["fast-apply", "fast apply", "mobile apply", "one-click apply", "apply widget", "mobile application form", "quick apply"],
-    "persona_aligned_jds": ["job ad", "job ads", "job description", "job descriptions", "rewrite ads", "rewriting job ads", "jds"],
-    "technical_storytelling": ["blog", "storytelling", "linkedin series", "engineering stories", "tech content", "technical posts"],
-    "retail_shift_rotation": ["shift rotation", "shift schedule", "rosters", "weekend shifts", "shift"],
-    "ambassador_selection": ["ambassador", "ambassadors", "employee advocacy", "employees post", "employees share", "advocacy program"],
-    "ambassador_tracking": ["track ambassador", "ambassador tracking", "tracking posts", "track employee posts", "emv tracking"],
-    "compensation_review": ["salary", "salaries", "pay raise", "raise pay", "compensation", "pay review", "bonus"]
+    "reputation_audit": ["reputation audit", "audit our reviews", "review audit", "glassdoor", "indeed reviews", "google reviews", "online reviews", "reply to reviews", "employer reviews", "ratings", "reputation"],
+    "internal_listening_360": ["360", "pulse survey", "employee survey", "engagement survey", "survey our employees", "survey employees", "listen to employees", "employee feedback", "internal listening", "exit interviews"],
+    "portal_ux_audit": ["ux audit", "portal audit", "career site audit", "career portal audit", "test the career site", "careers page", "career page", "careers site", "career site", "career portal", "careers website", "website"],
+    "persona_calibration": ["persona", "personas", "candidate profile", "target candidates", "target audience", "who we want to hire"],
+    "candidate_feedback_digitization": ["candidate feedback", "candidate survey", "candidate experience", "interview feedback", "interview survey", "career day feedback", "post-interview"],
+    "manager_coaching": ["manager coaching", "coach managers", "coach our managers", "manager training", "train managers", "train our managers", "leadership training", "leadership program", "team leads", "train our team leads", "middle managers"],
+    "career_framework": ["career path", "career paths", "career ladder", "promotion criteria", "promotions", "career framework", "career progression", "career development", "growth paths", "levels framework"],
+    "evp_realignment": ["evp", "employer value proposition", "employer promise", "employer brand", "employer branding", "branding campaign", "brand campaign", "rebrand", "branding agency", "brand overhaul", "new slogan"],
+    "board_risk_dashboard": ["dashboard", "board report", "roi report", "emv report", "financial report for the board", "kpi report", "report to the cfo", "hr metrics"],
+    "mobile_fast_apply": ["fast-apply", "fast apply", "mobile apply", "one-click apply", "apply widget", "mobile application form", "quick apply", "shorter application", "application shorter", "simplify the application", "apply on mobile", "apply from a phone"],
+    "persona_aligned_jds": ["job ad", "job ads", "job description", "job descriptions", "job posting", "job postings", "vacancy text", "rewrite ads", "rewriting job ads", "jds"],
+    "technical_storytelling": ["blog", "storytelling", "linkedin", "linkedin series", "linkedin campaign", "linkedin posts", "engineering stories", "tech content", "technical posts", "articles"],
+    "retail_shift_rotation": ["shift rotation", "shift schedule", "schedules", "rosters", "weekend shifts", "weekend work", "shift"],
+    "ambassador_selection": ["ambassador", "ambassadors", "employee advocacy", "employees post", "employees share", "employee posts", "advocacy program", "linkedin", "linkedin campaign", "social media campaign"],
+    "ambassador_tracking": ["track ambassador", "ambassador tracking", "tracking posts", "track employee posts", "measure employee posts", "emv tracking"],
+    "compensation_review": ["salary", "salaries", "pay raise", "raise pay", "pay", "wages", "compensation", "pay review", "bonus"]
   },
 
   "audiences": {

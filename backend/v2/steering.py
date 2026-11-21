@@ -14,7 +14,7 @@ from .kg import facts, label, in_edges, out_edges
 from .schemas import (FocusInfo, PriorityRow, PlanDiff, WhatIfResult, RequestCheck, RequestVerdict, RootCauseResult,
                       Source)
 from .tools import (load_scenario, check_metrics, find_root_causes, allowed_actions, canonical_plan, schedule_phases,
-                    rank_cases, calculate_roi, gate_action, explain_action, check_relevance)
+                    rank_cases, calculate_roi, gate_action, explain_action, check_relevance, map_concept)
 
 PILLARS = ["branding", "recruiting", "advocacy", "retention"]
 MULT = {"less": 0.5, "normal": 1.0, "more": 2.0}
@@ -225,32 +225,104 @@ def match_request(text: str) -> list[str]:
         for w in words:
             for m in re.finditer(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z0-9])", t):
                 spans.setdefault(a, []).append((m.start(), m.end()))
+    covered = lambda xs: sum(e - s for s, e in sorted(set(xs)))       # characters of the request an action matches
     keep = []
     for a, ss in spans.items():
         others = [s for b, xs in spans.items() if b != a for s in xs]
-        if any(not any(o[0] <= s[0] and s[1] <= o[1] and (o[1] - o[0]) > (s[1] - s[0]) for o in others) for s in ss):
-            keep.append((min(s[0] for s in ss), a))
+        if not any(not any(o[0] <= s[0] and s[1] <= o[1] and (o[1] - o[0]) > (s[1] - s[0]) for o in others) for s in ss):
+            continue                                   # every hit sits inside a longer hit of another action
+        # narrower than another action: all of A's hits are also B's hits, and B matches more of the request
+        if any(b != a and all(any(o[0] <= s[0] and s[1] <= o[1] for o in xs) for s in ss) and covered(xs) > covered(ss)
+               for b, xs in spans.items()):
+            continue
+        keep.append((min(s[0] for s in ss), a))
     return [a for _, a in sorted(keep)]
 
 
-def suggest(text: str, n: int = 3) -> list[dict]:
-    words = set(re.findall(r"[a-z]{3,}", (text or "").lower()))
+FILLER = {"run", "launch", "start", "make", "more", "our", "the", "and", "for", "with", "want", "need", "let", "lets",
+           "should", "can", "could", "would", "new", "improve", "better", "create", "build", "set", "use", "using", "all",
+           "now", "today", "tomorrow", "immediately", "asap", "week", "first", "some", "any", "every", "everyone", "into",
+           "from", "this", "that", "them", "they", "what", "how", "about", "please", "also", "very", "much", "get", "give",
+           "add", "have", "has", "will", "program", "programme", "initiative", "project", "plan", "campaign", "company",
+           "people", "person", "staff", "work", "working", "team", "teams", "employee", "employees", "hire", "hiring"}
+
+
+def _stem(w: str) -> str:
+    for suf in ("ing", "ers", "ies", "ed", "es", "er", "s"):
+        if len(w) > len(suf) + 3 and w.endswith(suf):
+            return w[: -len(suf)]
+    return w
+
+
+def _words(text: str) -> set[str]:
+    return {_stem(w) for w in re.findall(r"[a-z0-9][a-z0-9\-]{2,}", (text or "").lower()) if w not in FILLER}
+
+
+def _vocab(a: str) -> set[str]:
+    it = CATALOG[a]
+    return _words(" ".join([it["name"], *it["synonyms"], *facts()["request_keywords"].get(a, []),
+                            facts()["glossary"]["actions"].get(a, "")]))
+
+
+def closest(text: str, n: int = 3) -> list[tuple[str, list[str]]]:
+    """Closest catalog actions by meaningful words in common (filler words like 'run', 'launch', 'our' ignored).
+    Returns [(action, words in common)], best first; ties broken by id. Deterministic."""
+    words = _words(text)
     scored = []
-    for a, it in CATALOG.items():
-        vocab = set(re.findall(r"[a-z]{3,}", " ".join([it["name"], *it["synonyms"], *facts()["request_keywords"].get(a, [])]).lower()))
-        s = len(words & vocab)
-        if s:
-            scored.append((-s, a))
-    return [{"action": a, "label": CATALOG[a]["name"]} for _, a in sorted(scored)[:n]]
+    for a in CATALOG:
+        common = sorted(words & _vocab(a))
+        if common:
+            scored.append((-len(common), a, common))
+    scored.sort()
+    if not scored:
+        return []
+    best = -scored[0][0]
+    return [(a, c) for s, a, c in scored if -s >= max(1, best - 0)][:n]
+
+
+def suggest(text: str, n: int = 3) -> list[dict]:
+    return [{"action": a, "label": CATALOG[a]["name"]} for a, _ in closest(text, n)]
+
+
+def catalog_for(req) -> list[dict]:
+    """Every action the engine knows (the HR intervention catalog), with what the rules say for THIS company."""
+    c, G = load_scenario(req.scenario_code, req.scenario, req.snapshot, req.overrides)
+    out = []
+    for a, g in allowed_actions(G, c).items():
+        status = "not_for_this_company" if not g.allowed else ("later" if g.earliest_phase > 1 else "allowed")
+        out.append({"action": a, "label": label(G, a), "plain": G.nodes[a]["plain"], "pillar": CATALOG[a]["pillar"],
+                    "pillar_label": pillar_label(CATALOG[a]["pillar"]) if CATALOG[a]["pillar"] in PILLARS else "Board reporting",
+                    "status": status, "earliest_phase": g.earliest_phase if g.allowed else None,
+                    "reason": readable(G, g.reason)})
+    order = {p: i for i, p in enumerate(PILLARS + ["cross"])}
+    return sorted(out, key=lambda x: (order.get(x["pillar"], 9), x["label"]))
 
 
 def check_request(req) -> RequestCheck:
     c, G = load_scenario(req.scenario_code, req.scenario, req.snapshot, req.overrides)
     ids = match_request(req.text)
-    if not ids:
-        return RequestCheck(text=req.text, understood=False, suggestions=suggest(req.text),
-                            note="This request does not match any action the engine knows, so it cannot be evaluated "
-                                 "against the evidence. Try one of the suggestions, or name the action more directly.")
+    interpreted, matched_on = False, {}
+    if not ids:                                   # no known phrase: interpret by meaningful words in common
+        near = closest(req.text, 2)
+        strong = [(a, w) for a, w in near if len(w) >= 2]          # one shared word is too weak to judge on
+        if not strong:
+            problems = [h.concept for h in map_concept(req.text, c.archetypes)]
+            if problems:                                            # the request names a PROBLEM, not an action
+                fixers = sorted({a for p in problems for a, _ in in_edges(G, p, "fixes")})
+                if not fixers:                                      # reduced by fixing its causes (graph links)
+                    causes = {u for p in problems for u, _ in in_edges(G, p, "causes")}
+                    fixers = sorted({a for q in causes for a, _ in in_edges(G, q, "fixes")})
+                names = ", ".join(label(G, p).lower() for p in problems)
+                return RequestCheck(text=req.text, understood=False,
+                                    suggestions=[{"action": a, "label": label(G, a)} for a in fixers][:4],
+                                    note=f"Your request is about {names}, which the engine treats as a problem to reduce, "
+                                         "not as an action. These are the actions in the catalog that reduce it:")
+            return RequestCheck(text=req.text, understood=False, suggestions=[{"action": a, "label": label(G, a)} for a, _ in near],
+                                note="This request does not clearly match one of the 16 actions the engine knows (the HR "
+                                     "intervention catalog), so it cannot be judged against the evidence"
+                                     + (". Did you mean one of these?" if near else ". Pick an action from the list below."))
+        ids, interpreted = [a for a, _ in strong], True
+        matched_on = {a: w for a, w in strong}
     sig = check_metrics(G, c)
     by = {s.problem: s for s in sig}
     probs = [p for p in (req.problems or []) if p in by] or [s.problem for s in sig if s.status == "confirmed"]
@@ -299,7 +371,13 @@ def check_request(req) -> RequestCheck:
         why = readable(G, why)
         out.append(RequestVerdict(action=a, label=name, plain=G.nodes[a]["plain"], verdict=v, headline=head,
                                   reason=why[0].upper() + why[1:] if why else "", phase=ph, evidence=ev,
-                                  paths=explain_action(G, c, a, roles), precedents=precedents))
-    return RequestCheck(text=req.text, understood=True, matches=out,
-                        note="Verdicts come from the same rules as the plan (workforce fit, protected strengths, "
-                             "prerequisites, readiness gate). No AI is involved.")
+                                  paths=explain_action(G, c, a, roles), precedents=precedents,
+                                  matched_on=matched_on.get(a, [])))
+    note = ("Verdicts come from the same rules as the plan (workforce fit, protected strengths, prerequisites, readiness "
+            "gate). No AI is involved.")
+    if interpreted:
+        note = ("No action name was found word for word, so the request was interpreted as the closest action(s) by the "
+                "words they share. If this is not what you meant, pick the right action from the list. " + note)
+    elif len(out) > 1:
+        note = "Your request can mean more than one action, so each one is judged separately. " + note
+    return RequestCheck(text=req.text, understood=True, interpreted=interpreted, matches=out, note=note)

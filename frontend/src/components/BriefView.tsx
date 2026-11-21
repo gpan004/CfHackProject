@@ -3,23 +3,17 @@ import { rewriteBriefV2 } from "../api";
 import { downloadPdf } from "../pdf";
 import { AUDIENCES, PILLARS, type Audience, type Brief, type CauseLink, type FactCheckReport, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
 import Steer from "./Steer";
+import { LEGENDS, Legend, LegendContext, type LegendItem } from "./Legend";
+import { CONF_TONE, DECISION_TONE, FIX_CLASS, PILL, ROLE_TONE, ROLE_TXT, SRC_CLASS, BADGE_OK, BADGE_NEUTRAL } from "./tones";
 
 const eur = (v: number) => "€" + Math.round(v).toLocaleString("en-US");
 const PHASE = ["", "First", "Second", "Third"];
-const ROLE_TXT: Record<string, string> = { root: "Root cause", standalone: "Standalone problem", intermediate: "In between", symptom: "Symptom" };
-const ROLE_TONE: Record<string, string> = {
-  root: "border-red-300 bg-red-50 text-red-800", standalone: "border-orange-300 bg-orange-50 text-orange-800",
-  intermediate: "border-amber-300 bg-amber-50 text-amber-800", symptom: "border-slate-300 bg-slate-50 text-slate-700",
-};
-const CONF_TONE = { high: "bg-emerald-100 text-emerald-800", medium: "bg-amber-100 text-amber-800", low: "bg-slate-200 text-slate-700" };
+const KIND_WORD: Record<string, string> = { case: "Case study", snippet: "Research finding", field_note: "Field note" };
 
-/** Hoverable source chip: shows the document title and text (cases, research, field notes). */
+/** Hoverable source chip: shows the document type, title and text (cases, research, field notes). */
 function Src({ id, r }: { id: string; r: ResultV2 }) {
   const d = r.documents[id];
-  return (
-    <span title={d ? `${d.title}\n\n${d.text}` : id}
-      className="cursor-help rounded-md border border-brand/20 bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand">{id}</span>
-  );
+  return <span title={d ? `${KIND_WORD[d.kind] ?? "Source"}: ${d.title}\n\n${d.text}` : id} className={SRC_CLASS}>{id}</span>;
 }
 
 /** Renders text with [C05]-style citations turned into source chips. */
@@ -33,12 +27,13 @@ function Term({ word, r }: { word: string; r: ResultV2 }) {
   return def ? <span title={def} className="cursor-help underline decoration-dotted underline-offset-4">{word}</span> : <>{word}</>;
 }
 
-function Section({ id, eyebrow, title, intro, children }: { id?: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
+function Section({ id, eyebrow, title, intro, legend, children }: { id?: string; eyebrow: string; title: string; intro?: string; legend?: LegendItem[]; children: React.ReactNode }) {
   return (
     <section id={id} className="scroll-mt-28">
       <p className="eyebrow">{eyebrow}</p>
       <h2 className="section-title mt-2">{title}</h2>
       {intro && <p className="mt-2 max-w-3xl text-[15px] text-ink/70">{intro}</p>}
+      {legend && <Legend items={legend} />}
       <div className="mt-5">{children}</div>
     </section>
   );
@@ -155,7 +150,7 @@ function ActionCard({ a, r }: { a: ScheduledAction; r: ResultV2 }) {
       {a.why_now && <p className="mt-2 rounded-lg bg-slate-50 px-2 py-1 text-[12px] text-ink/70"><b>Why now:</b> {a.why_now}</p>}
       {a.rationale && <p className="mt-1 text-[12px] text-ink/70"><b>Strategist:</b> {a.rationale}</p>}
       <div className="mt-2 flex flex-wrap gap-1.5">
-        {a.fixes.map((f) => <span key={f} className="rounded-md bg-red-50 px-1.5 py-0.5 text-[11px] font-semibold text-red-700">fixes: {r.labels[f] ?? f}</span>)}
+        {a.fixes.map((f) => <span key={f} className={FIX_CLASS}>fixes: {r.labels[f] ?? f}</span>)}
         {[...a.precedents, ...a.evidence.filter((e) => !a.precedents.includes(e))].map((e) => <Src key={e} id={e} r={r} />)}
       </div>
       {a.paths.length > 0 && (
@@ -210,6 +205,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
   const [showAll, setShowAll] = useState(false);
   const [openPlan, setOpenPlan] = useState<string | null>(null);
   const [showTrace, setShowTrace] = useState(false);
+  const [allLegends, setAllLegends] = useState(false);
   const byP = useMemo(() => Object.fromEntries(r.problems.map((p) => [p.problem, p])), [r]);
   const accepted = r.confidence.map((x) => x.problem);
   const ordered = r.roots.causes.filter((x) => accepted.includes(x.problem));
@@ -223,23 +219,31 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
   };
 
   return (
+    <LegendContext.Provider value={allLegends}>
     <div className="space-y-16">
       {/* 1 headline */}
       <div className="card-white">
-        <p className="eyebrow">{c.industry}</p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <p className="eyebrow">{c.industry}</p>
+          <label className="flex cursor-pointer items-center gap-2 text-[13px] font-semibold text-brand">
+            <input type="checkbox" className="accent-brand" checked={allLegends} onChange={(e) => setAllLegends(e.target.checked)} />
+            Show all explanations
+          </label>
+        </div>
         <h2 className="mt-2 text-[30px] font-extrabold leading-tight">{r.brief.headline}</h2>
         <div className="mt-4 flex flex-wrap gap-2 text-[12px]">
           <span className={`rounded-full px-3 py-1 font-semibold ${st.same_as_previous === false ? "bg-red-100 text-red-700" : "bg-emerald-100 text-emerald-800"}`}>
             {st.same_as_previous == null ? "First analysis of this input" : st.same_as_previous ? `✓ Same answer as ${st.previous_runs} earlier run(s)` : "⚠ Differs from an earlier run"}
           </span>
-          <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ Every quote checked against the source</span>
-          <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">✓ No number written by AI</span>
+          <span className={BADGE_OK}>✓ Every quote checked against the source</span>
+          <span className={BADGE_OK}>✓ No number written by AI</span>
           {(r.fact_check?.status === "ran" || r.brief.fact_check?.status === "ran") && (
-            <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-800">
+            <span className={BADGE_OK}>
               ✓ {(r.fact_check?.checked ?? 0) + (r.brief.fact_check?.checked ?? 0)} AI sentences fact-checked
             </span>)}
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-ink/70">{r.critic_rounds.length} critic round(s) · {issues.length} issue(s) handled</span>
+          <span className={BADGE_NEUTRAL}>{r.critic_rounds.length} critic round(s) · {issues.length} issue(s) handled</span>
         </div>
+        <Legend items={LEGENDS.header} title="What these badges mean" />
         {degraded.length > 0 && (
           <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-[13px] text-amber-900">
             <b>Not every AI agent could run for this analysis:</b> {degraded.join(", ")}. Those steps used the rule-based
@@ -280,7 +284,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </div>
 
       {/* 2 one minute */}
-      <Section eyebrow="In one minute" title="The answer">
+      <Section eyebrow="In one minute" title="The answer" legend={LEGENDS.minute}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {r.brief.one_minute.map((k) => (
             <div key={k.title} className="card-white p-5">
@@ -293,13 +297,13 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 3 chain */}
-      <Section id="why" eyebrow="Diagnosis" title="What causes what"
+      <Section id="why" eyebrow="Diagnosis" title="What causes what" legend={LEGENDS.diagnosis}
         intro="Problems on the left drive the ones on the right. Fixing a root cause makes its symptoms improve without treating them directly. Every arrow comes from a case study, a research finding or the client's own words.">
         <Chain r={r} />
       </Section>
 
       {/* 4 evidence */}
-      <Section eyebrow="Evidence" title="How we know"
+      <Section eyebrow="Evidence" title="How we know" legend={LEGENDS.evidence}
         intro="Each problem is measured against the sector average. Confidence is high when the gap is measured AND backed by research or similar companies.">
         <div className="grid gap-4 lg:grid-cols-2">
           {shown.map((x) => {
@@ -327,20 +331,20 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 5 plan */}
-      <Section id="plan" eyebrow="The plan" title={win.title} intro={win.thesis}>
+      <Section id="plan" eyebrow="The plan" title={win.title} intro={win.thesis} legend={LEGENDS.plan}>
         <Phases plan={win} r={r} />
       </Section>
 
       {/* 6 not doing */}
-      <Section eyebrow="Pushback" title="What we will not do, and why"
+      <Section eyebrow="Pushback" title="What we will not do, and why" legend={LEGENDS.pushback}
         intro="Some requests and ideas would waste money or backfire for this company right now. The rules decide; the explanation is in plain words.">
         <div className="card"><ul>
           {r.leadership.map((d, i) => {
-            const tone = d.decision === "kept" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : d.decision === "moved" ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-red-50 text-red-700 border-red-200";
+            const tone = d.decision === "kept" ? DECISION_TONE.adopted : d.decision === "moved" ? DECISION_TONE.later : DECISION_TONE.no;
             const word = d.decision === "kept" ? "adopted" : d.decision === "moved" ? `later: ${PHASE[d.to_phase ?? 3]?.toLowerCase()} phase` : "not now";
             return (
               <li key={i} className="flex flex-col gap-1 border-b border-slate-200 py-3 last:border-0 sm:flex-row sm:gap-4">
-                <span className={`w-fit shrink-0 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase ${tone}`}>{word}</span>
+                <span className={`${PILL} ${tone}`}>{word}</span>
                 <div><p className="font-semibold">Leadership asked for: {r.labels[d.intervention_id] ?? d.intervention_id}</p>
                   <p className="text-[13px] text-ink/70">{r.leadership_views[d.intervention_id] ?? d.reason}</p>
                   {r.leadership_views[d.intervention_id] && (
@@ -350,13 +354,13 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
           })}
           {(r.protected?.length ? r.protected : c.healthy_baselines).slice(0, 5).map((h, i) => (
             <li key={"h" + i} className="flex flex-col gap-1 border-b border-slate-200 py-3 last:border-0 sm:flex-row sm:gap-4">
-              <span className="w-fit shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold uppercase text-emerald-700">protected</span>
+              <span className={`${PILL} ${DECISION_TONE.protected}`}>protected</span>
               <p className="text-[14px]">{h}</p>
             </li>
           ))}
           {c.noise.map((n, i) => (
             <li key={"n" + i} className="flex flex-col gap-1 border-b border-slate-200 py-3 last:border-0 sm:flex-row sm:gap-4">
-              <span className="w-fit shrink-0 rounded-full border border-slate-300 bg-white px-2.5 py-0.5 text-[11px] font-semibold uppercase text-ink/60">ignored data</span>
+              <span className={`${PILL} ${DECISION_TONE.ignored}`}>ignored data</span>
               <div><p className="text-[14px]">“{n.sentence}”</p><p className="text-[12px] text-ink/50">{n.reason}</p></div>
             </li>
           ))}
@@ -364,13 +368,13 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 6b tailor & test */}
-      <Section id="tailor" eyebrow="Tailor & test" title="Try your own priorities and requests"
+      <Section id="tailor" eyebrow="Tailor & test" title="Try your own priorities and requests" legend={LEGENDS.tailor}
         intro="Change what matters most to you, or check an idea you are considering. Answers are instant and come from the same rules and evidence as the plan: no AI, nothing invented.">
         <Steer r={r} onRerun={(f) => onRerun?.(f)} />
       </Section>
 
       {/* 7 money */}
-      <Section id="money" eyebrow="Money" title="What it costs and returns"
+      <Section id="money" eyebrow="Money" title="What it costs and returns" legend={LEGENDS.money}
         intro="Benefits use the measured before/after results of similar companies applied to this client's own numbers. Costs are planning assumptions. No figure is produced by AI.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[["Cost", eur(r.roi.cost_eur), "one-off, all phases"], ["Expected benefit", eur(r.roi.benefit_expected_eur), "per year"],
@@ -390,7 +394,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 8 the written brief */}
-      <Section eyebrow="Executive brief" title="The full story in plain words"
+      <Section eyebrow="Executive brief" title="The full story in plain words" legend={LEGENDS.brief}
         intro={r.brief.writer === "llm_verified" ? "Written by the report-writer agent. Every sentence was checked: numbers come from the calculations, sources from the dataset." : "Generated from the verified results."}>
         <div className="card-white space-y-5">
           {r.brief.sections.map((s) => (
@@ -400,7 +404,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 9 quality control */}
-      <Section eyebrow="Quality control" title="How the answer was checked"
+      <Section eyebrow="Quality control" title="How the answer was checked" legend={LEGENDS.quality}
         intro="Four safeguards: a plan critic that sends weak plans back to the strategist, a jury of stakeholders whose votes are audited, a fact-checker that removes any sentence the evidence does not support, and a stability check against earlier runs on the same data.">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="card">
@@ -433,7 +437,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       </Section>
 
       {/* 10 alternatives */}
-      <Section eyebrow="Alternatives" title="Other plans considered">
+      <Section eyebrow="Alternatives" title="Other plans considered" legend={LEGENDS.alternatives}>
         <div className="space-y-3">
           {[...r.plans].sort((a, b) => (b.final ?? 0) - (a.final ?? 0)).map((p) => (
             <div key={p.plan_id} className="card p-0">
@@ -468,5 +472,6 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
         )}
       </section>
     </div>
+    </LegendContext.Provider>
   );
 }

@@ -228,6 +228,14 @@ def test_steering():
     assert "knowledge worker" in r.matches[0].reason and "_" not in r.matches[0].reason
     assert [m.action for m in chk(A, "track ambassador posts automatically").matches] == ["ambassador_tracking"]
     assert not chk(A, "Give everyone a pizza party").understood
+    # broader matching (bug report: "run linkedin campaign" was not understood)
+    li = chk(A, "run linkedin campaign")
+    assert li.understood and {m.action for m in li.matches} == {"ambassador_selection", "technical_storytelling"}
+    co = chk(A, "coaching for our new managers")
+    assert co.understood and co.interpreted and co.matches[0].action == "manager_coaching" and co.matches[0].matched_on
+    ag = chk(B, "hire a recruitment agency")
+    assert not ag.understood and "problem to reduce" in ag.note and ag.suggestions, "a problem must point to its fixes"
+    assert len(ST.catalog_for(WhatIfRequest(scenario_code=B))) == 16
     assert "_" not in chk(B, "deploy the fast-apply widget tomorrow").matches[0].reason, "raw ids leaked into the reason"
     print("steering (priorities, what-if, request checker) OK")
 

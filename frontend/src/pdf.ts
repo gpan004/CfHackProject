@@ -48,6 +48,16 @@ export function downloadPdf(r: ResultV2, runId: string) {
   if (r.degraded?.length) text(`Note: these AI agents could not run and their steps used the rule-based result: ${r.degraded.join(", ")}. Facts and numbers are unaffected.`, { size: 9, color: [160, 90, 0] });
   if (r.brief.writer === "template") text("The brief below uses the rule-based wording (the AI writer was unavailable).", { size: 9, color: [160, 90, 0] });
 
+  heading("How to read this report");
+  [["[C05], [R4], [FN1]", "Sources. C = case study (a real company with measured before/after results), R = research finding, FN = field note (an expert rule from practice). All sources are listed at the end."],
+   ["Root cause / In between / Symptom / Standalone", "A root cause drives other problems; a symptom is a consequence that improves when its causes are fixed; a standalone problem needs its own fix."],
+   ["High / medium / low confidence", "High = measured worse than the sector average AND backed by at least two research findings or similar companies. Medium = measured but with little outside evidence, or challenged. Low = only mentioned in the company's own text."],
+   ["First / second / third phase", "Measure and understand first, then fix the causes, then amplify what works. The rules set the order."],
+   ["Original idea / required first step", "An original idea is a new action proposed for this company that passed the plan critic and the fact-checker. A required first step was added because another action needs it first."],
+   ["Adopted / later / not now / protected", "The verdict on leadership requests, and strengths the plan deliberately leaves alone."],
+   ["Expected / conservative benefit", "Expected = average result of similar companies; conservative = the weakest similar company's result. Payback = months until the expected benefit repays the cost."],
+  ].forEach(([k, v]) => { text(k, { bold: true, size: 9, gap: 0 }); text(v, { indent: 10, size: 9, gap: 3 }); });
+
   heading("The answer in one minute");
   r.brief.one_minute.forEach((k) => { text(k.title, { bold: true, gap: 0 }); text(k.text, { indent: 10, gap: 0 }); if (k.detail) text(k.detail, { indent: 10, size: 9, color: grey }); });
 

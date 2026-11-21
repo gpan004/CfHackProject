@@ -1,14 +1,54 @@
 import { useEffect, useRef, useState } from "react";
-import { checkRequestV2, whatIfV2 } from "../api";
-import { NEUTRAL, PILLARS, type Focus, type RequestCheck, type ResultV2, type WhatIfResult } from "../typesV2";
+import { actionsV2, checkRequestV2, whatIfV2 } from "../api";
+import { NEUTRAL, PILLARS, type CatalogAction, type Focus, type RequestCheck, type ResultV2, type WhatIfResult } from "../typesV2";
 import { FocusSwitches } from "./Tailor";
+import { STATUS_TONE, VERDICT_TONE } from "./tones";
 
 const eur = (v: number) => "€" + Math.round(v).toLocaleString("en-US");
-const VERDICT_TONE: Record<string, string> = {
-  yes_now: "border-emerald-200 bg-emerald-50 text-emerald-800", already_planned: "border-emerald-200 bg-emerald-50 text-emerald-800",
-  later: "border-amber-200 bg-amber-50 text-amber-800", no: "border-red-200 bg-red-50 text-red-700",
-};
-const EXAMPLES = ["Let's launch employee ambassadors now", "Can we do a salary review?", "Rewrite our job ads tomorrow", "Start a LinkedIn blog series"];
+const EXAMPLES = ["Run a LinkedIn campaign", "Let's launch employee ambassadors now", "Can we do a salary review?", "Make the application shorter on mobile"];
+const STATUS_WORD: Record<string, string> = { allowed: "possible now", later: "later", not_for_this_company: "not for this company" };
+
+/** The 16 actions the engine knows (HR intervention catalog), grouped by area, with what the rules say for this company. */
+function KnownActions({ r, onPick }: { r: ResultV2; onPick: (label: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState<CatalogAction[] | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  useEffect(() => { if (open && !list) actionsV2(r.request).then(setList).catch((e) => setErr(String(e))); }, [open, list, r]);
+  const groups = list ? [...new Set(list.map((a) => a.pillar_label))] : [];
+  return (
+    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+      <button onClick={() => setOpen(!open)} className="text-[13px] font-semibold text-brand">
+        {open ? "▾" : "▸"} What can I ask? The 16 actions the engine knows
+      </button>
+      <p className="mt-1 text-[12px] text-ink/60">
+        Requests are matched to this catalog of proven HR actions, then judged with the same rules as the plan. Anything outside
+        the catalog cannot be judged against evidence, so the engine says so instead of guessing.
+      </p>
+      {err && <p className="text-[12px] text-red-700">{err}</p>}
+      {open && list && (
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {groups.map((g) => (
+            <div key={g}>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-ink/50">{g}</p>
+              <ul className="mt-1 space-y-1">
+                {list.filter((a) => a.pillar_label === g).map((a) => (
+                  <li key={a.action}>
+                    <button onClick={() => onPick(a.label)} title={`${a.plain}\n\n${a.reason}`}
+                      className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-left text-[13px] hover:border-brand">
+                      <span>{a.label}</span>
+                      <span className={`shrink-0 rounded-md border px-1.5 text-[10px] font-semibold uppercase ${STATUS_TONE[a.status]}`}>
+                        {a.status === "later" ? `phase ${a.earliest_phase}+` : STATUS_WORD[a.status]}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function focusFrom(r: ResultV2): Focus {
   const f = { ...NEUTRAL };
@@ -121,6 +161,7 @@ function RequestChecker({ r }: { r: ResultV2 }) {
       <div className="mt-2 flex flex-wrap gap-1.5">
         {EXAMPLES.map((x) => <button key={x} onClick={() => ask(x)} className="rounded-full border border-slate-200 px-2.5 py-0.5 text-[12px] text-ink/60 hover:border-brand hover:text-brand">{x}</button>)}
       </div>
+      <KnownActions r={r} onPick={(l) => ask(l)} />
       {err && <p className="mt-3 text-sm text-red-700">{err}</p>}
       {res && (
         <div className="mt-4 space-y-3">
@@ -131,9 +172,16 @@ function RequestChecker({ r }: { r: ResultV2 }) {
                 <button key={s.action} onClick={() => ask(s.label)} className="chip">{s.label}</button>)}</div>}
             </div>
           )}
+          {res.understood && res.matches.length > 1 && (
+            <p className="text-[13px] text-ink/70">Your request can mean {res.matches.length} different actions, so each one is judged separately:</p>
+          )}
           {res.matches.map((m) => (
             <div key={m.action} className={`rounded-xl border p-4 ${VERDICT_TONE[m.verdict]}`}>
-              <p className="text-[12px] font-semibold uppercase tracking-wider opacity-70">{m.label}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-[12px] font-semibold uppercase tracking-wider opacity-70">{m.label}</p>
+                {res.interpreted && <span className="chip" title="No action name was found word for word: this is the closest action by the words in common.">interpreted</span>}
+              </div>
+              {res.interpreted && m.matched_on?.length ? <p className="text-[12px] opacity-70">Matched on the words: {m.matched_on.join(", ")}</p> : null}
               <p className="mt-1 text-lg font-bold">{m.headline}</p>
               <p className="mt-1 text-[14px]">{m.reason}</p>
               <p className="mt-1 text-[13px] opacity-80">What it is: {m.plain}</p>

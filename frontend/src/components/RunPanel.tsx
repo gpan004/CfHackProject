@@ -14,10 +14,10 @@ export type Engine = "v1" | "v2";
 
 interface Props {
   scenarios: ScenarioInfo[]; run: { stage: string | null; status: string; stages_done: string[] } | RunState | null;
-  busy: boolean; onRun: (body: object) => void; engine: Engine; setEngine: (e: Engine) => void;
+  busy: boolean; onRun: (body: object) => void; engine: Engine;
 }
 
-export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngine }: Props) {
+export default function RunPanel({ scenarios, run, busy, onRun, engine }: Props) {
   const STAGES = engine === "v2" ? STAGES_V2 : STAGES_V1;
   const [code, setCode] = useState("");
   const [open, setOpen] = useState(false);
@@ -49,18 +49,6 @@ export default function RunPanel({ scenarios, run, busy, onRun, engine, setEngin
       <p className="eyebrow">Intake</p>
       <h2 className="mt-2 text-xl font-bold">Run the engine</h2>
 
-      <div className="mt-4 grid grid-cols-2 gap-1 rounded-btn border border-slate-200 bg-slate-50 p-1 text-[13px] font-semibold">
-        {(["v2", "v1"] as Engine[]).map((e) => (
-          <button key={e} disabled={busy} onClick={() => setEngine(e)}
-            className={`rounded-lg px-2 py-2 ${engine === e ? "bg-white text-brand shadow" : "text-ink/60"}`}>
-            {e === "v2" ? "Evidence engine (v2)" : "Classic (v1)"}
-          </button>
-        ))}
-      </div>
-      <p className="mt-2 text-[12px] text-ink/50">
-        {engine === "v2" ? "Knowledge-graph tools decide; agents explain; critics check. Same data, same answer."
-          : "The original pipeline, kept as the fallback."}
-      </p>
 
       <label className="mt-5 block text-sm font-medium">Company scenario</label>
       <select value={code} onChange={(e) => setCode(e.target.value)}

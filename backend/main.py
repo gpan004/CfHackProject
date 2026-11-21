@@ -118,6 +118,13 @@ def post_check_request(req: RequestCheckRequest):
     return V2S.check_request(req)
 
 
+@app.post("/api/v2/actions")
+def post_actions(req: WhatIfRequest):
+    """The 16 actions the engine knows (HR intervention catalog) and what the rules say about each for this company."""
+    _check_input(req)
+    return V2S.catalog_for(req)
+
+
 @app.post("/api/v2/runs/{run_id}/brief")
 async def post_rewrite_brief(run_id: str, audience: str = "board", retry: bool = False):
     """Brief of a finished run for another reader (same facts). A reader already written is returned at once;

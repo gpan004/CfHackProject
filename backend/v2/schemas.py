@@ -329,10 +329,11 @@ class RequestVerdict(BaseModel):
     verdict: Literal["yes_now", "already_planned", "later", "no"]
     headline: str; reason: str; phase: Optional[int] = None
     evidence: list[Source] = []; paths: list[str] = []; precedents: list[str] = []
+    matched_on: list[str] = []                # words in common when the request was interpreted (no exact phrase)
 
 
 class RequestCheck(BaseModel):
-    text: str; understood: bool
+    text: str; understood: bool; interpreted: bool = False
     matches: list[RequestVerdict] = []
     suggestions: list[dict] = []              # [{action, label}] when the request was not understood
     note: str = ""
