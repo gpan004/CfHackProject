@@ -1,4 +1,4 @@
-# Ingaze Action Recommendation Engine
+# Ingaze Prizm
 
 1. Put `ingaze_sandbox_dataset.json` and `ingaze_synthetic_analytics_snapshots.json` in `data/`; `cp .env.example .env` and set `OPENROUTER_API_KEY` / `OPENROUTER_MODELS`.
 2. `pip install -r requirements.txt` and `ollama pull mistral-nemo` (run with `OLLAMA_NUM_PARALLEL=4`).

@@ -3,6 +3,7 @@ import { rewriteBriefV2 } from "../api";
 import { downloadPdf } from "../pdf";
 import { AUDIENCES, PILLARS, type Audience, type Brief, type CauseLink, type FactCheckReport, type Focus, type MetricCheck, type PlanV2, type ResultV2, type ScheduledAction } from "../typesV2";
 import Steer from "./Steer";
+import { BenefitSources, GapChart, PaybackChart, PlanComparison } from "./Graphs";
 import { LEGENDS, Legend, LegendContext, type LegendItem } from "./Legend";
 import { CONF_TONE, DECISION_TONE, FIX_CLASS, PILL, ROLE_TONE, ROLE_TXT, SRC_CLASS, BADGE_OK, BADGE_NEUTRAL } from "./tones";
 
@@ -305,6 +306,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
       {/* 4 evidence */}
       <Section eyebrow="Evidence" title="How we know" legend={LEGENDS.evidence}
         intro="Each problem is measured against the sector average. Confidence is high when the gap is measured AND backed by research or similar companies.">
+        <div className="mb-6"><GapChart r={r} /></div>
         <div className="grid gap-4 lg:grid-cols-2">
           {shown.map((x) => {
             const p = byP[x.problem]; const conf = r.confidence.find((k) => k.problem === x.problem)!;
@@ -384,6 +386,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
               <p className="mt-2 font-display text-2xl font-extrabold">{v}</p><p className="text-[12px] text-ink/50">{s}</p></div>
           ))}
         </div>
+        <div className="mt-4 grid gap-4 xl:grid-cols-2"><PaybackChart r={r} /><BenefitSources r={r} /></div>
         <ul className="card mt-4 space-y-2 text-[14px]">
           {r.roi.lines.filter((l) => l.applies).map((l) => (
             <li key={l.name}><b>{l.name.replace(/_/g, " ")}:</b> {eur(l.benefit_expected_eur)} per year — {l.formula}{" "}
@@ -438,6 +441,7 @@ export default function BriefView({ r: r0, runId, onRerun }: { r: ResultV2; runI
 
       {/* 10 alternatives */}
       <Section eyebrow="Alternatives" title="Other plans considered" legend={LEGENDS.alternatives}>
+        <div className="mb-4"><PlanComparison r={r} /></div>
         <div className="space-y-3">
           {[...r.plans].sort((a, b) => (b.final ?? 0) - (a.final ?? 0)).map((p) => (
             <div key={p.plan_id} className="card p-0">

@@ -71,6 +71,7 @@ export const LEGENDS: Record<string, LegendItem[]> = {
     ...SOURCES,
   ],
   evidence: [
+    { sample: <><span className="h-2.5 w-8 rounded-sm" style={{ background: "#e34948" }} /><span className="h-2.5 w-5 rounded-sm" style={{ background: "#2a78d6" }} /></>, text: "Chart: red bars are worse than the sector average, blue bars better (strengths to protect). The label shows the real gap; bars stop at ±100%." },
     { sample: <Conf level="high" word=" confidence" />, text: "Measured worse than sector peers AND backed by at least two research findings or similar companies, and not disputed by the skeptic agent." },
     { sample: <Conf level="medium" word=" confidence" />, text: "Measured against peers but with little outside evidence, or challenged by the skeptic agent, or stated by the company and backed by research." },
     { sample: <Conf level="low" word=" confidence" />, text: "Only mentioned in the company's own text; no metric confirms it." },
@@ -117,6 +118,8 @@ export const LEGENDS: Record<string, LegendItem[]> = {
     { sample: <Txt>Expected benefit</Txt>, text: "Yearly gain if results match the average of similar companies, applied to this company's own figures." },
     { sample: <Txt>Conservative</Txt>, text: "Yearly gain if results match the weakest similar company: a safe lower estimate." },
     { sample: <Txt>Payback</Txt>, text: "Months until the expected yearly benefit has repaid the cost." },
+    { sample: <><span className="h-0.5 w-6" style={{ background: "#2a78d6" }} /><span className="h-0.5 w-6" style={{ background: "#eb6834" }} /></>, text: "Payback chart: blue = expected, orange = conservative benefit building up month by month; the dot marks where the expected line crosses the cost (grey line)." },
+    { sample: <Txt>Show as table</Txt>, text: "Every chart can be switched to a table with the exact numbers." },
     { sample: <Txt>formula</Txt>, text: "Each benefit line shows how it is calculated and which case studies (C) its percentages come from." },
     { sample: <Src id="C05" />, text: "The similar company whose measured result is used in the calculation." },
   ],
@@ -137,6 +140,7 @@ export const LEGENDS: Record<string, LegendItem[]> = {
     { sample: <Txt>unsupported · contradicted</Txt>, text: "Fact-checker verdicts that remove a sentence: it adds a claim not in the evidence, or conflicts with it." },
   ],
   alternatives: [
+    { sample: <><span className="h-2.5 w-8 rounded-sm" style={{ background: "#2a78d6" }} /><span className="h-2.5 w-5 rounded-sm" style={{ background: "#c3c2b7" }} /></>, text: "Chart: the recommended plan in blue, alternatives in grey, one measure per panel. Each panel has its own scale, so compare plans within a panel, not across panels." },
     { sample: <Chip>chosen</Chip>, text: "The plan the engine recommends (best combined score of the jury and the engine's own checks)." },
     { sample: <Txt>(focus)</Txt>, text: "Follows your priorities." },
     { sample: <Txt>(full)</Txt>, text: "Fixes every root cause and the problems in between." },

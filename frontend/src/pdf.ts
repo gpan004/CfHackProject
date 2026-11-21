@@ -32,7 +32,7 @@ export function downloadPdf(r: ResultV2, runId: string) {
   const reader = AUDIENCES.find((a) => a.id === r.audience)?.label ?? "Board members / Stakeholders";
 
   // cover
-  text("Ingaze Action Recommendation Engine", { size: 10, color: grey });
+  text("Ingaze Prizm", { size: 10, color: grey });
   text(r.client.company_name, { size: 22, bold: true, gap: 2 });
   text(r.client.industry, { size: 11, color: grey });
   text(r.brief.headline, { size: 13, bold: true, gap: 8 });
@@ -132,7 +132,7 @@ export function downloadPdf(r: ResultV2, runId: string) {
   const pages = doc.getNumberOfPages();
   for (let i = 1; i <= pages; i++) {
     doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(...grey);
-    doc.text(clean(`${r.client.company_name} - Ingaze evidence engine`), M, H - 24);
+    doc.text(clean(`${r.client.company_name} - Ingaze Prizm`), M, H - 24);
     doc.text(`${i} / ${pages}`, W - M, H - 24, { align: "right" });
   }
   doc.save(`${runId}_${r.audience}.pdf`);

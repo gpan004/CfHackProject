@@ -50,8 +50,7 @@ export default function App() {
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-5">
           <div className="flex items-baseline gap-3">
-            <span className="font-display text-[34px] font-semibold leading-none tracking-tight">Ingaze</span>
-            <span className="hidden text-sm text-slate-500 sm:inline">Action Recommendation Engine</span>
+            <span className="font-display text-[34px] font-semibold leading-none tracking-tight">Ingaze <span className="text-brand">Prizm</span></span>
           </div>
           <nav className="hidden items-center gap-8 text-[16px] font-medium md:flex">
             {runEngine === "v2" ? (<>

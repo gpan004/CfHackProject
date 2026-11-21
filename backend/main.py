@@ -18,7 +18,7 @@ async def lifespan(app):
     matching.build_corpus(track_a())     # Track A, graph and corpus embeddings once
     yield
 
-app = FastAPI(title="Ingaze Action Recommendation Engine", lifespan=lifespan)
+app = FastAPI(title="Ingaze Prizm", lifespan=lifespan)
 
 
 @app.get("/api/scenarios")
