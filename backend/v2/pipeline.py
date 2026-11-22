@@ -1,8 +1,3 @@
-"""Engine v2 orchestrator. CLI: python -m backend.v2.pipeline --scenario CODE [--fresh]
-
-intake -> measure -> diagnose (4 agents) -> challenge (skeptic) -> root causes -> precedents -> gates -> draft plans
--> strategist <-> plan critic (max 2 revisions) -> final plans -> jury -> jury critic -> ROI -> report writer -> stability
-"""
 import argparse
 import asyncio
 import time

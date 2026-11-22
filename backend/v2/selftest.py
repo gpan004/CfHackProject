@@ -1,11 +1,4 @@
-"""Engine v2 self-tests (no network). Run: python -m backend.v2.selftest
 
-1. every fact in kg_facts.json is backed by a verbatim quote (and a fake quote is caught)
-2. the reference graph is typed, sourced, and never mutated by a client layer
-3. the 10 tools are deterministic: same input -> identical output
-4. dataset expectations (guardrails, root causes, plans) for the 3 scenarios
-5. full pipeline with a MISBEHAVING fake LLM: invented quotes/sites/numbers/actions must all be caught
-"""
 import asyncio
 import json
 import re

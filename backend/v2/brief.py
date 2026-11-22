@@ -1,6 +1,3 @@
-"""The readable layer: confidence, 'answer in one minute' cards, a deterministic template brief, and the LLM report
-writer whose every sentence is verified (no digits outside {{tokens}}, only known [IDs]); invalid sentences are dropped
-and an empty section falls back to the template."""
 import re
 
 from .kg import documents, facts, in_edges, out_edges, label

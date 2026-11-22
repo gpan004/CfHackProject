@@ -1,11 +1,3 @@
-"""Typed knowledge graph (v2).
-
-Two layers:
-- the REFERENCE graph, built once from hr_knowledge.json + the dataset + data/kg_facts.json (never mutated);
-- a CLIENT layer per run: a copy of the reference graph plus the client's observations (metrics, requests, segments).
-
-Every edge carries where it comes from (`origin`) and, when it comes from a document, the verbatim quote (`evidence`).
-"""
 import json
 import re
 from functools import lru_cache

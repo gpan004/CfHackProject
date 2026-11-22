@@ -1,9 +1,3 @@
-"""The 10 tools of engine v2. Pure, deterministic Python: same input -> same output. No LLM anywhere in this file.
-
-1 load_scenario    2 verify_quote     3 map_concept     4 check_relevance   5 check_metrics
-6 find_root_causes 7 gate_action      8 schedule_phases 9 rank_cases        10 calculate_roi
-(+ helpers that build the canonical plan and explain an action as an evidence path)
-"""
 import re
 
 import numpy as np

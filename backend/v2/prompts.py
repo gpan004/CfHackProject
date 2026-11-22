@@ -1,5 +1,4 @@
-"""System prompts of the v2 agents. Shared principle: agents may only CHOOSE among ids they are given, QUOTE verbatim
-text they are given, and EXPLAIN in plain words. Numbers, phases, verdicts and scores are computed by Python tools."""
+
 
 RULES = """GROUND RULES
 - Use only the data in the message. Never invent facts, sites, cohorts, numbers or sources.

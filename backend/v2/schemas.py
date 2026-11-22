@@ -1,4 +1,3 @@
-"""Pydantic models of engine v2. Tool results are deterministic; agent outputs are LLM JSON that Python verifies."""
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 

@@ -1,4 +1,3 @@
-"""All prompt templates (§7.2). Each system prompt: ROLE, TASK, RULES, OUTPUT."""
 import json
 
 SHARED_RULES = """- Use only the data provided.

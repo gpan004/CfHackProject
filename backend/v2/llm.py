@@ -1,11 +1,3 @@
-"""Deterministic LLM calls for engine v2.
-
-- temperature 0 and a fixed seed;
-- the cache key is the ROLE + prompt + schema, NOT the model: if the first model is busy and a fallback answers,
-  a repeat run still replays exactly the same answer (the v1 cache key included the model, so a fallback could
-  produce a different answer on the next run);
-- V2_LOCAL_TIER=remote routes the 'local' roles to OpenRouter (useful when the Colab GPU is down).
-"""
 import asyncio
 import contextvars
 import hashlib

@@ -1,4 +1,3 @@
-"""Env loading, model lists and every numeric constant (§6)."""
 import os
 from pathlib import Path
 from dotenv import load_dotenv

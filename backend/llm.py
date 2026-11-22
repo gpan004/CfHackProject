@@ -1,4 +1,3 @@
-"""One async JSON function for both tiers: retry, fallback, cache (§7.1)."""
 import asyncio
 import hashlib
 import json

@@ -1,4 +1,3 @@
-"""submission.json builder (§11). CLI: python -m backend.export --all --out submission.json"""
 import argparse
 import asyncio
 import json

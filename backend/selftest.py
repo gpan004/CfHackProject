@@ -1,4 +1,3 @@
-"""Plain-assert tests for the deterministic logic (§12). Run: python -m backend.selftest phase1|phase2"""
 import sys
 
 import numpy as np

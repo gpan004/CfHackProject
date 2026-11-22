@@ -1,4 +1,3 @@
-"""Every Pydantic model (§5)."""
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 

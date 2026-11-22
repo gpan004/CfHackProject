@@ -1,4 +1,3 @@
-"""Readiness gate, sector fit, do-not-touch and phase placement (§6.6–6.8)."""
 from .config import SAY_DO_GAP_STARS
 from .knowledge import CATALOG, allowed, tag_interventions
 from .schemas import Readiness, PlanAction, GuardrailDecision

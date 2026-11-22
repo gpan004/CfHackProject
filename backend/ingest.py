@@ -1,4 +1,3 @@
-"""Track A parsing and Track B cleaning / normalization (§6.1–6.4)."""
 import copy
 import json
 import re

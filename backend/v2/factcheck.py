@@ -1,14 +1,3 @@
-"""Fact-checker: the last line of defence against hallucination in text the client reads.
-
-Layer 1 (no AI): citation grounding - a [C05]-style citation is removed when the cited document is not linked in the
-knowledge graph to any problem or action the sentence talks about (kg.ground_citations).
-Layer 2 (AI, a different model family from the writer): every AI-written sentence is checked against the verified
-facts and marked supported / unsupported / contradicted. Unsupported and contradicted sentences are removed or replaced
-by the rule-based version. Sentences produced by Python's own template are facts already and are not sent.
-
-The deterministic checks always win: the AI checker can only remove text, never add or restore it. If the checker is
-unavailable, layer 1 and all earlier checks still apply, and the page says so.
-"""
 from .kg import ground_citations  # noqa: F401  (re-exported for the pipeline)
 from .llm import call
 from . import prompts as P

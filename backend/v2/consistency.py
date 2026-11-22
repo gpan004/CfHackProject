@@ -1,10 +1,3 @@
-"""Stability check: same question -> same answer.
-
-fingerprint = hash of the normalised input (client profile) + knowledge-graph version + engine version + prompts.
-signature   = hash of the DECISIONS (problems, roles, winning actions and phases, leadership verdicts, rounded ROI).
-A ledger (runs_v2/ledger.json) remembers the signature per fingerprint, so every run reports whether it gave the same
-answer as before, and lists exactly what changed if it did not.
-"""
 import hashlib
 import json
 

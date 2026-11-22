@@ -1,9 +1,4 @@
-"""Client steering (deterministic, no AI): priorities per pillar, the instant what-if, and the request checker.
 
-Rule: the client can change PRIORITIES, never FACTS. Focus changes which root causes come first, which ones the focused
-plan covers, and how plans are scored. It never changes which problems exist, the evidence, the guardrails or the ROI
-arithmetic.
-"""
 import re
 
 from ..guardrails import place_requests

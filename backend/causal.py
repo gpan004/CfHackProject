@@ -1,4 +1,3 @@
-"""Influence matrix and DEMATEL (§6.9)."""
 import numpy as np
 from .schemas import CausalEdge
 

@@ -1,4 +1,3 @@
-"""FastAPI app: 3 endpoints (§8). Run: uvicorn backend.main:app --reload"""
 import asyncio
 import uuid
 from contextlib import asynccontextmanager

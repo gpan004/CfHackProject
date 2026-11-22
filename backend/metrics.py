@@ -1,4 +1,3 @@
-"""Plan scoring, jury aggregation, ROI and KPI projection (§6.11–6.13). LLMs never compute numbers."""
 from statistics import mean
 
 from .config import (W_PRE, W_FINAL, PENALTY_PER_FIX, PENALTY_CAP, KPI_PROJECTION_KEYS)

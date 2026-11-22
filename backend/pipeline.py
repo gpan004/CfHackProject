@@ -1,4 +1,3 @@
-"""Orchestrates the 11 stages and writes the trace. CLI: python -m backend.pipeline --scenario CODE"""
 import argparse
 import asyncio
 import json

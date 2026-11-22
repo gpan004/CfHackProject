@@ -9,3 +9,5 @@ data/ingaze_sandbox_dataset.json
 data/ingaze_synthetic_analytics_snapshots.json
 submission.json
 *.log
+.venv/
+.DS_Store

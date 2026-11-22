@@ -1,4 +1,3 @@
-"""Embeddings + alignment matrices (§6.10)."""
 import numpy as np
 
 from .config import EMBED_MODEL, W_CASE, W_SNIP, TOP_K_LLM_VERIFY, N_TOP_CASES, N_TOP_SNIPPETS, N_FIELD_NOTES

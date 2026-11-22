@@ -1,4 +1,3 @@
-"""hr_knowledge loading, concept / archetype / intervention tagging and the knowledge graph (§4, §6.5)."""
 import json
 import re
 import networkx as nx
