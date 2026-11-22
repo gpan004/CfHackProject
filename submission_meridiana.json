@@ -1,0 +1,72 @@
+{
+  "team_name": "Ingaze Prizm",
+  "chosen_architecture_paradigm": "Neuro-symbolic evidence engine: a typed HR knowledge graph whose every cause/effect link carries a verbatim source quote, 10 deterministic Python tools (metrics vs peers, DEMATEL root causes, guardrails, phase scheduling, precedent ranking, ROI) that make every decision, and LLM agents (pillar diagnosticians, skeptic, strategist, jury, report writer on local Mistral-Nemo + OpenRouter) that only choose, quote and explain - checked by a rule+AI plan critic, an audited jury, a two-layer fact-checker and a stability ledger (same input, same answer); FastAPI + React.",
+  "scenarios": [
+    {
+      "scenario_code": "SCENARIO_BLIND_02_MERIDIANA",
+      "diagnosed_root_causes": [
+        "Slow hiring (recruiting, high confidence): Filling a role takes too many days, so good candidates go elsewhere. Evidence: Average days to hire 71 vs sector average 38, 87% worse than the sector. It drives: reliance on staffing agencies. Sources: C06.",
+        "Generic job ads (recruiting, high confidence): Job descriptions are boilerplate and don't speak to the people the company wants to hire. Evidence: Benefits shown in job ads 34.2 vs sector average 58.4, 41% worse than the sector (job ad clarity 46.8 vs 68). It drives: hard-to-finish applications, low social media reach. Sources: C04, FN2, R6.",
+        "Unclear career paths (retention, high confidence): People cannot see how to get promoted or grow. Evidence: Career growth rating 2.12 vs sector average 3.08, 31% worse than the sector. It drives: new hires leaving early. Sources: C05, R4.",
+        "Uneven reputation across sites (branding, medium confidence): Some sites or countries are rated much worse than others, and nobody manages the difference. Evidence: Rating spread across locations 0.79 vs sector average 0.25, 216% worse than the sector; the employer replies to 0% of reviews vs 2.8% for peers. Standalone problem that needs its own fix."
+      ],
+      "blocked_traps_and_guardrails": [
+        "Deferred to the second phase: leadership request 'EVP Realignment' - rewriting the employer promise needs the Multi-Channel Reputation Audit or the Candidate Persona Calibration to run first (first phase), so the new promise is based on what employees and target candidates actually say.",
+        "Blocked: leadership request 'Data-Driven Ambassador Selection & Enablement' - it targets something that is already better than peers (LinkedIn engagement rate 2.94% vs 1.74%; employees' own posts 16.8% vs 5.9%); an ambassador programme would spend budget on a healthy channel.",
+        "No separate programmes for symptoms: reliance on staffing agencies (48% of roles vs 21% for peers), new hires leaving early, low social media reach and form abandonment (63.5% vs 42.5%) are fixed through their root causes (slow hiring, generic job ads, unclear career paths) instead of parallel initiatives."
+      ],
+      "phase_1_actions": [
+        "Digital Post-Interview & Career Day Feedback: Replace paper or ad-hoc feedback with a short digital survey after interviews and career days.",
+        "360-Degree Internal Listening for Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians: Ask employees, in a structured and anonymous way, how their managers, workload and growth really are (required first step of the career framework).",
+        "Candidate Persona Calibration for all job postings for field technicians and digital specialists: Define who the target candidates are and what they actually care about, cohort by cohort (required first step of the persona-aligned job descriptions).",
+        "Career Portal UX Audit for field technician applicants at depots: Test the careers site the way candidates use it (often on a phone) to find exactly where they give up.",
+        "Multi-Channel Reputation Audit for all depots and HQ: Review all public ratings (Glassdoor, Indeed, Google) site by site to see where and why reputation differs.",
+        "Original idea - Internal Mobility Marketplace for Digital Specialists: Launch a transparent internal job board and mobility process for HQ Data & Cloud specialists to move into growth roles like AI Grid Forecasting without director gatekeeping.",
+        "Original idea - Mobile-Optimized Application Flow for Field Depots: Redesign the application portal for field technicians to allow one-tap mobile apply with photo upload of certifications, eliminating multi-step desktop forms."
+      ],
+      "phase_2_actions": [
+        "Board Financial Risk, ROI & EMV Dashboard: Give the board and CFO a dashboard that shows employer-brand impact in euros.",
+        "Transparent Career Progression Framework for Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians: Publish clear levels and promotion criteria so people can see how to grow.",
+        "EVP Realignment: Rewrite the employer promise so it matches what employees really experience (after the first-phase audits).",
+        "Persona-Aligned Job Descriptions for all job postings for field technicians and digital specialists: Rewrite job ads for each target group, showing the benefits that group values."
+      ],
+      "phase_3_actions": [
+        "Scale Transparent Career Progression Framework from Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians to the rest of the organisation, once the phase-2 indicators for those cohorts improve.",
+        "Scale Persona-Aligned Job Descriptions from all job postings for field technicians and digital specialists to the rest of the organisation, once the phase-2 indicators for those cohorts improve."
+      ],
+      "matched_case_studies": [
+        "C21 VoltGrid Renewables (European Smart-Grid & CleanTech Engineering Network): -24% early engineering turnover (from 16.9% to 12.8%, saving EUR 390k/year in turnover exposure), career growth rating lifted from 2.88 to 3.79, and Time-to-Hire shortened by 24% (from 45 to 34 days). (match: had unclear career paths, generic job ads and slow hiring)",
+        "C05 Alfa Group (Enterprise B2B Software & Cloud Engineering): Identified and mitigated EUR 1.35M in turnover risk exposure, reduced first-year engineering turnover by 22%, and lifted Glassdoor rating from 3.2 to 3.8. (match: had unclear career paths and early attrition)",
+        "C14 NordicTrust Bank (Corporate & Digital Banking Group): -38% application form drop-off (from 54.6% to 33.8%), +28% applicant conversion rate (from 2.95% to 3.78%), and Time-to-Hire reduced by 24% (from 46 to 35 days). (match: had hard-to-finish applications, slow hiring and generic job descriptions)"
+      ],
+      "supporting_research_snippets": [
+        "Snippet 4 (Workforce Climate & First-Year Attrition Study): Weak middle management and lack of transparent career progression account for over 55% of quantifiable Financial Turnover Risk (EUR) in knowledge-worker and scale-up organizations. Structured 360 feedback combined with manager coaching reduces team-level attrition risk by 18-28%.",
+        "Snippet 6 (B2B Tech & FinTech Engineering Talent Acquisition Study): Replacing generic corporate job ads and institutional press releases with Candidate-Persona-calibrated technical storytelling increases LinkedIn engagement by 35-45% and lifts qualified senior engineering applicant conversion by 25%.",
+        "Snippet 9 (Gen-Z & Early-Career Post-Interview Experience Benchmark): Digitizing post-interview and Career Day candidate feedback increases survey response rates by >40% and surfaces interview process bottlenecks within 14 days."
+      ],
+      "strategic_focus_and_do_not_touch": [
+        "Preserve Field Grid Maintenance Current Employees: 3.92 stars, one of the strongest sites",
+        "Do not re-engineer (already better than the sector): Work-life balance rating: 4.26 stars vs peers 3.64 stars",
+        "Do not re-engineer (already better than the sector): Careers site findability: 84.5 out of 100 vs peers 76.2",
+        "Do not re-engineer (already better than the sector): LinkedIn engagement rate: 2.94% vs peers 1.74%",
+        "Do not re-engineer (already better than the sector): Engagement on employees' own posts: 16.8% vs peers 5.9%"
+      ],
+      "cohort_specific_strategies": [
+        "Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians: 360-Degree Internal Listening, then a Transparent Career Progression Framework - the career-growth gap (2.12 vs 3.08) is addressed where it matters, not with a blanket corporate programme.",
+        "HQ Data & Cloud specialists: Internal Mobility Marketplace (original idea) - growth moves into roles like AI Grid Forecasting without director gatekeeping.",
+        "Field technician applicants at depots: Career Portal UX Audit, then the Mobile-Optimized Application Flow (original idea) with one-tap apply and photo upload of certifications - form abandonment is 63.5% vs 42.5% for peers.",
+        "all job postings for field technicians and digital specialists: Candidate Persona Calibration, then Persona-Aligned Job Descriptions per target group (field vs digital).",
+        "All depots and HQ: Multi-Channel Reputation Audit site by site - rating spread 0.79 vs 0.25 stars, with 0% of reviews answered.",
+        "Field Grid Maintenance Current Employees (strongest segment, 3.92 stars): preserved and used as an internal benchmark, not re-engineered."
+      ],
+      "open_questions_and_hypotheses_for_client": [
+        "Split time-to-hire by stage (screening, interview, offer) and by site in the ATS: where are the days lost?",
+        "Which job ads bring the most applications from the target candidates, and which concrete benefits do they mention?",
+        "Do employees know the promotion criteria? Check internal mobility rates and time-to-promotion by team.",
+        "Break employer-review ratings down by site and by manager in the HRIS: is the variance concentrated in a few locations or a few managers?",
+        "The whole expected benefit (EUR 308,817/year) comes from reducing agency spend: confirm the annual agency spend base figure and how many agency-filled roles (48% vs 21% for peers) could realistically move to direct hiring.",
+        "Confirm the planning cost assumptions behind the EUR 139,000 estimate."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "team_name": "Ingaze Prizm",
+  "chosen_architecture_paradigm": "Neuro-symbolic evidence engine: a typed HR knowledge graph whose every cause/effect link carries a verbatim source quote, 10 deterministic Python tools (metrics vs peers, DEMATEL root causes, guardrails, phase scheduling, precedent ranking, ROI) that make every decision, and LLM agents (pillar diagnosticians, skeptic, strategist, jury, report writer on local Mistral-Nemo + OpenRouter) that only choose, quote and explain - checked by a rule+AI plan critic, an audited jury, a two-layer fact-checker and a stability ledger (same input, same answer); FastAPI + React.",
+  "scenarios": [
+    {
+      "scenario_code": "SCENARIO_A_CLOUDNOVA_FINTECH",
+      "diagnosed_root_causes": [
+        "Employer promise not believed (branding, high confidence): The employer value proposition (EVP) - why someone should work here - is not credible to candidates or staff. Evidence: Brand alignment (promise vs reviews) 46.8 vs sector average 62.1, 25% worse than the sector. Standalone problem that needs its own fix.",
+        "Manual spreadsheet tracking (advocacy, high confidence): HR tracks reviews and posts by hand, which costs hours and hides patterns. Evidence: HR hours spent on manual tracking 16 hours/month. Research threshold crossed: HR hours spent on manual tracking is 16, over the >=8 threshold: From 8 hours a month, manual tracking is a material cost that automation recovers. It drives: no financial proof for the board, uneven reputation across sites. Sources: C01, C08, FN3.",
+        "Unclear career paths (retention, high confidence): People cannot see how to get promoted or grow. Evidence: Career growth rating 2.52 vs sector average 3.21, 22% worse than the sector. It drives: new hires leaving early, promise vs reality gap. Sources: C05, FN1, R4.",
+        "Weak middle management (retention, high confidence): Team managers lack coaching or support, and employees feel it. Evidence: Management rating 2.64 vs sector average 3.34, 21% worse than the sector. It drives: new hires leaving early, promise vs reality gap. Sources: C05, C07, FN1, R4."
+      ],
+      "blocked_traps_and_guardrails": [
+        "Deferred to the third phase: leadership request 'Data-Driven Ambassador Selection & Enablement' - Asking employees to promote the company only works when they actually believe in it. While trust problems are open, ambassador-style actions backfire. It can start in the third phase, once the trust problems are being fixed.",
+        "Blocked: leadership request 'Salary Band / Compensation Review' - Blocked because current pay ratings are already better than peers.",
+        "Blocked: leadership request 'Predictable Weekend Shift Rotation' - Blocked because this action is for retail staff, not knowledge workers.",
+        "Wrong-workforce trap blocked: Mobile-First Fast-Apply - Mobile-First Fast-Apply only fits clinical care, frontline logistics, frontline retail (FN6).",
+        "Ignored unreliable input: \"Raw CSV review feed also contains 3 unverified rows mentioning 'weekend shop shift rotation' imported from an external merchant POS pilot.\" (contains the noise marker 'unverified')"
+      ],
+      "phase_1_actions": [
+        "Digital Post-Interview & Career Day Feedback: Replace paper or ad-hoc feedback with a short digital survey after interviews and career days.",
+        "360-Degree Internal Listening for Milan and Berlin Product Squads: Targets burnout and management gaps in specific weak hubs.",
+        "Candidate Persona Calibration for Senior Software Engineers and Data Scientists: Define who the target candidates are and what they actually care about, cohort by cohort.",
+        "Multi-Channel Reputation Audit: Review all public ratings (Glassdoor, Indeed, Google) site by site to see where and why reputation differs."
+      ],
+      "phase_2_actions": [
+        "Transparent Career Progression Framework for Milan and Berlin Product Squads: Removes opacity in career paths for the most at-risk cohorts.",
+        "EVP Realignment: Rewrite the employer promise so it matches what employees really experience.",
+        "Manager Coaching Program for Milan and Berlin Product Squads: Train and coach middle managers, starting with the teams where scores are worst.",
+        "Persona-Aligned Job Descriptions for Senior Software Engineers and Data Scientists: Fixes generic job ads to increase qualified applicant conversion."
+      ],
+      "phase_3_actions": [
+        "Data-Driven Ambassador Selection & Enablement (leadership request, unlocked in this phase): Select and enable employees who want to share the company story. Starts only once the earlier phases have fixed the trust problems.",
+        "Automated Ambassador Content Tracking & EMV (unlocked in this phase): Track ambassador posts and reach automatically instead of in spreadsheets. Addresses no financial proof for the board, manual spreadsheet tracking; waits for phase 3 because waits for internal trust to be fixed first (Say-do gap: claims gap 1.3 ≥ 1.1 stars (R1, FN4); Management friction: management 2.64 vs peer 3.34, worse (FN4, R5)).",
+        "Technical Engineering Storytelling on LinkedIn (unlocked in this phase): Let engineers publish real technical stories on professional networks. Addresses generic job ads, low social media reach; waits for phase 3 because waits for internal trust to be fixed first (Say-do gap: claims gap 1.3 ≥ 1.1 stars (R1, FN4); Management friction: management 2.64 vs peer 3.34, worse (FN4, R5))."
+      ],
+      "matched_case_studies": [
+        "C05 Alfa Group (Enterprise B2B Software & Cloud Engineering): Identified and mitigated €1.35M in turnover risk exposure, reduced first-year engineering turnover by 22%, and lifted Glassdoor rating from 3.2 to 3.8. (match: had Burnout and workload, Unclear career paths, No financial proof for the board, New hires leaving early, Promise vs reality gap, Weak middle management; used Data-Driven Ambassador Selection & Enablement, Board Financial Risk, ROI & EMV Dashboard, Transparent Career Progression Framework, EVP Realignment, 360-Degree Internal Listening, Manager Coaching Program, Persona-Aligned Job Descriptions, Multi-Channel Reputation Audit)",
+        "C03 FlowPay (International FinTech & Digital Payments Scale-Up): +38% LinkedIn engagement rate in 1 quarter, and manual analytics time cut by 85% (~10 hours/month reclaimed). (match: had Generic job ads, Low social media reach, Manual spreadsheet tracking; used EVP Realignment, Candidate Persona Calibration, Technical Engineering Storytelling on LinkedIn)",
+        "C01 LogiNext (International Supply Chain Software Scale-Up): Employer Brand Alignment Index rose from 50% to 65% (-20% cross-country variance), and annual financial turnover risk exposure on critical R&D roles dropped by 18%. (match: had Manual spreadsheet tracking; used Board Financial Risk, ROI & EMV Dashboard, EVP Realignment, Candidate Persona Calibration, Multi-Channel Reputation Audit)"
+      ],
+      "supporting_research_snippets": [
+        "Snippet 1 (European Enterprise Talent & Retention Study): Organizations with a severe 'Say-Do Gap' (where external recruiting claims diverge from Glassdoor/Indeed employee reviews by >1.1 stars) experience 2.4x higher first-year voluntary turnover and a 34% drop in senior offer acceptance rates.",
+        "Snippet 3 (B2B Employee Advocacy & Earned Media Study): Employee ambassador posts generate 5x to 8x higher organic engagement than corporate brand pages, while automated tracking reclaims 8 to 20 hours/month of manual HR spreadsheet work and delivers auditable Earned Media Value (EMV) for CFO budget reviews.",
+        "Snippet 4 (Workforce Climate & First-Year Attrition Study): Weak middle management and lack of transparent career progression account for over 55% of quantifiable Financial Turnover Risk (EUR) in knowledge-worker and scale-up organizations. Structured 360 feedback combined with manager coaching reduces team-level attrition risk by 18-28%.",
+        "Snippet 9 (Gen-Z & Early-Career Post-Interview Experience Benchmark): Digitizing post-interview and Career Day candidate feedback increases survey response rates by >40% and surfaces interview process bottlenecks within 14 days."
+      ],
+      "strategic_focus_and_do_not_touch": [
+        "Preserve as stated by the client: Base compensation and equity packages are benchmarked at the 82nd percentile for European FinTech (0% offer rejections due to base pay), and the Amsterdam Core Platform / SRE division (320 engineers) maintains 94% annual retention with high technical pride.",
+        "Preserve Amsterdam Core Platform SRE: 4.31 stars, one of the strongest sites",
+        "Do not re-engineer (already better than the sector): Pay rating: 4.18 stars vs peers 3.68 stars"
+      ],
+      "cohort_specific_strategies": [
+        "Milan and Berlin Product Squads: 360-Degree Internal Listening - Targets burnout and management gaps in specific weak hubs.",
+        "Senior Software Engineers and Data Scientists: Candidate Persona Calibration - Define who the target candidates are and what they actually care about, cohort by cohort.",
+        "Milan and Berlin Product Squads: Transparent Career Progression Framework - Removes opacity in career paths for the most at-risk cohorts.",
+        "Milan and Berlin Product Squads: Manager Coaching Program - Train and coach middle managers, starting with the teams where scores are worst.",
+        "Senior Software Engineers and Data Scientists: Persona-Aligned Job Descriptions - Fixes generic job ads to increase qualified applicant conversion.",
+        "Weakest sites/segments (Milan Product Squads, Berlin Product Squads): first targets of the diagnostics and structural fixes.",
+        "Strongest sites/segments (Amsterdam Core Platform SRE): preserved and used as internal benchmarks, not re-engineered."
+      ],
+      "open_questions_and_hypotheses_for_client": [
+        "Survey recent hires and candidates who declined offers: which employer-promise claims did they not believe, and why?",
+        "How many HR hours per month go into copying reviews and posts by hand, and in which tools?",
+        "Do employees know the promotion criteria? Check internal mobility rates and time-to-promotion by team.",
+        "Are low management scores concentrated among newly promoted or never-coached managers?",
+        "Confirm the planning cost assumptions behind the EUR 154,000 estimate and the client's own base figures used for the EUR 390,537/year benefit estimate."
+      ]
+    },
+    {
+      "scenario_code": "SCENARIO_B_EUROFREIGHT_LOGISTICS",
+      "diagnosed_root_causes": [
+        "Manual spreadsheet tracking (advocacy, medium confidence): HR tracks reviews and posts by hand, which costs hours and hides patterns. Evidence: HR hours spent on manual tracking 9.2 hours/month. Research threshold crossed: HR hours spent on manual tracking is 9.2, over the >=8 threshold: From 8 hours a month, manual tracking is a material cost that automation recovers. It drives: no financial proof for the board, uneven reputation across sites. Sources: C01, C08, FN3.",
+        "Slow hiring (recruiting, medium confidence): Filling a role takes too many days, so good candidates go elsewhere. Evidence: Average days to hire 43 vs sector average 31, 39% worse than the sector. It drives: reliance on staffing agencies. Sources: C06.",
+        "Generic job ads (recruiting, high confidence): Job descriptions are boilerplate and don't speak to the people the company wants to hire. Evidence: Benefits shown in job ads 29.8 vs sector average 59.6, 50% worse than the sector. It drives: low social media reach, hard-to-finish applications. Sources: C04, FN2, R6.",
+        "No candidate feedback (recruiting, medium confidence): The company does not hear from candidates about interviews and career days. Evidence: Candidates who answer the feedback survey 16.8 vs sector average 20.8, 19% worse than the sector. It drives: slow hiring. Sources: R9."
+      ],
+      "blocked_traps_and_guardrails": [
+        "Blocked: leadership request 'Technical Engineering Storytelling on LinkedIn' - The rules block this action because technical engineering storytelling on LinkedIn only fits knowledge workers, but the client workforce is frontline logistics drivers and warehouse operators.",
+        "Deferred to the second phase: leadership request 'Mobile-First Fast-Apply' - The rules move this action to phase two because it requires a career portal UX audit in an earlier phase to ensure the mobile flow is usable before launching fast apply.",
+        "Deferred to the second phase: leadership request 'Persona-Aligned Job Descriptions' - The rules move this action to phase two because it needs candidate persona calibration in an earlier phase to define the right personas before rewriting job descriptions.",
+        "Redundant intervention blocked: Data-Driven Ambassador Selection & Enablement - It targets something that is already better than peers (LinkedIn engagement rate 1.62 vs peer 1.38); changing it wastes budget.",
+        "Redundant intervention blocked: Salary Band / Compensation Review - It targets something that is already better than peers (Pay rating 4.7 vs peer 3.31); changing it wastes budget.",
+        "Wrong-workforce trap blocked: Predictable Weekend Shift Rotation - Predictable Weekend Shift Rotation only fits frontline retail (FN6)."
+      ],
+      "phase_1_actions": [
+        "Digital Post-Interview & Career Day Feedback for all frontline candidates interviewing at regional hubs: Digitizing feedback surfaces interview bottlenecks within two weeks and lifts response rates over forty percent (R9).",
+        "Candidate Persona Calibration for frontline C-CQC drivers and warehouse operators at all regional hubs: Define who the target candidates are and what they actually care about, cohort by cohort.",
+        "Career Portal UX Audit for frontline C-CQC drivers and warehouse operators at Bologna and Naples hubs: Test the careers site the way candidates use it (often on a phone) to find exactly where they give up.",
+        "Multi-Channel Reputation Audit for all interport hubs including Verona, Milan, Rome, Bologna, and Naples: Manual spreadsheet tracking hides site-to-site reputation gaps; an automated audit reveals where weak hubs need brand repair (FN3, R3).",
+        "Original idea - Hub-Specific Driver Referral Program: Launch a referral bonus for current drivers at Bologna and Naples hubs to recommend qualified C-CQC peers, leveraging trusted networks to bypass agencies.",
+        "Original idea - Mobile-First Career Day at Weak Hubs: Host on-site career days at Bologna and Naples hubs with instant mobile application stations to convert interest into applications same day."
+      ],
+      "phase_2_actions": [
+        "Mobile-First Fast-Apply for frontline C-CQC drivers and warehouse operators at Bologna and Naples hubs: Frontline candidates apply on mobile during breaks; a sixty-second fast-apply cuts abandonment that currently exceeds fifty-eight percent (FN2, R2).",
+        "Persona-Aligned Job Descriptions for frontline C-CQC drivers and warehouse operators at all regional hubs: Generic ads miss the shift predictability and fleet conditions that drivers prioritize; persona-aligned copy speaks to their reality (R7, FN2)."
+      ],
+      "phase_3_actions": [
+        "Scale Mobile-First Fast-Apply from frontline C-CQC drivers and warehouse operators at Bologna and Naples hubs to the rest of the organisation, once the phase-2 indicators for those cohorts improve.",
+        "Scale Persona-Aligned Job Descriptions from frontline C-CQC drivers and warehouse operators at all regional hubs to the rest of the organisation, once the phase-2 indicators for those cohorts improve."
+      ],
+      "matched_case_studies": [
+        "C06 Beta Logistica (National Freight & Interport Logistics Network): Career site conversion jumped +76% (from 2.1% to 3.7%), application abandonment fell from 58% to 29%, and Time-to-Hire dropped by 31% (from 52 days to 36 days), substantially cutting external agency costs. (match: had Reliance on staffing agencies, Generic job ads, Hard-to-finish applications, Slow hiring; used Mobile-First Fast-Apply, Persona-Aligned Job Descriptions, Candidate Persona Calibration, Career Portal UX Audit, Multi-Channel Reputation Audit)",
+        "C04 Global Retail Group (Mass Distribution & Fashion Retail Enterprise): +22% Career Website application conversion rate and -35% mobile application abandonment. (different workforce - frontline retail - cited for the shared mechanism only: had Generic job ads, Hard-to-finish applications; used Mobile-First Fast-Apply, Persona-Aligned Job Descriptions, Candidate Persona Calibration)",
+        "C11 NaturaPure Group (Regenerative Beauty & Certified B-Corp Enterprise): >40% candidate feedback response rate, unified B-Corp candidate experience metrics for impact reporting, and 3.5x organic advocacy reach. (different workforce - clinical care - cited for the shared mechanism only: had No candidate feedback, No financial proof for the board, Manual spreadsheet tracking; used Digital Post-Interview & Career Day Feedback, Multi-Channel Reputation Audit)"
+      ],
+      "supporting_research_snippets": [
+        "Snippet 2 (Corporate Career Portal UX & Conversion Study): When an application flow requires account creation and more than 4 form screens on mobile devices, abandonment rates among frontline logistics, retail, and healthcare candidates exceed 58%. Switching to a 60-second mobile fast-apply reduces bounce rates by 30-35%.",
+        "Snippet 3 (B2B Employee Advocacy & Earned Media Study): Employee ambassador posts generate 5x to 8x higher organic engagement than corporate brand pages, while automated tracking reclaims 8 to 20 hours/month of manual HR spreadsheet work and delivers auditable Earned Media Value (EMV) for CFO budget reviews.",
+        "Snippet 9 (Gen-Z & Early-Career Post-Interview Experience Benchmark): Digitizing post-interview and Career Day candidate feedback increases survey response rates by >40% and surfaces interview process bottlenecks within 14 days."
+      ],
+      "strategic_focus_and_do_not_touch": [
+        "Preserve as stated by the client: 99.4% on-time payroll accuracy, modern Euro-6 fleet (<2.5 years average vehicle age), and 91% annual retention among tenured (>2 years) long-haul C-CQC drivers.",
+        "Preserve Verona HQ and Hub: 4.31 stars, one of the strongest sites",
+        "Preserve Milan Interport Hub: 4.28 stars, one of the strongest sites",
+        "Do not re-engineer (already better than the sector): Overall review rating: 3.83 stars vs peers 3.42 stars",
+        "Do not re-engineer (already better than the sector): Would recommend to a friend: 68.5% vs peers 56.8%"
+      ],
+      "cohort_specific_strategies": [
+        "all frontline candidates interviewing at regional hubs: Digital Post-Interview & Career Day Feedback - Digitizing feedback surfaces interview bottlenecks within two weeks and lifts response rates over forty percent (R9).",
+        "frontline C-CQC drivers and warehouse operators at all regional hubs: Candidate Persona Calibration - Define who the target candidates are and what they actually care about, cohort by cohort.",
+        "frontline C-CQC drivers and warehouse operators at Bologna and Naples hubs: Career Portal UX Audit - Test the careers site the way candidates use it (often on a phone) to find exactly where they give up.",
+        "all interport hubs including Verona, Milan, Rome, Bologna, and Naples: Multi-Channel Reputation Audit - Manual spreadsheet tracking hides site-to-site reputation gaps; an automated audit reveals where weak hubs need brand repair (FN3, R3).",
+        "frontline C-CQC drivers and warehouse operators at Bologna and Naples hubs: Mobile-First Fast-Apply - Frontline candidates apply on mobile during breaks; a sixty-second fast-apply cuts abandonment that currently exceeds fifty-eight percent (FN2, R2).",
+        "frontline C-CQC drivers and warehouse operators at all regional hubs: Persona-Aligned Job Descriptions - Generic ads miss the shift predictability and fleet conditions that drivers prioritize; persona-aligned copy speaks to their reality (R7, FN2).",
+        "Weakest sites/segments (Rome Interport Hub, Bologna Interport Hub, Naples Interport Hub): first targets of the diagnostics and structural fixes.",
+        "Strongest sites/segments (Verona HQ and Hub, Milan Interport Hub): preserved and used as internal benchmarks, not re-engineered."
+      ],
+      "open_questions_and_hypotheses_for_client": [
+        "How many HR hours per month go into copying reviews and posts by hand, and in which tools?",
+        "Split time-to-hire by stage (screening, interview, offer) and by site in the ATS: where are the days lost?",
+        "Which job ads bring the most applications from the target candidates, and which concrete benefits do they mention?",
+        "Is any candidate-experience survey running today, and what is its response rate per hiring stage?",
+        "Possibly narrower than it looks - Reliance on staffing agencies: EuroFreight is relying heavily on expensive temporary staffing agencies due to a high Time-to-Hire.",
+        "Possibly narrower than it looks - Low social media reach: Company posts reach and engage very few people."
+      ]
+    },
+    {
+      "scenario_code": "SCENARIO_C_VERDECARE_BCORP",
+      "diagnosed_root_causes": [
+        "Manual spreadsheet tracking (advocacy, medium confidence): HR tracks reviews and posts by hand, which costs hours and hides patterns. Evidence: HR hours spent on manual tracking 12.5 hours/month. Research threshold crossed: HR hours spent on manual tracking is 12.5, over the >=8 threshold: From 8 hours a month, manual tracking is a material cost that automation recovers. It drives: no financial proof for the board, uneven reputation across sites. Sources: C01, C08, FN3.",
+        "Low social media reach (advocacy, medium confidence): Company posts reach and engage very few people. Evidence: Real employee voices on the site 35.8 vs sector average 53.6, 33% worse than the sector. Standalone problem that needs its own fix.",
+        "No candidate feedback (recruiting, medium confidence): The company does not hear from candidates about interviews and career days. Evidence: Candidates who answer the feedback survey 17.4 vs sector average 30.8, 44% worse than the sector. It drives: slow hiring. Sources: R9."
+      ],
+      "blocked_traps_and_guardrails": [
+        "Blocked: leadership request 'EVP Realignment' - The EVP realignment request is blocked because our external claims gap and brand alignment scores are already significantly better than peers, so investing here would waste budget.",
+        "Deferred to the third phase: leadership request 'Automated Ambassador Content Tracking & EMV' - needs one of Data-Driven Ambassador Selection & Enablement in an earlier phase (earliest: Phase 2)",
+        "Redundant intervention blocked: Transparent Career Progression Framework - It targets something that is already better than peers (Career growth rating 3.82 vs peer 3.17); changing it wastes budget.",
+        "Redundant intervention blocked: 360-Degree Internal Listening - It targets something that is already better than peers (Management rating 4.04 vs peer 3.29; Work-life balance rating 4.09 vs peer 3.34); changing it wastes budget.",
+        "Redundant intervention blocked: Manager Coaching Program - It targets something that is already better than peers (Management rating 4.04 vs peer 3.29); changing it wastes budget.",
+        "Wrong-workforce trap blocked: Predictable Weekend Shift Rotation - Predictable Weekend Shift Rotation only fits frontline retail (FN6).",
+        "Wrong-workforce trap blocked: Technical Engineering Storytelling on LinkedIn - Technical Engineering Storytelling on LinkedIn only fits knowledge worker (FN6)."
+      ],
+      "phase_1_actions": [
+        "Digital Post-Interview & Career Day Feedback for Gen-Z university Career Day candidates at regional clinics and all clinical candidates company-wide: Digitizes post-interview feedback to surface bottlenecks in slow local facility interview handoffs and improve hiring speed.",
+        "Original idea - Gen-Z Career Day Fast-Track Interview Process: Redesign the interview handoff for Gen-Z candidates at regional clinics with a streamlined mobile-friendly scheduling and feedback loop to cut drop-out rates."
+      ],
+      "phase_2_actions": [
+        "Data-Driven Ambassador Selection & Enablement: Identifies and enables organic ambassadors where social reach is strongest to amplify low social media reach.",
+        "Original idea - Regional Clinic Reputation Revitalization Program: Empower local site leads at the regional clinics with a simple toolkit to manage reviews and share authentic employee stories, reducing reputation variance and manual tracking burden."
+      ],
+      "phase_3_actions": [
+        "Automated Ambassador Content Tracking & EMV: Automates manual spreadsheet tracking of ambassador content and delivers auditable EMV for CFO visibility across all sites."
+      ],
+      "matched_case_studies": [
+        "C11 NaturaPure Group (Regenerative Beauty & Certified B-Corp Enterprise): >40% candidate feedback response rate, unified B-Corp candidate experience metrics for impact reporting, and 3.5x organic advocacy reach. (match: had No candidate feedback, No financial proof for the board, Manual spreadsheet tracking; used Automated Ambassador Content Tracking & EMV, Digital Post-Interview & Career Day Feedback, Multi-Channel Reputation Audit)",
+        "C08 VitaCare Network (Multi-Site Healthcare & Senior Care Group): Saved 120 hours/year of manual review/spreadsheet work, unified multi-site reputation monitoring, and achieved +185% organic reach among clinical candidates. (match: had Manual spreadsheet tracking; used Data-Driven Ambassador Selection & Enablement, Automated Ambassador Content Tracking & EMV, Board Financial Risk, ROI & EMV Dashboard, Multi-Channel Reputation Audit)",
+        "C06 Beta Logistica (National Freight & Interport Logistics Network): Career site conversion jumped +76% (from 2.1% to 3.7%), application abandonment fell from 58% to 29%, and Time-to-Hire dropped by 31% (from 52 days to 36 days), substantially cutting external agency costs. (different workforce - frontline logistics - cited for the shared mechanism only: had Slow hiring; used Mobile-First Fast-Apply, Multi-Channel Reputation Audit)"
+      ],
+      "supporting_research_snippets": [
+        "Snippet 3 (B2B Employee Advocacy & Earned Media Study): Employee ambassador posts generate 5x to 8x higher organic engagement than corporate brand pages, while automated tracking reclaims 8 to 20 hours/month of manual HR spreadsheet work and delivers auditable Earned Media Value (EMV) for CFO budget reviews.",
+        "Snippet 9 (Gen-Z & Early-Career Post-Interview Experience Benchmark): Digitizing post-interview and Career Day candidate feedback increases survey response rates by >40% and surfaces interview process bottlenecks within 14 days."
+      ],
+      "strategic_focus_and_do_not_touch": [
+        "Preserve as stated by the client: Internal employee satisfaction (88% B-Corp pride score), EVP authenticity, and annual retention in the R&D formulation labs (93%) are already strong—there is no internal Say-Do Gap or management burnout crisis, and 35 organic ambassadors are already active.",
+        "Preserve Central RnD Formulation Labs 2 Sites: 4.62 stars, one of the strongest sites",
+        "Preserve Monitored Core Care Centers 32 Sites: 4.58 stars, one of the strongest sites",
+        "Do not re-engineer (already better than the sector): Overall review rating: 4.39 stars vs peers 3.52 stars",
+        "Do not re-engineer (already better than the sector): Would recommend to a friend: 86.7% vs peers 62.8%"
+      ],
+      "cohort_specific_strategies": [
+        "Gen-Z university Career Day candidates at regional clinics and all clinical candidates company-wide: Digital Post-Interview & Career Day Feedback - Digitizes post-interview feedback to surface bottlenecks in slow local facility interview handoffs and improve hiring speed.",
+        "Weakest sites/segments (Outdated Profile Regional Clinics 18 Sites): first targets of the diagnostics and structural fixes.",
+        "Strongest sites/segments (Central RnD Formulation Labs 2 Sites, Monitored Core Care Centers 32 Sites): preserved and used as internal benchmarks, not re-engineered."
+      ],
+      "open_questions_and_hypotheses_for_client": [
+        "How many HR hours per month go into copying reviews and posts by hand, and in which tools?",
+        "Which content formats, and which employees' own posts, get the highest engagement from the target talent?",
+        "Is any candidate-experience survey running today, and what is its response rate per hiring stage?",
+        "Hypothesis to verify (Slow hiring is only stated in the intake, not measured): Split time-to-hire by stage (screening, interview, offer) and by site in the ATS: where are the days lost?",
+        "Confirm the planning cost assumptions behind the EUR 48,000 estimate and the client's own base figures used for the EUR 16,013/year benefit estimate."
+      ]
+    }
+  ]
+}

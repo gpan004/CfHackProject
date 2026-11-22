@@ -1,0 +1,3196 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 7370
+>>
+stream
+0.200025 w
+0 G
+BT
+/F1 10 Tf
+11.5 TL
+0.392 0.392 0.471 rg
+48. 793.8899999999999864 Td
+(Ingaze Prizm) Tj
+ET
+BT
+/F2 22 Tf
+25.2999999999999972 TL
+0.118 0.106 0.294 rg
+48. 776.3899999999999864 Td
+(Meridiana Multi-Service & Energy Grid S.p.A.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.392 0.392 0.471 rg
+48. 744.6899999999999409 Td
+(Regional Energy Grid Infrastructure, Water/Environmental Field Services & Smart-Metering IT) Tj
+ET
+BT
+/F2 13 Tf
+14.9499999999999993 TL
+0.118 0.106 0.294 rg
+48. 725.8399999999999181 Td
+(HR Action Plan: Fix Hiring Speed, Reputation Gaps, and Career Clarity) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+48. 700.2899999999999636 Td
+(Prepared for: HR Manager   |   2026-11-22   |   run v2_SCENARIO_BLIND_02_MERIDIANA_919773) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+48. 684.1399999999999864 Td
+(Same answer as 1 earlier run\(s\) on identical data.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+48. 667.9900000000000091 Td
+(Every number is computed by Python from the data; every quote is checked against its source; no figure is written by AI.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 637.8399999999999181 Td
+(How to read this report) Tj
+ET
+0.86 0.86 0.92 RG
+48. 616.9399999999999409 m
+547.2799999999999727 616.9399999999999409 l
+S
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 606.9399999999999409 Td
+([C05], [R4], [FN1]) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 594.7899999999999636 Td
+(Sources. C = case study \(a real company with measured before/after results\), R = research finding, FN = field note \(an) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 582.6399999999998727 Td
+(expert rule from practice\). All sources are listed at the end.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 567.4900000000000091 Td
+(Root cause / In between / Symptom / Standalone) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 555.3399999999999181 Td
+(A root cause drives other problems; a symptom is a consequence that improves when its causes are fixed; a standalone) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 543.1900000000000546 Td
+(problem needs its own fix.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 528.0399999999999636 Td
+(High / medium / low confidence) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 515.8900000000001 Td
+(High = measured worse than the sector average AND backed by at least two research findings or similar companies.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 503.7400000000000659 Td
+(Medium = measured but with little outside evidence, or challenged. Low = only mentioned in the company's own text.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 488.5900000000000887 Td
+(First / second / third phase) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 476.4400000000001114 Td
+(Measure and understand first, then fix the causes, then amplify what works. The rules set the order.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 461.2900000000001342 Td
+(Original idea / required first step) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 449.1400000000001569 Td
+(An original idea is a new action proposed for this company that passed the plan critic and the fact-checker. A required first) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 436.9900000000001796 Td
+(step was added because another action needs it first.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 421.8400000000002024 Td
+(Adopted / later / not now / protected) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 409.6900000000002251 Td
+(The verdict on leadership requests, and strengths the plan deliberately leaves alone.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 394.5400000000002478 Td
+(Expected / conservative benefit) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 382.3900000000002706 Td
+(Expected = average result of similar companies; conservative = the weakest similar company's result. Payback = months) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 370.2400000000002933 Td
+(until the expected benefit repays the cost.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 347.090000000000316 Td
+(The answer in one minute) Tj
+ET
+0.86 0.86 0.92 RG
+48. 326.1900000000002819 m
+547.2799999999999727 326.1900000000002819 l
+S
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 316.1900000000002819 Td
+(The first move) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 302.6900000000002819 Td
+(Digital Post-Interview & Career Day Feedback; 360-Degree Internal Listening; Candidate Persona Calibration;) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 289.1900000000002819 Td
+(Career Portal UX Audit; Multi-Channel Reputation Audit; Internal Mobility Marketplace for Digital Specialists;) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 275.6900000000002819 Td
+(Mobile-Optimized Application Flow for Field Depots.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+58. 262.1900000000002819 Td
+(Measure before changing anything: diagnostics come first so every later step targets the right teams.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 246.0400000000003047 Td
+(The root causes) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 232.5400000000003047 Td
+(Slow hiring; Generic job ads; Unclear career paths.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+58. 219.0400000000003047 Td
+(Strongest signal: Average days to hire 71 days vs peers 38 days. Together they drive: hard-to-finish applications, low social) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+58. 206.8900000000003274 Td
+(media reach, new hires leaving early, reliance on staffing agencies.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 190.7400000000003502 Td
+(What we push back on) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 177.2400000000003502 Td
+(EVP Realignment: not now.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+58. 163.7400000000003502 Td
+(needs one of Multi-Channel Reputation Audit, Candidate Persona Calibration in an earlier phase \(earliest: Phase 1\)) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 147.5900000000003729 Td
+(The payoff) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 134.0900000000003729 Td
+(EUR 308,817 per year for EUR 139,000; payback in 5.4 months.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+58. 120.5900000000003729 Td
+(Conservative case: EUR 287,925 per year. Based on measured results of similar companies.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 96.4400000000003956 Td
+(Executive brief) Tj
+ET
+0.86 0.86 0.92 RG
+48. 75.5400000000004184 m
+547.2799999999999727 75.5400000000004184 l
+S
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 65.5400000000004184 Td
+(What to do, in what order) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(1 / 8) Tj
+ET
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 8341
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 793.8899999999999864 Td
+(First phase: Digital Post-Interview & Career Day Feedback \(company-wide\): Replace paper or ad-hoc feedback) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 780.3899999999999864 Td
+(with a short digital survey after interviews and career days. 360-Degree Internal Listening \(Smart Grid Data and) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 766.8899999999999864 Td
+(Digital IT specialists and Field Grid Maintenance technicians\): Ask employees, in a structured and anonymous) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 753.3899999999999864 Td
+(way, how their managers, workload and growth really are. Candidate Persona Calibration \(all job postings for field) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 739.8899999999999864 Td
+(technicians and digital specialists\): Define who the target candidates are and what they actually care about,) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 726.3899999999999864 Td
+(cohort by cohort. Career Portal UX Audit \(field technician applicants at depots\): Test the careers site the way) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 712.8899999999999864 Td
+(candidates use it \(often on a phone\) to find exactly where they give up. Internal Mobility Marketplace for Digital) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 699.3899999999999864 Td
+(Specialists \(company-wide\): Launch a transparent internal job board and mobility process for HQ Data & Cloud) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 685.8899999999999864 Td
+(specialists to move into growth roles like AI Grid Forecasting without director gatekeeping. Mobile-Optimized) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 672.3899999999999864 Td
+(Application Flow for Field Depots \(company-wide\): Redesign the application portal for field technicians to allow) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 658.8899999999999864 Td
+(one-tap mobile apply with photo upload of certifications, eliminating multi-step desktop forms. Diagnose first:) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 645.3899999999999864 Td
+(measure before changing anything. Second phase: Board Financial Risk, ROI & EMV Dashboard) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 631.8899999999999864 Td
+(\(company-wide\): Give the board and CFO a dashboard that shows employer-brand impact in euros. Transparent) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 618.3899999999999864 Td
+(Career Progression Framework \(Smart Grid Data and Digital IT specialists and Field Grid Maintenance) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 604.8899999999999864 Td
+(technicians\): Publish clear levels and promotion criteria so people can see how to grow. EVP Realignment) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 591.3899999999999864 Td
+(\(company-wide\): Rewrite the employer promise so it matches what employees really experience.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 577.8899999999999864 Td
+(Persona-Aligned Job Descriptions \(all job postings for field technicians and digital specialists\): Rewrite job ads for) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 564.3899999999999864 Td
+(each target group, showing the benefits that group values. Structural fix, built on the diagnostics.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 542.8899999999999864 Td
+(What is going on) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 527.0399999999999636 Td
+(Three people problems are worse than the sector average. Reliance on staffing agencies is high: roles filled) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 513.5399999999999636 Td
+(through agencies: 48% vs peers 21%. Reputation varies widely across sites: rating spread across locations: 0.79) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 500.0399999999999636 Td
+(stars vs peers 0.25 stars. Hiring is slow: average days to hire: 71 days vs peers 38 days.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 478.5399999999999636 Td
+(Why it is happening) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 462.6899999999999409 Td
+(Slow hiring drives agency reliance; fixing time to hire reduces agency use [C06]. Generic job ads cause low) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 449.1899999999999409 Td
+(social reach and high application drop-off; fixing ads improves both [C04] [FN2] [R6]. Unclear career paths cause) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 435.6899999999999409 Td
+(early leavers; clarifying progression retains new hires [C05] [R4]. These symptoms improve when root causes are) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 422.1899999999999409 Td
+(fixed, so they need no separate programmes.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 400.6899999999999409 Td
+(What we will not do, and why) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 384.8399999999999181 Td
+(EVP Realignment is postponed to the second phase because it needs the Multi-Channel Reputation Audit and) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 371.3399999999999181 Td
+(Candidate Persona Calibration from the first phase. Data-Driven Ambassador Selection & Enablement is not) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 357.8399999999999181 Td
+(adopted because LinkedIn engagement already beats peers. We protect strengths: work-life balance rating,) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 344.3399999999999181 Td
+(careers site findability, and LinkedIn engagement rate all exceed peer levels.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 322.8399999999999181 Td
+(How sure we are) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 306.9899999999998954 Td
+(Most confirmed problems have high confidence based on peer benchmarks and research. The plan critic) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 293.4899999999998954 Td
+(reviewed the strategy in several rounds; all issues were resolved. The stakeholder jury audit flagged some points;) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 279.9899999999998954 Td
+(the decision used a deterministic score due to a split jury. Asked again with the same data, the engine gave the) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 266.4899999999998954 Td
+(same answer \(1 earlier run\(s\)\).) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 244.9899999999998954 Td
+(What it costs and returns) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 229.1399999999998727 Td
+(The plan costs about EUR 139,000 and returns EUR 308,817 per year \(conservative EUR 287,925 per year\).) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 215.6399999999998727 Td
+(Expected payback is 5.4 months. Figures come from measured results at VoltGrid Renewables [C21], Alfa Group) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 202.1399999999998727 Td
+([C05], NordicTrust Bank [C14]; no numbers are AI-generated.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 172.6399999999998727 Td
+(Root causes and how we know) Tj
+ET
+0.86 0.86 0.92 RG
+48. 151.7399999999998954 m
+547.2799999999999727 151.7399999999998954 l
+S
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 141.7399999999998954 Td
+(Slow hiring  \(root, high confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 128.2399999999998954 Td
+(Filling a role takes too many days, so good candidates go elsewhere.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 116.0899999999999181 Td
+(- Average days to hire: 71 vs peers 38) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 95.5899999999999181 Td
+(Generic job ads  \(root, high confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 82.0899999999999181 Td
+(Job descriptions are boilerplate and don't speak to the people the company wants to hire.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 69.9399999999999409 Td
+(- Job ad clarity: 46.8 vs peers 68) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(2 / 8) Tj
+ET
+endstream
+endobj
+7 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 8 0 R
+>>
+endobj
+8 0 obj
+<<
+/Length 7382
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 793.8899999999999864 Td
+(- Benefits shown in job ads: 34.2 vs peers 58.4) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 773.3899999999999864 Td
+(Unclear career paths  \(root, high confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 759.8899999999999864 Td
+(People cannot see how to get promoted or grow.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 747.7400000000000091 Td
+(- Career growth rating: 2.12 vs peers 3.08) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 727.2400000000000091 Td
+(Uneven reputation across sites  \(standalone, medium confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 713.7400000000000091 Td
+(Some sites or countries are rated much worse than others, and nobody manages the difference.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 701.5899999999999181 Td
+(- Rating spread across locations: 0.79 vs peers 0.25) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 684.0899999999999181 Td
+(- Share of reviews the employer replies to: 0 vs peers 2.8) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 663.5899999999999181 Td
+(No financial proof for the board  \(standalone, medium confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 650.0899999999999181 Td
+(HR cannot show the CFO the money impact of employer-brand work.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 634.9399999999999409 Td
+(Employer promise not believed  \(standalone, medium confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 621.4399999999999409 Td
+(The employer value proposition \(EVP\) - why someone should work here - is not credible to candidates or staff.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 606.2899999999999636 Td
+(Reliance on staffing agencies  \(symptom, medium confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 592.7899999999999636 Td
+(Too many roles are filled by expensive temporary agencies.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 580.6399999999999864 Td
+(- Roles filled through agencies: 48 vs peers 21) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 560.1399999999999864 Td
+(New hires leaving early  \(symptom, medium confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 546.6399999999999864 Td
+(Too many people quit in their first months.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 531.4900000000000091 Td
+(Low social media reach  \(symptom, high confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 517.9900000000000091 Td
+(Company posts reach and engage very few people.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 505.8400000000000318 Td
+(- Real employee voices on the site: 38.4 vs peers 49.5) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 485.3400000000000318 Td
+(Hard-to-finish applications  \(symptom, high confidence\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 471.8400000000000318 Td
+(Candidates start applying on the careers site but give up before submitting.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 459.6900000000000546 Td
+(- Applicants who abandon the form: 63.5 vs peers 42.5) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 442.1900000000000546 Td
+(- Application flow simplicity: 27.5 vs peers 64.2) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 413.6900000000000546 Td
+(What causes what) Tj
+ET
+0.86 0.86 0.92 RG
+48. 392.7900000000000773 m
+547.2799999999999727 392.7900000000000773 l
+S
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 382.7900000000000773 Td
+(Unclear career paths -> New hires leaving early: When people cannot see how to progress, they look for growth) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 369.2900000000000773 Td
+(elsewhere.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 355.7900000000000773 Td
+("Weak middle management and lack of transparent career progression account for over 55% of quantifiable Financial Turnover Risk) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 344.9900000000000659 Td
+(\(EUR\)" [R4, C05]) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 330.1900000000000546 Td
+(Generic job ads -> Hard-to-finish applications: Generic job copy gives candidates no reason to finish the) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 316.6900000000000546 Td
+(application, so they drop off.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 303.1900000000000546 Td
+("multi-page desktop login forms or generic corporate copy cause severe mobile drop-off" [FN2, C04]) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 288.3900000000001 Td
+(Generic job ads -> Low social media reach: Generic corporate posts get little engagement; persona-calibrated) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 274.8900000000001 Td
+(storytelling gets much more.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 261.3900000000001 Td
+("Replacing generic corporate job ads and institutional press releases with Candidate-Persona-calibrated technical storytelling increases) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 250.5900000000001455 Td
+(LinkedIn engagement by 35-45%" [R6]) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 235.790000000000191 Td
+(Slow hiring -> Reliance on staffing agencies: When hiring takes too long, operations fill the gaps with expensive) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 222.290000000000191 Td
+(temporary agencies.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 208.790000000000191 Td
+("a 52-day Time-to-Hire, forcing heavy spend on temporary staffing agencies" [C06]) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 185.9900000000002365 Td
+(The plan: Full-Spectrum Hiring & Retention Overhaul) Tj
+ET
+0.86 0.86 0.92 RG
+48. 165.0900000000002592 m
+547.2799999999999727 165.0900000000002592 l
+S
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 155.0900000000002592 Td
+(Address every root cause of hiring slowness, generic messaging, unclear careers, uneven reputation, missing) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 141.5900000000002592 Td
+(board metrics, and untrusted employer promise to stabilize both field and digital talent pipelines.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 122.0900000000002592 Td
+(First phase) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 103.2400000000002365 Td
+(Digital Post-Interview & Career Day Feedback) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 89.7400000000002365 Td
+(Replace paper or ad-hoc feedback with a short digital survey after interviews and career days.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 77.5900000000002592 Td
+(For: company-wide.  Why now: Diagnose first: measure before changing anything \(FN5\).) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 65.4400000000002819 Td
+(Fixes: Slow hiring.  Sources: C09, R9) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(3 / 8) Tj
+ET
+endstream
+endobj
+9 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 10 0 R
+>>
+endobj
+10 0 obj
+<<
+/Length 8451
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 793.8899999999999864 Td
+(360-Degree Internal Listening) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 780.3899999999999864 Td
+(Ask employees, in a structured and anonymous way, how their managers, workload and growth really are.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 768.2400000000000091 Td
+(For: Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians.  Why now: Added as prerequisite) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 756.0899999999999181 Td
+(of Transparent Career Progression Framework) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 743.9399999999999409 Td
+(Fixes: Burnout and workload, New hires leaving early, Weak middle management.  Sources: C05, C12, C13, C21) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 725.7899999999999636 Td
+(Candidate Persona Calibration) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 712.2899999999999636 Td
+(Define who the target candidates are and what they actually care about, cohort by cohort.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 700.1399999999999864 Td
+(For: all job postings for field technicians and digital specialists.  Why now: Added as prerequisite of Persona-Aligned Job) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 687.9900000000000091 Td
+(Descriptions) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 675.8399999999999181 Td
+(Fixes: Generic job ads.  Sources: C01, C03, C09, C14, C21) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 657.6899999999999409 Td
+(Career Portal UX Audit) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 644.1899999999999409 Td
+(Test the careers site the way candidates use it \(often on a phone\) to find exactly where they give up.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 632.0399999999999636 Td
+(For: field technician applicants at depots.  Why now: Diagnose first: measure before changing anything \(FN5\).) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 619.8899999999998727 Td
+(Fixes: Hard-to-finish applications.  Sources: C14) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 601.7399999999998954 Td
+(Multi-Channel Reputation Audit) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 588.2399999999998954 Td
+(Review all public ratings \(Glassdoor, Indeed, Google\) site by site to see where and why reputation differs.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 576.0899999999999181 Td
+(For: all depots and HQ.  Why now: Diagnose first: measure before changing anything \(FN5\).) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 563.9399999999999409 Td
+(Fixes: Uneven reputation across sites.  Sources: C01, C05, C12, C15, C21) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 545.7899999999999636 Td
+(Internal Mobility Marketplace for Digital Specialists  \(original idea\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 532.2899999999999636 Td
+(Launch a transparent internal job board and mobility process for HQ Data & Cloud specialists to move into growth roles) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 520.1399999999999864 Td
+(like AI Grid Forecasting without director gatekeeping.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 507.9900000000000091 Td
+(For: company-wide.  Why now: New idea proposed for this client.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 495.8400000000000318 Td
+(Fixes: Unclear career paths.  Sources: R4, FN1) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 477.6900000000000546 Td
+(Mobile-Optimized Application Flow for Field Depots  \(original idea\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 464.1900000000000546 Td
+(Redesign the application portal for field technicians to allow one-tap mobile apply with photo upload of certifications,) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 452.0400000000000773 Td
+(eliminating multi-step desktop forms.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 439.8900000000001 Td
+(For: company-wide.  Why now: New idea proposed for this client.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 427.7400000000001228 Td
+(Fixes: Slow hiring.  Sources: C14, FN2) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.118 0.106 0.294 rg
+48. 409.5900000000001455 Td
+(Second phase) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 390.7400000000001228 Td
+(Board Financial Risk, ROI & EMV Dashboard) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 377.2400000000001228 Td
+(Give the board and CFO a dashboard that shows employer-brand impact in euros.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 365.0900000000001455 Td
+(For: company-wide.  Why now: Structural fix, built on the diagnostics.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 352.9400000000001683 Td
+(Fixes: No financial proof for the board.  Sources: C01, C02, C05, C09, C15, C21) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 334.790000000000191 Td
+(Transparent Career Progression Framework) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 321.290000000000191 Td
+(Publish clear levels and promotion criteria so people can see how to grow.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 309.1400000000002137 Td
+(For: Smart Grid Data and Digital IT specialists and Field Grid Maintenance technicians.  Why now: Structural fix, built on) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 296.9900000000002365 Td
+(the diagnostics.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 284.8400000000002592 Td
+(Fixes: Unclear career paths.  Sources: C05, C13) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 266.6900000000002819 Td
+(EVP Realignment) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 253.1900000000002819 Td
+(Rewrite the employer promise so it matches what employees really experience.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 241.0400000000003047 Td
+(For: company-wide.  Why now: Structural fix, built on the diagnostics.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 228.8900000000003274 Td
+(Fixes: Employer promise not believed.  Sources: C01, C03, C05, C14) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 210.7400000000003502 Td
+(Persona-Aligned Job Descriptions) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+68. 197.2400000000003502 Td
+(Rewrite job ads for each target group, showing the benefits that group values.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 185.0900000000003729 Td
+(For: all job postings for field technicians and digital specialists.  Why now: Structural fix, built on the diagnostics.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 0.392 0.471 rg
+68. 172.9400000000003956 Td
+(Fixes: Generic job ads.  Sources: C05, C12, C14, C21) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 146.7900000000004184 Td
+(What we will not do, and why) Tj
+ET
+0.86 0.86 0.92 RG
+48. 125.8900000000004411 m
+547.2799999999999727 125.8900000000004411 l
+S
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 115.8900000000004411 Td
+(Request: EVP Realignment - later \(second phase\)) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 102.3900000000004411 Td
+(The rules require reputation_audit or persona_calibration to run first, so evp_realignment is deferred to phase two.) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 86.2400000000004638 Td
+(Request: Data-Driven Ambassador Selection & Enablement - not now) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 72.7400000000004638 Td
+(The rules block ambassador selection because our LinkedIn engagement already beats peers, making the investment) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 60.5900000000004866 Td
+(wasteful.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(4 / 8) Tj
+ET
+endstream
+endobj
+11 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/Length 8193
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 793.8899999999999864 Td
+(- Protected: Work-life balance rating: 4.26 stars vs peers 3.64 stars) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 776.3899999999999864 Td
+(- Protected: Careers site findability: 84.5 score out of 100 vs peers 76.2 score out of 100) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 758.8899999999999864 Td
+(- Protected: LinkedIn engagement rate: 2.94% vs peers 1.74%) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 741.3899999999999864 Td
+(- Protected: Engagement on employees' own posts: 16.8% vs peers 5.9%) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 723.8899999999999864 Td
+(- Protected: Field Grid Maintenance Current Employees: 3.92 stars, one of the strongest sites) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 698.3899999999999864 Td
+(What it costs and returns) Tj
+ET
+0.86 0.86 0.92 RG
+48. 677.4900000000000091 m
+547.2799999999999727 677.4900000000000091 l
+S
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 667.4900000000000091 Td
+(Cost: EUR 139,000   |   Expected benefit: EUR 308,817 per year   |   Conservative: EUR 287,925 per year   | ) Tj
+ET
+BT
+/F2 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+48. 653.9900000000000091 Td
+( Payback: 5.4 months) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 636.4900000000000091 Td
+(- agency spend: EUR 308,817 per year - annual agency spend EUR x - agency-filled roles % in precedents) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 622.9900000000000091 Td
+([C21, C05, C14]) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 605.4900000000000091 Td
+(Costs are planning assumptions \(data/assumptions.json\); benefits apply measured results of similar companies to this client's numbers.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 582.6899999999999409 Td
+(How the answer was checked) Tj
+ET
+0.86 0.86 0.92 RG
+48. 561.7899999999999636 m
+547.2799999999999727 561.7899999999999636 l
+S
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 551.7899999999999636 Td
+(- Plan critic, round 1: pass \(0 blocking, 0 minor issues\)) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 534.2899999999999636 Td
+(- Jury of five stakeholders audited: 1 flag\(s\); winner decided by deterministic tiebreak.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 516.7899999999999636 Td
+(- Board Member: approve with changes - Execution complexity across multiple workstreams may dilute focus) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 503.2899999999999636 Td
+(and delay measurable outcomes.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 485.7899999999999636 Td
+(- HR Manager: reject - Phase 2 actions are ambitious and may stretch HR team's capacity, potentially) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 472.2899999999999636 Td
+(leading to delays or reduced quality.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 454.7899999999999636 Td
+(- CFO: approve with changes - High upfront investment without phased financial checkpoints.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 437.2899999999999636 Td
+(- Employee in the affected cohort: reject - Phase 2 actions might be overwhelming for the team to implement) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 423.7899999999999636 Td
+(simultaneously.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 406.2899999999999636 Td
+(- Potential Candidate from the target workforce: approve with changes - The estimated cost might be high for) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+68. 392.7899999999999636 Td
+(some companies.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 375.2899999999999636 Td
+(- Fact-checker on plans and explanations: 24 AI-written sentence\(s\) checked with mistral-nemo, 4 removed, 0) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 361.7899999999999636 Td
+(irrelevant citation\(s\) removed.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 344.2899999999999636 Td
+(- Fact-checker on this brief: 31 AI-written sentence\(s\) checked with mistral-nemo, 1 removed, 2 irrelevant) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 330.7899999999999636 Td
+(citation\(s\) removed.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.106 0.294 rg
+58. 313.2899999999999636 Td
+(- Input fingerprint c803f61ec6daf93e, decision signature 895126f2e8b5e091.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 287.7899999999999636 Td
+(Sources) Tj
+ET
+0.86 0.86 0.92 RG
+48. 266.8899999999999864 m
+547.2799999999999727 266.8899999999999864 l
+S
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 256.8899999999999864 Td
+([C01] LogiNext \(International Supply Chain Software Scale-Up\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 244.7400000000000091 Td
+(LogiNext struggled to hire senior tech roles across its 4 European hubs. Employee reviews across countries were tracked manually or) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 233.9400000000000546 Td
+(ignored, creating a fragmented employer brand \(50% Employer Brand Alignment Index\) and high turnover risk exposure on R&D teams,) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 223.1400000000001 Td
+(while HR lacked financial risk metrics for the Board. Employer Brand Alignment Index rose from 50% to 65% \(-20% cross-country) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 212.3400000000001455 Td
+(variance\), and annual financial turnover risk exposure on critical R&D roles dropped by 18%.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 197.540000000000191 Td
+([C02] Solaris Tech \(CleanTech & Renewable Energy Innovator\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 185.3900000000002137 Td
+(Solaris Tech already enjoyed high internal trust and an authentic sustainability culture, with 50 engineers willing to share content. However,) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 174.5900000000002592 Td
+(corporate social reach was low, HR spent 10 hours/month manually tracking ambassador screenshots in spreadsheets, and the CFO) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 163.7900000000003047 Td
+(demanded proof of media ROI. +300% organic impressions across niche engineering communities, 100% elimination of manual tracking) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 152.9900000000003502 Td
+(\(10 hours/month saved\), and documented paid-media budget equivalent saved for the Board.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 138.1900000000003956 Td
+([C03] FlowPay \(International FinTech & Digital Payments Scale-Up\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 126.0400000000004184 Td
+(FlowPay's LinkedIn posts suffered from stagnant engagement, generic job descriptions failed to attract passive senior engineers, and the) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 115.2400000000004638 Td
+(People team wasted 12 hours/month manually compiling post statistics into spreadsheets. +38% LinkedIn engagement rate in 1 quarter,) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 104.4400000000005093 Td
+(and manual analytics time cut by 85% \(~10 hours/month reclaimed\).) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 89.6400000000005548 Td
+([C04] Global Retail Group \(Mass Distribution & Fashion Retail Enterprise\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 77.4900000000005775 Td
+(Despite high traffic to its career portal, Global Retail suffered massive candidate drop-off because smartphone applicants faced a clunky) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 66.690000000000623 Td
+(desktop registration flow and generic job descriptions. +22% Career Website application conversion rate and -35% mobile application) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(5 / 8) Tj
+ET
+endstream
+endobj
+13 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 14 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 12779
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 793.8899999999999864 Td
+(abandonment.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 779.0900000000000318 Td
+([C05] Alfa Group \(Enterprise B2B Software & Cloud Engineering\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 766.9399999999999409 Td
+(Alfa Group faced EUR 1.35M in estimated annual Financial Turnover Risk, driven by Weak Middle Management \(EUR 540k risk\), Career) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 756.1399999999999864 Td
+(Path Opacity \(EUR 360k risk\), and Workload Burnout \(EUR 250k risk\), alongside a Say-Do Gap that caused 19% early new-hire attrition.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 745.3400000000000318 Td
+(Identified and mitigated EUR 1.35M in turnover risk exposure, reduced first-year engineering turnover by 22%, and lifted Glassdoor rating) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 734.5399999999999636 Td
+(from 3.2 to 3.8.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 719.7400000000000091 Td
+([C06] Beta Logistica \(National Freight & Interport Logistics Network\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 707.5900000000000318 Td
+(Beta Logistica needed 85 licensed commercial drivers but faced a 58% mobile career site bounce rate and a 52-day Time-to-Hire, forcing) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 696.7899999999999636 Td
+(heavy spend on temporary staffing agencies. Job ads used generic corporate phrasing that hid Beta's reliable on-time driver pay and) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 685.9900000000000091 Td
+(modern truck fleet. Career site conversion jumped +76% \(from 2.1% to 3.7%\), application abandonment fell from 58% to 29%, and) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 675.1899999999999409 Td
+(Time-to-Hire dropped by 31% \(from 52 days to 36 days\), substantially cutting external agency costs.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 660.3899999999999864 Td
+([C09] Aurea Banca Group \(Banking & Wealth Management Enterprise\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 648.2400000000000091 Td
+(Aurea Banca wanted to modernize its attraction of Gen-Z finance/tech graduates and scale authentic employee storytelling on LinkedIn,) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 637.4399999999999409 Td
+(but needed structured post-interview candidate feedback and auditable Earned Media Value for governance reporting. +45% candidate) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 626.6399999999998727 Td
+(survey completion rate, high-credibility Gen-Z employer brand positioning, and fully automated EMV governance reporting.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 611.8399999999999181 Td
+([C12] KronoCart Tech \(European E-Commerce & Cloud Platform\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 599.6899999999999409 Td
+(KronoCart suffered 21.4% first-year attrition among relocating software engineers caused by opaque engineering leveling \(2.86/5 career) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 588.8899999999998727 Td
+(growth rating\), unaddressed negative public reviews \(0% employer reply rate, 3.31/5 overall rating\), and unrealistic role expectations during) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 578.0899999999999181 Td
+(recruiting. -31% reduction in first-year software engineering attrition \(from 21.4% to 14.8%\), public review reply rate lifted to 84%, and) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 567.2899999999999636 Td
+(overall employer rating increased from 3.31 to 3.89.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 552.4899999999998954 Td
+([C13] QuantEx Markets \(European Financial Technology & Trading Platform\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 540.3399999999999181 Td
+(Despite top-quartile compensation \(4.18/5 pay rating\) and strong external brand prestige, QuantEx faced 17.8% voluntary first-year) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 529.5399999999999636 Td
+(engineering turnover \(EUR 920k annual risk exposure\) driven by post-acquisition manager action paralysis on pulse surveys and) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 518.7399999999998954 Td
+(uncoached team leads \(3.12/5 management rating\). Cut first-year engineering attrition by 44% \(from 17.8% to 9.9%, well below the) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 507.939999999999884 Td
+(FinTech benchmark\), lifted management rating from 3.12 to 3.94, and mitigated EUR 410k in annual turnover exposure.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 493.1399999999998727 Td
+([C14] NordicTrust Bank \(Corporate & Digital Banking Group\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 480.9899999999998954 Td
+(Unlike banks struggling with internal retention, NordicTrust enjoyed high employee stability \(9.8% first-year attrition, 4.04/5 rating\) but) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 470.189999999999884 Td
+(suffered a 54.6% application form drop-off rate and a 46-day Time-to-Hire because static job descriptions lacked day-in-the-life role) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 459.3899999999998727 Td
+(transparency. -38% reduction in application form drop-off \(from 54.6% to 33.8%\), +28% increase in applicant conversion rate \(from 2.95%) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 448.5899999999998613 Td
+(to 3.78%\), and Time-to-Hire reduced by 24% \(from 46 to 35 days\).) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 433.7899999999998499 Td
+([C15] HelvetiaInsure Group \(European Insurance & Actuarial Services Enterprise\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 421.6399999999998727 Td
+(HelvetiaInsure had a stable internal culture \(4.18/5 rating, 9.4% attrition\) and 45 specialists already sharing posts organically, but corporate) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 410.8399999999998613 Td
+(LinkedIn engagement was stagnant \(1.12%\), HR lost 14 hours/month tracking employee posts in spreadsheets, and the CFO required) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 400.0399999999998499 Td
+(auditable Earned Media Value \(EMV\) before approving budget. +240% increase in quarterly organic impressions \(from 68.3k to 232.2k\),) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 389.2399999999998386 Td
+(90% reduction in manual HR tracking time \(from 14.0 to 1.4 hours/month\), and certified EMV governance reporting approved by the CFO.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 374.4399999999998272 Td
+([C21] VoltGrid Renewables \(European Smart-Grid & CleanTech Engineering Network\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 362.2899999999998499 Td
+(Unlike CleanTech peers with high internal cohesion, VoltGrid faced a legacy-to-digital transition gap: mid-tenure and new grid engineers) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 351.4899999999998386 Td
+(cited opaque career progression \(2.88/5 career growth rating, 16.9% early turnover, EUR 1.18M risk exposure\), while generic corporate job) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 340.6899999999998272 Td
+(ads \(54.5/100 clarity\) resulted in a 45-day Time-to-Hire. -24% reduction in early engineering turnover \(from 16.9% to 12.8%, saving EUR) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 329.8899999999998727 Td
+(390k/year in turnover exposure\), career growth rating lifted from 2.88 to 3.79, and Time-to-Hire shortened by 24% \(from 45 to 34 days\).) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 315.0899999999999181 Td
+([FN1] Expectation Drift & Cohort-Specific Early Churn) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 302.9399999999999409 Td
+(When recruiting messaging promises high autonomy or rapid growth that contradicts day-to-day team management or opaque promotion) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 292.1399999999999864 Td
+(criteria, new hires experience an acute Say-Do Gap. This expectation drift drives early first-year attrition and negative public reviews, which) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 281.3400000000000318 Td
+(subsequently depress inbound applicant conversion. However, churn is rarely uniform across an entire enterprise-healthy, well-led) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 270.5400000000000773 Td
+(departments often coexist alongside struggling cohorts and should not be disrupted by blanket corporate interventions.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 255.7400000000001228 Td
+([FN2] Device & Channel Asymmetry Across Workforce Segments) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 243.5900000000001455 Td
+(Different talent populations discover and apply for roles through fundamentally different workflows. Deskless and field workers \(such as) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 232.790000000000191 Td
+(commercial truck drivers, warehouse operators, or in-store retail staff\) predominantly browse job openings on smartphones during short) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 221.9900000000002365 Td
+(breaks; multi-page desktop login forms or generic corporate copy cause severe mobile drop-off and hide real operational strengths \(like) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 211.1900000000002819 Td
+(punctual pay or modern equipment\). Conversely, senior software and data specialists rarely apply through generic portals without) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 200.3900000000003274 Td
+(peer-level technical substance on digital professional networks.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 185.5900000000003729 Td
+([FN3] Multi-Site Operational Drag & CFO Visibility Gaps) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 173.4400000000003956 Td
+(In distributed organizations \(multi-hub logistics networks, regional care facilities, or multi-country scale-ups\), tracking local facility reviews) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 162.6400000000004411 Td
+(or employee social posts manually in spreadsheets consumes 100+ HR hours per year. Beyond operational fatigue, manual tracking) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 151.8400000000004866 Td
+(obscures local site-to-site reputation variance and leaves HR unable to translate employer brand activity into auditable CFO metrics) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 141.0400000000005321 Td
+(\(Financial Turnover Risk in EUR, agency spend reduction, or Earned Media Value\).) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 126.2400000000005775 Td
+([FN4] Internal Climate Readiness vs. External Amplification) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 114.0900000000006003 Td
+(Employee Advocacy acts as a credibility multiplier-it amplifies whatever culture already exists inside the organization. When internal trust) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 103.2900000000006457 Td
+(and EVP pride are genuinely high \(and organic ambassadors are already sharing\), structured ambassador enablement and automated) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 92.4900000000006912 Td
+(tracking scale reach rapidly. Conversely, asking employees to promote the company externally while active expectation gaps, management) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 81.6900000000007367 Td
+(friction, or severe workload burnout remain unresolved triggers performative backlash and public cynicism.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 66.8900000000007822 Td
+([FN5] Diagnostic Clarity & Preserving Healthy Baselines) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(6 / 8) Tj
+ET
+endstream
+endobj
+15 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 16 0 R
+>>
+endobj
+16 0 obj
+<<
+/Length 8722
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 793.8899999999999864 Td
+(Effective HR transformations establish diagnostic clarity \(understanding where candidates drop off, how local reviews vary, or what specific) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 783.0900000000000318 Td
+(cohorts value\) before redesigning portals, rewriting messaging, or rolling out automation. Equally important is strategic restraint: when a) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 772.2899999999999636 Td
+(company's core EVP is already authentic, compensation is competitive, or a cohort is already performing well, re-engineering those healthy) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 761.4900000000000091 Td
+(foundations wastes budget and delays high-leverage fixes.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 746.6900000000000546 Td
+([FN6] Operational Context Fit Over Copy-Paste Playbooks) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 734.5399999999999636 Td
+(Interventions only generate ROI when matched to the physical and operational reality of the workforce. Predictable weekend shift-rotation) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 723.7400000000000091 Td
+(rosters directly relieve burnout in physical retail stores, whereas they have no meaning in a purely digital software workplace. Similarly,) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 712.9400000000000546 Td
+(deep software-architecture editorial series resonate with cloud engineers but fail as a primary recruiting lever for commercial freight drivers) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 702.1399999999999864 Td
+(or regional clinical care staff.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 687.3399999999999181 Td
+([R4] Workforce Climate & First-Year Attrition Study) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 675.1899999999999409 Td
+(Weak middle management and lack of transparent career progression account for over 55% of quantifiable Financial Turnover Risk \(EUR\)) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 664.3899999999999864 Td
+(in knowledge-worker and scale-up organizations. Structured 360 feedback combined with manager coaching reduces team-level attrition) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 653.5899999999999181 Td
+(risk by 18-28%.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 638.7899999999999636 Td
+([R6] B2B Tech & FinTech Engineering Talent Acquisition Study) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 626.6399999999998727 Td
+(Replacing generic corporate job ads and institutional press releases with Candidate-Persona-calibrated technical storytelling increases) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 615.8399999999999181 Td
+(LinkedIn engagement by 35-45% and lifts qualified senior engineering applicant conversion by 25%.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 601.0399999999999636 Td
+([R9] Gen-Z & Early-Career Post-Interview Experience Benchmark) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 588.8899999999998727 Td
+(Digitizing post-interview and Career Day candidate feedback increases survey response rates by >40% and surfaces interview process) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+58. 578.0899999999999181 Td
+(bottlenecks within 14 days.) Tj
+ET
+BT
+/F2 14 Tf
+16.0999999999999979 TL
+0.31 0.275 0.898 rg
+48. 555.2899999999999636 Td
+(Glossary) Tj
+ET
+0.86 0.86 0.92 RG
+48. 534.3899999999998727 m
+547.2799999999999727 534.3899999999998727 l
+S
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 524.3899999999998727 Td
+(root cause) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 512.2400000000000091 Td
+(A problem that drives other problems. Fixing it removes symptoms further down the chain.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 496.089999999999975 Td
+(symptom) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 483.9399999999999977 Td
+(A problem that is mostly a consequence of other problems. It improves when its causes are fixed.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 467.7900000000000205 Td
+(standalone problem) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 455.6400000000000432 Td
+(A real problem that is not linked to the others in the evidence. It needs its own fix.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 439.4900000000000659 Td
+(readiness gate) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 427.3400000000000887 Td
+(A safety check: ambassador and amplification actions wait until internal trust problems are fixed.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 411.1900000000001114 Td
+(say-do gap) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 399.0400000000001342 Td
+(The distance between what the company promises in recruiting and what employees report in reviews.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 382.8900000000001569 Td
+(EVP) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 370.7400000000001796 Td
+(Employer Value Proposition: the reasons the company gives for why someone should work there.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 354.5900000000002024 Td
+(EMV) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 342.4400000000002251 Td
+(Earned Media Value: what organic reach would have cost as paid advertising.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 326.2900000000003047 Td
+(DEMATEL) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 314.1400000000003274 Td
+(A standard method that scores how much each problem drives or is driven by the others, from the cause-effect links.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 297.9900000000003502 Td
+(precedent) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 285.8400000000003729 Td
+(A real case study from the dataset where a similar company had a similar problem and measured the result.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 269.6900000000003956 Td
+(peer benchmark) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 257.5400000000004184 Td
+(The sector average for companies like this client.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 241.3900000000004411 Td
+(Slow hiring) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 229.2400000000004638 Td
+(Filling a role takes too many days, so good candidates go elsewhere.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 213.0900000000004866 Td
+(Generic job ads) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 200.9400000000005093 Td
+(Job descriptions are boilerplate and don't speak to the people the company wants to hire.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 184.7900000000005321 Td
+(Unclear career paths) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 172.6400000000005548 Td
+(People cannot see how to get promoted or grow.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 156.4900000000005775 Td
+(Uneven reputation across sites) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 144.3400000000006003 Td
+(Some sites or countries are rated much worse than others, and nobody manages the difference.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 128.190000000000623 Td
+(No financial proof for the board) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 116.0400000000006457 Td
+(HR cannot show the CFO the money impact of employer-brand work.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 99.8900000000006685 Td
+(Employer promise not believed) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 87.7400000000006912 Td
+(The employer value proposition \(EVP\) - why someone should work here - is not credible to candidates or staff.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 71.590000000000714 Td
+(Reliance on staffing agencies) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(7 / 8) Tj
+ET
+endstream
+endobj
+17 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 18 0 R
+>>
+endobj
+18 0 obj
+<<
+/Length 4658
+>>
+stream
+0.200025 w
+0.86 0.86 0.92 RG
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 793.8899999999999864 Td
+(Too many roles are filled by expensive temporary agencies.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 777.7400000000000091 Td
+(New hires leaving early) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 765.5899999999999181 Td
+(Too many people quit in their first months.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 749.4399999999999409 Td
+(Low social media reach) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 737.2899999999999636 Td
+(Company posts reach and engage very few people.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 721.1399999999999864 Td
+(Hard-to-finish applications) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 708.9900000000000091 Td
+(Candidates start applying on the careers site but give up before submitting.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 692.8399999999999181 Td
+(Digital Post-Interview & Career Day Feedback) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 680.6899999999999409 Td
+(Replace paper or ad-hoc feedback with a short digital survey after interviews and career days.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 664.5399999999999636 Td
+(360-Degree Internal Listening) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 652.3899999999998727 Td
+(Ask employees, in a structured and anonymous way, how their managers, workload and growth really are.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 636.2399999999998954 Td
+(Candidate Persona Calibration) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 624.0899999999999181 Td
+(Define who the target candidates are and what they actually care about, cohort by cohort.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 607.9399999999999409 Td
+(Career Portal UX Audit) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 595.7899999999999636 Td
+(Test the careers site the way candidates use it \(often on a phone\) to find exactly where they give up.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 579.6399999999998727 Td
+(Multi-Channel Reputation Audit) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 567.4900000000000091 Td
+(Review all public ratings \(Glassdoor, Indeed, Google\) site by site to see where and why reputation differs.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 551.3399999999999181 Td
+(Internal Mobility Marketplace for Digital Specialists) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 539.1900000000000546 Td
+(Launch a transparent internal job board and mobility process for HQ Data & Cloud specialists to move into growth roles like) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 527.0399999999999636 Td
+(AI Grid Forecasting without director gatekeeping.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 510.8900000000000432 Td
+(Mobile-Optimized Application Flow for Field Depots) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 498.7400000000000659 Td
+(Redesign the application portal for field technicians to allow one-tap mobile apply with photo upload of certifications,) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 486.5900000000000887 Td
+(eliminating multi-step desktop forms.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 470.4400000000001114 Td
+(Board Financial Risk, ROI & EMV Dashboard) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 458.2900000000001342 Td
+(Give the board and CFO a dashboard that shows employer-brand impact in euros.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 442.1400000000001569 Td
+(Transparent Career Progression Framework) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 429.9900000000001796 Td
+(Publish clear levels and promotion criteria so people can see how to grow.) Tj
+ET
+BT
+/F2 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+48. 413.8400000000002024 Td
+(EVP Realignment) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.106 0.294 rg
+58. 401.6900000000002251 Td
+(Rewrite the employer promise so it matches what employees really experience.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+48. 24. Td
+(Meridiana Multi-Service & Energy Grid S.p.A. - Ingaze Prizm) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.392 0.392 0.471 rg
+531.7599999999999909 24. Td
+(8 / 8) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R ]
+/Count 8
+>>
+endobj
+19 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+20 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+21 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+24 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+25 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+26 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+27 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+28 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+29 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+30 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+31 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+32 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 19 0 R
+/F2 20 0 R
+/F3 21 0 R
+/F4 22 0 R
+/F5 23 0 R
+/F6 24 0 R
+/F7 25 0 R
+/F8 26 0 R
+/F9 27 0 R
+/F10 28 0 R
+/F11 29 0 R
+/F12 30 0 R
+/F13 31 0 R
+/F14 32 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+33 0 obj
+<<
+/Producer (jsPDF 2.5.2)
+/CreationDate (D:20261122101606+01'00')
+>>
+endobj
+34 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 35
+0000000000 65535 f 
+0000067438 00000 n 
+0000069306 00000 n 
+0000000015 00000 n 
+0000000152 00000 n 
+0000007574 00000 n 
+0000007711 00000 n 
+0000016104 00000 n 
+0000016241 00000 n 
+0000023675 00000 n 
+0000023813 00000 n 
+0000032317 00000 n 
+0000032456 00000 n 
+0000040702 00000 n 
+0000040841 00000 n 
+0000053674 00000 n 
+0000053813 00000 n 
+0000062588 00000 n 
+0000062727 00000 n 
+0000067541 00000 n 
+0000067667 00000 n 
+0000067798 00000 n 
+0000067932 00000 n 
+0000068070 00000 n 
+0000068194 00000 n 
+0000068323 00000 n 
+0000068455 00000 n 
+0000068591 00000 n 
+0000068719 00000 n 
+0000068846 00000 n 
+0000068975 00000 n 
+0000069108 00000 n 
+0000069210 00000 n 
+0000069559 00000 n 
+0000069645 00000 n 
+trailer
+<<
+/Size 35
+/Root 34 0 R
+/Info 33 0 R
+/ID [ <099489D70AE71B18C760F11ACE969FCA> <099489D70AE71B18C760F11ACE969FCA> ]
+>>
+startxref
+69749
+%%EOF
